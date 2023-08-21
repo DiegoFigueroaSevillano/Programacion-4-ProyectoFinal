@@ -1,4 +1,3 @@
-import View.Pages.Home;
 import View.Pages.LogIn;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -16,9 +15,9 @@ public class Main extends Application {
 
         Group root = new Group();
 
-        Home home = new Home(root, stage);
+        LogIn logIn = new LogIn(root, stage);
 
-        Scene currentScene = home.getHomeScene();
+        Scene currentScene = logIn.getLogInScene();
 
         stage.setWidth(800);
         stage.setHeight(700);

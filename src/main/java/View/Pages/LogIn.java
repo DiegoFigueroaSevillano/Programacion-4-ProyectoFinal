@@ -96,6 +96,10 @@ public class LogIn {
                 } else {
                     errorMessage.setTextFill(Color.valueOf(GREEN));
                     errorMessage.setText("Loading...");
+                    root = new Group();
+                    Home home = new Home(root, stage);
+                    Scene homeScene = home.getHomeScene();
+                    stage.setScene(homeScene);
                 }
             }
         });

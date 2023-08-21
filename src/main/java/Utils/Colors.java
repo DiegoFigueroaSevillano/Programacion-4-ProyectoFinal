@@ -8,5 +8,6 @@ public class Colors {
     public final static String SKY_BLUE_75 = "#26C6DA75";
     public final static String RED = "#FF0000";
     public final static String GREEN = "#00FF00";
+    public final static String BLACK = "#000000";
 
 }

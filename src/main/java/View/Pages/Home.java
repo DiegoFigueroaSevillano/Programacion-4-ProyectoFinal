@@ -1,14 +1,11 @@
 package View.Pages;
 
 import View.Components.Header;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Home {
@@ -17,27 +14,47 @@ public class Home {
     private VBox home;
     private Stage stage;
     private Header header;
+    private StackPane ticketSection;
 
     public Home(Group root, Stage stage) {
         this.stage = stage;
         this.stage.setTitle("HOME -");
         this.homeScene = new Scene(root);
 
-        this.header = new Header();
+        this.header = new Header(stage);
         createHome(homeScene);
 
         root.getChildren().add(home);
     }
 
     private void createHome(Scene scene) {
-        home = new VBox(20);
+        createTicketSection(scene);
+
+        home = new VBox(0);
         home.prefHeightProperty().bind(stage.heightProperty());
         home.prefWidthProperty().bind(stage.widthProperty());
-
-        home.setPadding(new Insets(60, 40, 60, 40));
         home.setAlignment(Pos.CENTER);
         home.layoutXProperty().bind(scene.widthProperty().subtract(home.widthProperty()).divide(2));
         home.layoutYProperty().bind(scene.heightProperty().subtract(home.heightProperty()).divide(2));
+        home.getChildren().addAll(header.getHeader(), ticketSection);
+    }
+
+    private void createTicketSection(Scene scene) {
+        Image homeCover = new Image("img/Covers/home-cover.jpg");
+
+        BackgroundImage homeBackground = new BackgroundImage(
+                homeCover,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true));
+
+        Background homeBG = new Background(homeBackground);
+
+        ticketSection = new StackPane();
+        ticketSection.prefWidthProperty().bind(scene.widthProperty());
+        ticketSection.prefHeightProperty().bind(scene.heightProperty().subtract(100));
+        ticketSection.setBackground(homeBG);
     }
 
     public Scene getHomeScene() {
