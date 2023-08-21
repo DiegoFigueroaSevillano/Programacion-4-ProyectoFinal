@@ -1,4 +1,4 @@
-package View.Pages;
+package com.example.programacion4proyectofinal.View.Pages;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,11 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.Colors.*;
 
 public class LogIn {
 
@@ -45,7 +47,9 @@ public class LogIn {
         logInForm = new VBox(20);
         logInForm.setPrefWidth(700);
         logInForm.setPrefHeight(600);
-        logInForm.setBackground(Background.fill(Color.valueOf(WHITE)));
+        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(WHITE), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        logInForm.setBackground(background);
         logInForm.setPadding(new Insets(60, 40, 60, 40));
         logInForm.setAlignment(Pos.CENTER);
         logInForm.layoutXProperty().bind(scene.widthProperty().subtract(logInForm.widthProperty()).divide(2));
@@ -75,7 +79,9 @@ public class LogIn {
         logInButton = new Button("LOG IN");
         logInButton.setPrefWidth(300);
         logInButton.setPrefHeight(100);
-        logInButton.setBackground(Background.fill(Color.valueOf(SKY_BLUE)));
+        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(SKY_BLUE), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        logInButton.setBackground(background);
         logInButton.setCursor(Cursor.HAND);
         logInButton.setTextFill(Color.valueOf(WHITE));
         logInButton.setStyle("-fx-font-size: 24px");

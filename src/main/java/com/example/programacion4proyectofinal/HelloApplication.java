@@ -1,12 +1,13 @@
-import Utils.ChangePropertiesStage;
-import View.Pages.LogIn;
+package com.example.programacion4proyectofinal;
+
+import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.View.Pages.LogIn;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
-
+public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch(args);
     }
@@ -22,5 +23,4 @@ public class Main extends Application {
         stage.setScene(currentScene);
         stage.show();
     }
-
 }

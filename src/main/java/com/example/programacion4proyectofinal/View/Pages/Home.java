@@ -1,8 +1,9 @@
-package View.Pages;
+package com.example.programacion4proyectofinal.View.Pages;
 
-import Utils.ChangePropertiesStage;
-import View.Components.Header;
-import View.Components.PlacesList;
+import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.View.Components.Header;
+import com.example.programacion4proyectofinal.View.Components.PlacesList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,7 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import static Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.Colors.*;
 
 public class Home {
 
@@ -68,7 +69,9 @@ public class Home {
         ticketForm.setPrefHeight(850);
         ticketForm.setMaxWidth(900);
         ticketForm.setMaxHeight(850);
-        ticketForm.setBackground(Background.fill(Color.valueOf(SKY_BLUE_75)));
+        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(SKY_BLUE_75), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        ticketForm.setBackground(background);
     }
 
     public Scene getHomeScene() {

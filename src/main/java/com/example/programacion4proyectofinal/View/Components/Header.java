@@ -1,19 +1,22 @@
-package View.Components;
+package com.example.programacion4proyectofinal.View.Components;
 
-import View.Pages.Home;
+import com.example.programacion4proyectofinal.View.Pages.Home;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.Colors.*;
 
 public class Header {
 
@@ -36,7 +39,9 @@ public class Header {
         header = new HBox(20);
         header.setMinWidth(700);
         header.setPrefHeight(HEIGHT);
-        header.setBackground(Background.fill(Color.valueOf(SKY_BLUE)));
+        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(SKY_BLUE), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        header.setBackground(background);
         header.getChildren().add(menu);
     }
 
@@ -80,7 +85,9 @@ public class Header {
         if (!currentOption.equals(optionName)) {
             color = SKY_BLUE;
         }
-        button.setBackground(Background.fill(Color.valueOf(color)));
+        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(color), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);
+        button.setBackground(background);
         button.setTextFill(Color.valueOf(WHITE));
         button.setStyle("-fx-font-size: 14px");
     }

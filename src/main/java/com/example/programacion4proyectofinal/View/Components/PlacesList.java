@@ -1,11 +1,11 @@
-package View.Components;
+package com.example.programacion4proyectofinal.View.Components;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import static Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.Colors.*;
 
 public class PlacesList {
 
