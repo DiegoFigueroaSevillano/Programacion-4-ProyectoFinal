@@ -20,11 +20,13 @@ public class Header {
     private HBox header, menu;
     private Button homeButton, passengersButton;
     private Stage stage;
+    private String currentOption;
+    private final int HEIGHT = 60;
 
-    public Header(Stage stage) {
+    public Header(Stage stage, String currentOption) {
         this.stage = stage;
+        this.currentOption = currentOption;
         createHeader();
-
     }
 
     private void createHeader() {
@@ -33,7 +35,7 @@ public class Header {
 
         header = new HBox(20);
         header.setMinWidth(700);
-        header.setPrefHeight(100);
+        header.setPrefHeight(HEIGHT);
         header.setBackground(Background.fill(Color.valueOf(SKY_BLUE)));
         header.getChildren().add(menu);
     }
@@ -44,37 +46,43 @@ public class Header {
 
         menu = new HBox(20);
         menu.setAlignment(Pos.CENTER_LEFT);
-        menu.prefWidthProperty().bind(stage.widthProperty().subtract(100));
-        menu.setPrefHeight(100);
+        menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
+        menu.setPrefHeight(HEIGHT);
         menu.getChildren().addAll(homeButton, passengersButton);
     }
 
     private void createHomeButton() {
         homeButton = new Button("HOME");
-        generatorMenuOptions(homeButton);
+        generatorMenuOptions(homeButton, "home");
         homeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Group root = new Group();
-                Home home = new Home(root, stage);
-                Scene homeScene = home.getHomeScene();
-                stage.setScene(homeScene);
+                if (!currentOption.equals("home")) {
+                    Group root = new Group();
+                    Home home = new Home(root, stage);
+                    Scene homeScene = home.getHomeScene();
+                    stage.setScene(homeScene);
+                }
             }
         });
     }
 
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
-        generatorMenuOptions(passengersButton);
+        generatorMenuOptions(passengersButton, "passengers");
     }
 
-    private void generatorMenuOptions(Button button) {
-        button.setPrefHeight(80);
-        button.setPrefWidth(200);
+    private void generatorMenuOptions(Button button, String optionName) {
+        button.setPrefHeight(HEIGHT);
+        button.setPrefWidth(100);
         button.setCursor(Cursor.HAND);
-        button.setBackground(Background.fill(Color.valueOf(SKY_BLUE)));
+        String color = LIGHT_CYAN;
+        if (!currentOption.equals(optionName)) {
+            color = SKY_BLUE;
+        }
+        button.setBackground(Background.fill(Color.valueOf(color)));
         button.setTextFill(Color.valueOf(WHITE));
-        button.setStyle("-fx-font-size: 24px");
+        button.setStyle("-fx-font-size: 14px");
     }
 
     public HBox getHeader() {

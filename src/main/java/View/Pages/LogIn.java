@@ -33,9 +33,7 @@ public class LogIn {
         this.root = root;
         this.logInScene = new Scene(this.root, Color.valueOf(LIGHT_BLUE));
         this.stage = stage;
-
         createLogInForm(logInScene);
-
         root.getChildren().add(logInForm);
     }
 
@@ -44,7 +42,6 @@ public class LogIn {
         createPasswordSection();
         createErrorMessage();
         createLogInButton();
-
         logInForm = new VBox(20);
         logInForm.setPrefWidth(700);
         logInForm.setPrefHeight(600);
@@ -59,7 +56,6 @@ public class LogIn {
     private void createUsernameSection() {
         username = new Label("USERNAME");
         generateLabel(username);
-
         usernameField = new TextField();
         usernameField.setPrefWidth(600);
         usernameField.setPrefHeight(80);
@@ -69,7 +65,6 @@ public class LogIn {
     private void createPasswordSection() {
         password = new Label("PASSWORD");
         generateLabel(password);
-
         passwordField = new PasswordField();
         passwordField.setPrefWidth(600);
         passwordField.setPrefHeight(80);

@@ -1,3 +1,4 @@
+import Utils.ChangePropertiesStage;
 import View.Pages.LogIn;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -12,17 +13,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         Group root = new Group();
-
         LogIn logIn = new LogIn(root, stage);
-
         Scene currentScene = logIn.getLogInScene();
-
-        stage.setWidth(800);
-        stage.setHeight(700);
-        stage.setMinWidth(800);
-        stage.setMinHeight(700);
+        ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
+        changePropertiesStage.changeSizeStage(800, 700, stage);
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.show();
