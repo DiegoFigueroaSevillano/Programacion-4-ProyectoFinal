@@ -22,6 +22,29 @@ public class ChangeDispenser {
     }
 
     /**
+     * Method that return us the changeHeap
+     *
+     * @return the change heap
+     */
+    public MaxHeap<CoinStock> getChangeHeap() {
+        return changeHeap;
+    }
+
+    public CoinStock[] getTheListOfCoinsInStock(){
+        CoinStock coin;
+        CoinStock[] result = new CoinStock[9];
+        int index = 0;
+        while (changeHeap.peek() != null){
+            coin = changeHeap.remove();
+            result[index] = coin;
+            auxChangeHeap.add(coin);
+            index++;
+        }
+        swapTheLists();
+        return result;
+    }
+
+    /**
      * Method that initializes the coins within its heap.
      */
     public void initializeChangeHeap(){
@@ -97,18 +120,5 @@ public class ChangeDispenser {
             auxChangeHeap.add(coin);
         }
         swapTheLists();
-    }
-
-    public static void main(String[] args) {
-        ChangeDispenser changeManagement = new ChangeDispenser();
-        changeManagement.changeHeap.print();
-
-        CoinStock[] change = changeManagement.getTheChange(300, 50);
-        for (CoinStock coin : change){
-            System.out.println(coin);
-        }
-
-        changeManagement.changeHeap.print();
-
     }
 }

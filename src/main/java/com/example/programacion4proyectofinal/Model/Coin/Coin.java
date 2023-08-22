@@ -4,8 +4,8 @@ package com.example.programacion4proyectofinal.Model.Coin;
  * Inside the Coin class, we will have the currency type (in Bolivianos) along with its value.
  */
 public enum Coin {
-    ONE_HUNDRED_BS (200.00),
-    TWO_HUNDRED_BS (100.00),
+    TWO_HUNDRED_BS (200.00),
+    ONE_HUNDRED_BS (100.00),
     FIFTY_BS (50.00),
     TWENTY_BS (20.00),
     TEN_BS (10.00),
