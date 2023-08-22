@@ -2,15 +2,12 @@ package com.example.programacion4proyectofinal.View.Components;
 
 import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
+
+import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
 
 public class PlacesList {
 
