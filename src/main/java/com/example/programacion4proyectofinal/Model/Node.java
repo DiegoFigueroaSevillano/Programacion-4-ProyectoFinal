@@ -16,13 +16,8 @@ public class Node<T extends Comparable<T>> {
         this.keysNumber = 0;
     }
 
-    public int findKey(T k) {
-        for (int i = 0; i < this.keysNumber; i++) {
-            if (this.keys[i].compareTo(k) == 0) {
-                return i;
-            }
-        }
-        return -1;
+    public boolean isFull() {
+        return getKeysNumber() == 2 * degree - 1;
     }
 
     public int getKeysNumber() {
