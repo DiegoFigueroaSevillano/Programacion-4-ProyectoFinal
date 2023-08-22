@@ -1,8 +1,13 @@
 package com.example.programacion4proyectofinal.View.Components;
 
+import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import static com.example.programacion4proyectofinal.Utils.Colors.*;
@@ -14,8 +19,10 @@ public class PlacesList {
     private String title;
     private VBox container;
     private Label name;
+    private BackgroundGenerator backgroundGenerator;
 
     public PlacesList(ObservableList<String> places, String title) {
+        this.backgroundGenerator = new BackgroundGenerator();
         this.title = title;
         this.places = places;
         createContainer();
@@ -44,9 +51,11 @@ public class PlacesList {
         placesList.setItems(places);
         placesList.setPrefWidth(350);
         placesList.setPrefHeight(80);
+        placesList.setBackground(backgroundGenerator.createBackground(WHITE));
+        placesList.setStyle("-fx-font-size: 24px");
     }
 
-    public ComboBox<String> getPlacesList() {
-        return placesList;
+    public VBox getContainer() {
+        return container;
     }
 }

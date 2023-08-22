@@ -36,7 +36,7 @@ public class Header {
 
         createMenu();
 
-        header = new HBox(20);
+        header = new HBox(0);
         header.setMinWidth(700);
         header.setPrefHeight(HEIGHT);
         BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(SKY_BLUE), CornerRadii.EMPTY, Insets.EMPTY);
@@ -49,7 +49,7 @@ public class Header {
         createHomeButton();
         createPassengersButton();
 
-        menu = new HBox(20);
+        menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
