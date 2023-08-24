@@ -2,6 +2,7 @@ package com.example.programacion4proyectofinal.View.Pages;
 
 import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.PlacesListDB;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
@@ -20,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.*;
-import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_24PX;
 
 /**
  * This class represents the home page of the application.
@@ -38,6 +38,7 @@ public class Home {
     private Button createButton;
     private RadioButtonGenerator oneWayOnly, roundTrip;
     private DateSection depurateDate, returnDate;
+    private GenerateFont generateFont;
 
     /**
      * Constructs the home page.
@@ -53,6 +54,7 @@ public class Home {
         this.stage.setTitle("HOME - AEROLAB");
         this.homeScene = new Scene(root);
         this.header = new Header(stage, "home");
+        this.generateFont = new GenerateFont();
         createHome(homeScene);
         root.getChildren().add(home);
     }
@@ -182,7 +184,7 @@ public class Home {
         createButton.setPrefHeight(80);
         createButton.setMaxHeight(740);
         createButton.setCursor(Cursor.HAND);
-        createButton.setStyle(FONT_SIZE_24PX);
+        createButton.setFont(generateFont.latoRegular(24));
     }
 
     /**

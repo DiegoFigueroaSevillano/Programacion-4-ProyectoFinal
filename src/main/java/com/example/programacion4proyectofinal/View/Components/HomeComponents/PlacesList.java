@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
 import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -21,6 +22,7 @@ public class PlacesList {
     private VBox container;
     private Label name;
     private BackgroundGenerator backgroundGenerator;
+    private GenerateFont generateFont;
 
     /**
      * Constructs a PlacesList section.
@@ -32,6 +34,7 @@ public class PlacesList {
         this.backgroundGenerator = new BackgroundGenerator();
         this.title = title;
         this.places = places;
+        this.generateFont = new GenerateFont();
         createContainer();
     }
 
@@ -56,7 +59,7 @@ public class PlacesList {
         name.setPrefWidth(350);
         name.setPrefHeight(40);
         name.setTextFill(Color.valueOf(WHITE));
-        name.setStyle(FONT_SIZE_24PX);
+        name.setFont(generateFont.latoRegular(24));
     }
 
     /**

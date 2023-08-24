@@ -10,6 +10,5 @@ public class Styles {
     public static final String FONT_SIZE_24PX = "-fx-font-size: 24px;";
     public static final String BORDER_COLOR_SKY_BLUE = "-fx-border-color:" + SKY_BLUE + ";";
     public static final String BORDER_SIZE_2PX = "-fx-border-width: 2px;";
-    public static final String FONT_SIZE_14PX = "-fx-font-size: 14px;";
 
 }

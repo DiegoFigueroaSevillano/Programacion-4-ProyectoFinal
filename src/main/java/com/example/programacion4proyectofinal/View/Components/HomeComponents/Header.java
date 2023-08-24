@@ -1,5 +1,6 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
+import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.Home;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.*;
-import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_14PX;
 
 /**
  * This class generates and configures the header menu for the application.
@@ -29,6 +29,7 @@ public class Header {
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
+    private GenerateFont generateFont;
 
     /**
      * Constructs a Header menu.
@@ -39,6 +40,7 @@ public class Header {
     public Header(Stage stage, String currentOption) {
         this.stage = stage;
         this.currentOption = currentOption;
+        this.generateFont = new GenerateFont();
         createHeader();
     }
 
@@ -106,7 +108,7 @@ public class Header {
      */
     private void generatorMenuOptions(Button button, String optionName) {
         button.setPrefHeight(HEIGHT);
-        button.setPrefWidth(100);
+        button.setPrefWidth(150);
         button.setCursor(Cursor.HAND);
         String color = LIGHT_CYAN;
         if (!currentOption.equals(optionName)) {
@@ -116,7 +118,7 @@ public class Header {
         Background background = new Background(backgroundFill);
         button.setBackground(background);
         button.setTextFill(Color.valueOf(WHITE));
-        button.setStyle(FONT_SIZE_14PX);
+        button.setFont(generateFont.latoRegular(14));
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
 import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -8,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
-import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_24PX;
 
 /**
  * This class generates and configures a section for entering passenger's name.
@@ -18,11 +18,13 @@ public class PassengerName {
     private VBox container;
     private Label label;
     private TextField textField;
+    private GenerateFont generateFont;
 
     /**
      * Constructs a PassengerName section.
      */
     public PassengerName() {
+        generateFont = new GenerateFont();
         createContainer();
     }
 
@@ -48,7 +50,7 @@ public class PassengerName {
         label.setPrefWidth(740);
         label.setPrefHeight(40);
         label.setAlignment(Pos.CENTER_LEFT);
-        label.setStyle(FONT_SIZE_24PX);
+        label.setFont(generateFont.latoRegular(24));
         label.setTextFill(Color.valueOf(WHITE));
     }
 
@@ -60,7 +62,7 @@ public class PassengerName {
         textField.setPrefWidth(740);
         textField.setMaxWidth(740);
         textField.setPrefHeight(80);
-        textField.setStyle(FONT_SIZE_24PX);
+        textField.setFont(generateFont.latoRegular(24));
         BackgroundGenerator backgroundGenerator = new BackgroundGenerator();
         textField.setBackground(backgroundGenerator.createBackground(WHITE));
     }

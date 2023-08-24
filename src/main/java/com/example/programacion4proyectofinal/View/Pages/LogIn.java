@@ -1,5 +1,7 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
+import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -32,7 +34,9 @@ public class LogIn {
     private Button logInButton;
     private final  Stage stage;
     private Group root;
-    private final String STYLE_FIELDS = FONT_SIZE_24PX + " " + BORDER_COLOR_SKY_BLUE + " " + BORDER_SIZE_2PX;
+    private final String STYLE_FIELDS = BORDER_COLOR_SKY_BLUE + " " + BORDER_SIZE_2PX;
+    private GenerateFont generateFont;
+    private BackgroundGenerator backgroundGenerator;
 
     /**
      * Constructs the login page.
@@ -45,6 +49,8 @@ public class LogIn {
         this.logInScene = new Scene(this.root, Color.valueOf(LIGHT_BLUE));
         this.stage = stage;
         this.stage.setTitle("AEROLAB");
+        this.generateFont = new GenerateFont();
+        this.backgroundGenerator = new BackgroundGenerator();
         createLogInForm(logInScene);
         root.getChildren().add(logInForm);
     }
@@ -62,9 +68,7 @@ public class LogIn {
         logInForm = new VBox(20);
         logInForm.setPrefWidth(700);
         logInForm.setPrefHeight(600);
-        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(WHITE), CornerRadii.EMPTY, Insets.EMPTY);
-        Background background = new Background(backgroundFill);
-        logInForm.setBackground(background);
+        logInForm.setBackground(backgroundGenerator.createBackground(WHITE));
         logInForm.setPadding(new Insets(60, 40, 60, 40));
         logInForm.setAlignment(Pos.CENTER);
         logInForm.layoutXProperty().bind(scene.widthProperty().subtract(logInForm.widthProperty()).divide(2));
@@ -82,6 +86,7 @@ public class LogIn {
         usernameField.setPrefWidth(600);
         usernameField.setPrefHeight(80);
         usernameField.setStyle(STYLE_FIELDS);
+        usernameField.setFont(generateFont.latoBlack(24));
     }
 
     /**
@@ -93,7 +98,7 @@ public class LogIn {
         passwordField = new PasswordField();
         passwordField.setPrefWidth(600);
         passwordField.setPrefHeight(80);
-        passwordField.setStyle(STYLE_FIELDS);
+        passwordField.setStyle(STYLE_FIELDS + FONT_SIZE_24PX);
     }
 
     /**
@@ -108,7 +113,7 @@ public class LogIn {
         logInButton.setBackground(background);
         logInButton.setCursor(Cursor.HAND);
         logInButton.setTextFill(Color.valueOf(WHITE));
-        logInButton.setStyle(FONT_SIZE_24PX);
+        logInButton.setFont(generateFont.latoBlack(24));
     }
 
     /**
@@ -118,9 +123,9 @@ public class LogIn {
      */
     private void generateLabel(Label label) {
         label.setPrefWidth(600);
-        label.setStyle(FONT_SIZE_24PX);
         label.setTextFill(Color.valueOf(SKY_BLUE));
         label.setAlignment(Pos.CENTER_LEFT);
+        label.setFont(generateFont.latoBlack(24));
     }
 
     /**
@@ -130,7 +135,7 @@ public class LogIn {
         errorMessage = new Label();
         errorMessage.setPrefWidth(600);
         errorMessage.setWrapText(true);
-        errorMessage.setStyle(FONT_SIZE_14PX);
+        errorMessage.setFont(generateFont.latoRegular(14));
         errorMessage.setTextFill(Color.valueOf(RED));
     }
 

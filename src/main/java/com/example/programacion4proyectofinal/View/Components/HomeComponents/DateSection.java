@@ -1,5 +1,6 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
+import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -21,6 +22,7 @@ public class DateSection {
     private Label label;
     private String title;
     private VBox container;
+    private GenerateFont generateFont;
 
     /**
      * Constructs a DateSection instance with a given title.
@@ -28,6 +30,7 @@ public class DateSection {
      * @param title The title of the date section.
      */
     public DateSection(String title) {
+        this.generateFont = new GenerateFont();
         this.title = title;
         createContainer();
     }
@@ -52,7 +55,7 @@ public class DateSection {
         label = new Label(title);
         label.setPrefWidth(350);
         label.setPrefHeight(40);
-        label.setStyle(FONT_SIZE_24PX);
+        label.setFont(generateFont.latoRegular(24));
         label.setTextFill(Color.valueOf(WHITE));
     }
 
