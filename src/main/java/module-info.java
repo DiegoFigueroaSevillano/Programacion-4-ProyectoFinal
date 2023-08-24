@@ -4,6 +4,7 @@ module com.example.programacion4proyectofinal {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires com.fasterxml.jackson.databind;
 
     opens com.example.programacion4proyectofinal to javafx.fxml;
     exports com.example.programacion4proyectofinal;
