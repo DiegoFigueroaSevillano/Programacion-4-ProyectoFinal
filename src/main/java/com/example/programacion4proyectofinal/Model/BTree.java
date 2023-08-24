@@ -18,6 +18,141 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    public boolean remove(T key) {
+        Node<T> valueExists = search(root, key);
+        if (valueExists == null) return false;
+        remove(root, key);
+        return true;
+    }
+
+    private void remove(Node<T> node, T key) {
+        int i = 0;
+        while (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) > 0) {
+            i++;
+        }
+        if (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) == 0) {
+            if (node.isLeaf()) {
+                for (int j = i; j < node.getKeysNumber() - 1; j++) {
+                    node.getKeys()[j] = node.getKeys()[j + 1];
+                }
+                node.setKeysNumber(node.getKeysNumber() - 1);
+            } else {
+                Node<T> leftChild = node.getChildren()[i];
+                Node<T> rightChild = node.getChildren()[i + 1];
+
+                if (leftChild.getKeysNumber() >= T) {
+                    Node<T> tempNode = leftChild;
+                    while (!tempNode.isLeaf()) {
+                        tempNode = tempNode.getChildren()[tempNode.getKeysNumber()];
+                    }
+                    T predecessor = tempNode.getKeys()[tempNode.getKeysNumber() - 1];
+                    node.getKeys()[i] = predecessor;
+                    remove(leftChild, predecessor);
+                } else if (rightChild.getKeysNumber() >= T) {
+                    Node<T> tempNode = rightChild;
+                    while (!tempNode.isLeaf()) {
+                        tempNode = tempNode.getChildren()[0];
+                    }
+                    T successor = tempNode.getKeys()[0];
+                    node.getKeys()[i] = successor;
+                    remove(rightChild, successor);
+                } else {
+                    leftChild.getKeys()[T - 1] = node.getKeys()[i];
+                    for (int j = 0; j < T - 1; j++) {
+                        leftChild.getKeys()[T + j] = rightChild.getKeys()[j];
+                    }
+                    if (!leftChild.isLeaf()) {
+                        for (int j = 0; j < T; j++) {
+                            leftChild.getChildren()[T + j] = rightChild.getChildren()[j];
+                        }
+                    }
+                    leftChild.setKeysNumber(2 * T - 1);
+                    for (int j = i; j < node.getKeysNumber() - 1; j++) {
+                        node.getKeys()[j] = node.getKeys()[j + 1];
+                        node.getChildren()[j + 1] = node.getChildren()[j + 2];
+                    }
+                    node.setKeysNumber(node.getKeysNumber() - 1);
+                    remove(leftChild, key);
+                }
+            }
+            return;
+        }
+        if (node.isLeaf()) {
+            return;
+        }
+
+        Node<T> child = node.getChildren()[i];
+        if (child.getKeysNumber() == T - 1) {
+            Node<T> leftSibling = getLeftSibling(node, i);
+            Node<T> rightSibling = getRightSibling(node, i);
+
+            if (leftSibling != null && leftSibling.getKeysNumber() >= T) {
+                for (int j = child.getKeysNumber() - 1; j >= 0; j--) {
+                    child.getKeys()[j + 1] = child.getKeys()[j];
+                }
+                child.getKeys()[0] = node.getKeys()[i - 1];
+
+                if (!child.isLeaf()) {
+                    for (int j = child.getKeysNumber(); j >= 0; j--) {
+                        child.getChildren()[j + 1] = child.getChildren()[j];
+                    }
+                    child.getChildren()[0] = leftSibling.getChildren()[leftSibling.getKeysNumber()];
+                }
+
+                node.getKeys()[i - 1] = leftSibling.getKeys()[leftSibling.getKeysNumber() - 1];
+
+                leftSibling.setKeysNumber(leftSibling.getKeysNumber() - 1);
+                child.setKeysNumber(child.getKeysNumber() + 1);
+            } else if (rightSibling != null && rightSibling.getKeysNumber() >= T) {
+                child.getKeys()[child.getKeysNumber()] = node.getKeys()[i];
+
+                if (!child.isLeaf()) {
+                    child.getChildren()[child.getKeysNumber() + 1] = rightSibling.getChildren()[0];
+                }
+                node.getKeys()[i] = rightSibling.getKeys()[0];
+
+                for (int j = 1; j < rightSibling.getKeysNumber(); j++) {
+                    rightSibling.getKeys()[j - 1] = rightSibling.getKeys()[j];
+                }
+                if (!rightSibling.isLeaf()) {
+                    for (int j = 1; j <= rightSibling.getKeysNumber(); j++) {
+                        rightSibling.getChildren()[j - 1] = rightSibling.getChildren()[j];
+                    }
+                }
+                child.setKeysNumber(child.getKeysNumber() + 1);
+                rightSibling.setKeysNumber(rightSibling.getKeysNumber() - 1);
+
+            } else {
+                child.getKeys()[T - 1] = node.getKeys()[i];
+                for (int j = 0; j < rightSibling.getKeysNumber(); j++) {
+                    child.getKeys()[T + j] = rightSibling.getKeys()[j];
+                }
+                if (!child.isLeaf()) {
+                    for (int j = 0; j <= rightSibling.getKeysNumber(); j++) {
+                        child.getChildren()[T + j] = rightSibling.getChildren()[j];
+                    }
+                }
+                for (int j = i; j < node.getKeysNumber() - 1; j++) {
+                    node.getKeys()[j] = node.getKeys()[j + 1];
+                    node.getChildren()[j + 1] = node.getChildren()[j + 2];
+                }
+                child.setKeysNumber(2 * T - 1);
+                node.setKeysNumber(node.getKeysNumber() - 1);
+            }
+        }
+        remove(child, key);
+    }
+
+    public Node<T> getLeftSibling(Node<T> parentNode, int childIndex) {
+        if (childIndex == 0) return null;
+        return parentNode.getChildren()[childIndex - 1];
+    }
+
+    public Node<T> getRightSibling(Node<T> parentNode, int childIndex) {
+        if (childIndex == parentNode.getKeysNumber()) return null;
+        return parentNode.getChildren()[childIndex + 1];
+    }
+
     public boolean update(T oldKey, T newKey) {
         Node<T> node = search(root, oldKey);
         if (node != null) {
