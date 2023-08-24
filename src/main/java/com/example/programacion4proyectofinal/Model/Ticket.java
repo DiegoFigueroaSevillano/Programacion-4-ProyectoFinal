@@ -1,5 +1,7 @@
 package com.example.programacion4proyectofinal.Model;
 
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
+
 import java.util.Date;
 
 /**
