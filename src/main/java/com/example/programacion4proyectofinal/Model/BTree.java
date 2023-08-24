@@ -18,6 +18,20 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    public Node<T> search(Node<T> node, T key) {
+        int i = 0;
+        while (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) > 0) {
+            i++;
+        }
+        if (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) == 0) {
+            return node;
+        } else if (node.isLeaf()) {
+            return null;
+        } else {
+            return search(node.getChildren()[i], key);
+        }
+    }
+
     private void handleFullRoot(final T key, Node<T> currentNode) {
         Node<T> newNode = new Node<>(T);
         root = newNode;
