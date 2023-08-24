@@ -18,6 +18,19 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    public boolean update(T oldKey, T newKey) {
+        Node<T> node = search(root, oldKey);
+        if (node != null) {
+            for (int i = 0; i < node.getKeysNumber(); i++) {
+                if (node.getKeys()[i].compareTo(oldKey) == 0) {
+                    node.getKeys()[i] = newKey;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public Node<T> search(Node<T> node, T key) {
         int i = 0;
         while (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) > 0) {
