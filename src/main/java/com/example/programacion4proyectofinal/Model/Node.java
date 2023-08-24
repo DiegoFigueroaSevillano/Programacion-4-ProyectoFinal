@@ -16,6 +16,23 @@ public class Node<T extends Comparable<T>> {
         this.keysNumber = 0;
     }
 
+    public int findKeyPosition(T key) {
+        for (int i = 0; i < keysNumber; i++) {
+            if (keys[i].compareTo(key) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void restKeysNumber() {
+        keysNumber--;
+    }
+
+    public void sumKeysNumber() {
+        keysNumber++;
+    }
+
     public boolean isFull() {
         return getKeysNumber() == 2 * degree - 1;
     }

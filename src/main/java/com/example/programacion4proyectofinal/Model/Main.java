@@ -32,8 +32,8 @@ public class Main {
         System.out.println(bTree.remove(6));
         System.out.println(bTree.remove(7));
         System.out.println(bTree.remove(8));
-       /* System.out.println(bTree.remove(4));
-        System.out.println(bTree.remove(2));*/
+       System.out.println(bTree.remove(4));
+        //System.out.println(bTree.remove(2));
         bTree.printBTree();
     }
 }
