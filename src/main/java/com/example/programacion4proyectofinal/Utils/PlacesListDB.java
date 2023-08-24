@@ -3,6 +3,9 @@ package com.example.programacion4proyectofinal.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides a predefined list of places that can be used in the application.
+ */
 public class PlacesListDB {
 
     public static final List<String> PLACES_LIST = new ArrayList<>(List.of(

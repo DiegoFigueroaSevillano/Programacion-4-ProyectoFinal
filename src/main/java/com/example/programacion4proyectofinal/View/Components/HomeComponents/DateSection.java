@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.View.Components;
+package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -10,7 +10,11 @@ import javafx.util.Callback;
 import java.time.LocalDate;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_24PX;
 
+/**
+ * This class represents a section with a date picker for selecting dates.
+ */
 public class DateSection {
 
     private DatePicker datePicker;
@@ -18,11 +22,19 @@ public class DateSection {
     private String title;
     private VBox container;
 
+    /**
+     * Constructs a DateSection instance with a given title.
+     *
+     * @param title The title of the date section.
+     */
     public DateSection(String title) {
         this.title = title;
         createContainer();
     }
 
+    /**
+     * Creates the container for the date section.
+     */
     private void createContainer() {
         createLabel();
         createDatePicker();
@@ -33,26 +45,52 @@ public class DateSection {
         container.getChildren().addAll(label, datePicker);
     }
 
+    /**
+     * Creates the label for the date section.
+     */
     private void createLabel() {
         label = new Label(title);
         label.setPrefWidth(350);
         label.setPrefHeight(40);
-        label.setStyle("-fx-font-size: 24px");
+        label.setStyle(FONT_SIZE_24PX);
         label.setTextFill(Color.valueOf(WHITE));
     }
 
+    /**
+     * Creates the date picker for selecting dates.
+     */
     private void createDatePicker() {
         datePicker = new DatePicker();
         datePicker.setPrefWidth(350);
         datePicker.setPrefHeight(80);
-        datePicker.setStyle("-fx-font-size: 24px");
+        datePicker.setStyle(FONT_SIZE_24PX);
         datePicker.setDayCellFactory(getDatePickerDayCellFactory(LocalDate.now()));
     }
 
+    /**
+     * Gets the container containing the date picker and label.
+     *
+     * @return The VBox container.
+     */
     public VBox getContainer() {
         return container;
     }
 
+    /**
+     * Gets the date picker component.
+     *
+     * @return The DatePicker instance.
+     */
+    public DatePicker getDatePicker() {
+        return datePicker;
+    }
+
+    /**
+     * Returns a day cell factory that disables days before a certain date.
+     *
+     * @param minDate The minimum allowed date.
+     * @return The Callback for creating DateCells.
+     */
     private Callback<DatePicker, DateCell> getDatePickerDayCellFactory(LocalDate minDate) {
         return datePicker -> new DateCell() {
             @Override

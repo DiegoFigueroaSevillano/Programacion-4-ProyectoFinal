@@ -1,7 +1,5 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -19,7 +17,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.Styles.*;
 
+/**
+ * This class represents the login page of the application.
+ */
 public class LogIn {
 
     private final Scene logInScene;
@@ -30,15 +32,28 @@ public class LogIn {
     private Button logInButton;
     private final  Stage stage;
     private Group root;
+    private final String STYLE_FIELDS = FONT_SIZE_24PX + " " + BORDER_COLOR_SKY_BLUE + " " + BORDER_SIZE_2PX;
 
+    /**
+     * Constructs the login page.
+     *
+     * @param root  The root group for UI components.
+     * @param stage The primary stage of the application.
+     */
     public LogIn(Group root, Stage stage) {
         this.root = root;
         this.logInScene = new Scene(this.root, Color.valueOf(LIGHT_BLUE));
         this.stage = stage;
+        this.stage.setTitle("AEROLAB");
         createLogInForm(logInScene);
         root.getChildren().add(logInForm);
     }
 
+    /**
+     * Creates and configures the login form UI.
+     *
+     * @param scene The scene in which the login form will be displayed.
+     */
     private void createLogInForm(Scene scene) {
         createUsernameSection();
         createPasswordSection();
@@ -57,24 +72,33 @@ public class LogIn {
         logInForm.getChildren().addAll(username, usernameField, password, passwordField, errorMessage, logInButton);
     }
 
+    /**
+     * Creates and configures the username section of the login form.
+     */
     private void createUsernameSection() {
         username = new Label("USERNAME");
         generateLabel(username);
         usernameField = new TextField();
         usernameField.setPrefWidth(600);
         usernameField.setPrefHeight(80);
-        usernameField.setStyle("-fx-font-size: 24px; -fx-border-color: #26C6DA; -fx-border-width: 2px");
+        usernameField.setStyle(STYLE_FIELDS);
     }
 
+    /**
+     * Creates and configures the password section of the login form.
+     */
     private void createPasswordSection() {
         password = new Label("PASSWORD");
         generateLabel(password);
         passwordField = new PasswordField();
         passwordField.setPrefWidth(600);
         passwordField.setPrefHeight(80);
-        passwordField.setStyle("-fx-font-size: 24px; -fx-border-color: #26C6DA; -fx-border-width: 2px");
+        passwordField.setStyle(STYLE_FIELDS);
     }
 
+    /**
+     * Creates and configures the login button in the login form.
+     */
     private void createLogInButton() {
         logInButton = new Button("LOG IN");
         logInButton.setPrefWidth(300);
@@ -84,51 +108,74 @@ public class LogIn {
         logInButton.setBackground(background);
         logInButton.setCursor(Cursor.HAND);
         logInButton.setTextFill(Color.valueOf(WHITE));
-        logInButton.setStyle("-fx-font-size: 24px");
-        logInButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (usernameField.getText().isEmpty() && passwordField.getText().isEmpty()) {
-                    errorMessage.setText("Empty fields!!!");
-                } else if (usernameField.getText().isEmpty()) {
-                    errorMessage.setText("Username field is empty!!!");
-                } else if (passwordField.getText().isEmpty()) {
-                    errorMessage.setText("Password field is empty!!!");
-                } else {
-                    errorMessage.setTextFill(Color.valueOf(GREEN));
-                    errorMessage.setText("Loading...");
-                    root = new Group();
-                    Home home = new Home(root, stage);
-                    Scene homeScene = home.getHomeScene();
-                    stage.setScene(homeScene);
-                }
-            }
-        });
+        logInButton.setStyle(FONT_SIZE_24PX);
     }
 
+    /**
+     * Generates label styling.
+     *
+     * @param label The label to apply styling to.
+     */
     private void generateLabel(Label label) {
         label.setPrefWidth(600);
-        label.setStyle("-fx-font-size: 24px; -fx-content-display: left");
+        label.setStyle(FONT_SIZE_24PX);
         label.setTextFill(Color.valueOf(SKY_BLUE));
+        label.setAlignment(Pos.CENTER_LEFT);
     }
 
+    /**
+     * Creates and configures the error message label in the login form.
+     */
     private void createErrorMessage() {
         errorMessage = new Label();
         errorMessage.setPrefWidth(600);
         errorMessage.setWrapText(true);
-        errorMessage.setStyle("-fx-font-size: 14px;");
+        errorMessage.setStyle(FONT_SIZE_14PX);
         errorMessage.setTextFill(Color.valueOf(RED));
     }
 
+    /**
+     * Gets the login scene.
+     *
+     * @return The login scene.
+     */
     public Scene getLogInScene() {
         return logInScene;
     }
 
+    /**
+     * Gets the username field.
+     *
+     * @return The username field.
+     */
     public TextField getUsernameField() {
         return usernameField;
     }
 
+    /**
+     * Gets the password field.
+     *
+     * @return The password field.
+     */
     public PasswordField getPasswordField() {
         return passwordField;
+    }
+
+    /**
+     * Gets the login button.
+     *
+     * @return The login button.
+     */
+    public Button getLogInButton() {
+        return logInButton;
+    }
+
+    /**
+     * Gets the error message label.
+     *
+     * @return The error message label.
+     */
+    public Label getErrorMessage() {
+        return errorMessage;
     }
 }

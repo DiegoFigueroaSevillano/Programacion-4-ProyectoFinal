@@ -1,5 +1,8 @@
 package com.example.programacion4proyectofinal.Utils;
 
+/**
+ * This class defines a set of color constants that can be used in the application's user interface.
+ */
 public class Colors {
 
     public final static String LIGHT_BLUE = "#B2EBF2";

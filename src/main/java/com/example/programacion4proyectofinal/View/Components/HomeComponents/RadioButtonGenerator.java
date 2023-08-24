@@ -1,6 +1,5 @@
-package com.example.programacion4proyectofinal.View.Components;
+package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.RadioButton;
@@ -9,19 +8,28 @@ import javafx.scene.paint.Color;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
 
+/**
+ * This class generates and configures a radio button with a title.
+ */
 public class RadioButtonGenerator {
 
     private RadioButton radioButton;
     private String title;
     private HBox radioButtonSection;
-    private BackgroundGenerator backgroundGenerator;
 
+    /**
+     * Constructs a RadioButtonGenerator with the specified title.
+     *
+     * @param title The title of the radio button.
+     */
     public RadioButtonGenerator(String title) {
-        this.backgroundGenerator = new BackgroundGenerator();
         this.title = title;
         createRadioButtonSection();
     }
 
+    /**
+     * Creates and configures the radio button section containing the configured radio button.
+     */
     private void createRadioButtonSection() {
         createRadioButton();
 
@@ -32,6 +40,9 @@ public class RadioButtonGenerator {
         radioButtonSection.getChildren().addAll(radioButton);
     }
 
+    /**
+     * Creates and configures the radio button.
+     */
     private void createRadioButton() {
         radioButton = new RadioButton();
         radioButton.setPrefWidth(350);
@@ -46,10 +57,20 @@ public class RadioButtonGenerator {
         radioButton.setTextFill(Color.valueOf(WHITE));
     }
 
+    /**
+     * Gets the radio button section containing the configured radio button.
+     *
+     * @return The HBox containing the radio button.
+     */
     public HBox getRadioButtonSection() {
         return radioButtonSection;
     }
 
+    /**
+     * Gets the configured radio button.
+     *
+     * @return The radio button.
+     */
     public RadioButton getRadioButton() {
         return radioButton;
     }

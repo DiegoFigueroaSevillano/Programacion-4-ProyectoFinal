@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.View.Components;
+package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
 import com.example.programacion4proyectofinal.View.Pages.Home;
 import javafx.event.ActionEvent;
@@ -17,7 +17,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_14PX;
 
+/**
+ * This class generates and configures the header menu for the application.
+ */
 public class Header {
 
     private HBox header, menu;
@@ -26,14 +30,22 @@ public class Header {
     private String currentOption;
     private final int HEIGHT = 60;
 
+    /**
+     * Constructs a Header menu.
+     *
+     * @param stage         The primary stage of the application.
+     * @param currentOption The currently selected option (e.g., "home", "passengers").
+     */
     public Header(Stage stage, String currentOption) {
         this.stage = stage;
         this.currentOption = currentOption;
         createHeader();
     }
 
+    /**
+     * Creates the header menu.
+     */
     private void createHeader() {
-
         createMenu();
 
         header = new HBox(0);
@@ -45,6 +57,9 @@ public class Header {
         header.getChildren().add(menu);
     }
 
+    /**
+     * Creates the menu section containing buttons.
+     */
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
@@ -56,6 +71,9 @@ public class Header {
         menu.getChildren().addAll(homeButton, passengersButton);
     }
 
+    /**
+     * Creates the "HOME" button.
+     */
     private void createHomeButton() {
         homeButton = new Button("HOME");
         generatorMenuOptions(homeButton, "home");
@@ -72,11 +90,20 @@ public class Header {
         });
     }
 
+    /**
+     * Creates the "PASSENGERS" button.
+     */
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
         generatorMenuOptions(passengersButton, "passengers");
     }
 
+    /**
+     * Generates the menu options for buttons.
+     *
+     * @param button     The button to style.
+     * @param optionName The name of the option associated with the button.
+     */
     private void generatorMenuOptions(Button button, String optionName) {
         button.setPrefHeight(HEIGHT);
         button.setPrefWidth(100);
@@ -89,9 +116,14 @@ public class Header {
         Background background = new Background(backgroundFill);
         button.setBackground(background);
         button.setTextFill(Color.valueOf(WHITE));
-        button.setStyle("-fx-font-size: 14px");
+        button.setStyle(FONT_SIZE_14PX);
     }
 
+    /**
+     * Gets the header menu.
+     *
+     * @return The HBox containing the header menu.
+     */
     public HBox getHeader() {
         return header;
     }
