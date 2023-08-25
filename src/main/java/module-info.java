@@ -8,4 +8,6 @@ module com.example.programacion4proyectofinal {
 
     opens com.example.programacion4proyectofinal to javafx.fxml;
     exports com.example.programacion4proyectofinal;
+    opens com.example.programacion4proyectofinal.StagesAndLogicTest to javafx.fxml;
+    exports com.example.programacion4proyectofinal.StagesAndLogicTest;
 }

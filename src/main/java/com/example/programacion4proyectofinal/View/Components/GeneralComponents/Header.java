@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.View.Components.HomeComponents;
+package com.example.programacion4proyectofinal.View.Components.GeneralComponents;
 
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.Home;
