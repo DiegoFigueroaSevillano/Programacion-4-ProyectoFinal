@@ -25,188 +25,202 @@ public class BTree<T extends Comparable<T>> {
         return true;
     }
 
-    private void remove(Node<T> node, T key) {
-        int pos = node.findKeyPosition(key);
-        if (pos != -1) {
-            if (node.isLeaf()) {
-                int i = 0;
-                for (i = 0; i < node.getKeysNumber() && !node.getKeys()[i].equals(key); i++) {
-                }
-                for (; i < node.getKeysNumber(); i++) {
-                    if (i != 2 * degree - 2) {
-                        node.getKeys()[i] = node.getKeys()[i + 1];
-                    }
-                }
-                node.decrementKeysNumber();
-                return;
-            }
-            if (!node.isLeaf()) {
-                Node<T> pred = node.getChildren()[pos];
-                int predKeysNumber = pred.getKeysNumber();
-                T predKey = null;
-
-                if (predKeysNumber >= degree) {
-                    for (;;) {
-                        if (pred.isLeaf()) {
-                            predKey = pred.getKeys()[predKeysNumber - 1];
-                            break;
-                        } else {
-                            pred = pred.getChildren()[predKeysNumber];
-                        }
-                    }
-                    remove(pred, predKey);
-                    node.getKeys()[pos] = predKey;
-                    return;
-                }
-
-                Node<T> nextNode = node.getChildren()[pos + 1];
-                int nextKeysNumber = nextNode.getKeysNumber();
-                if (nextKeysNumber >= degree) {
-                    T nextKey = nextNode.getKeys()[0];
-                    if (!nextNode.isLeaf()) {
-                        nextNode = nextNode.getChildren()[0];
-                        for (;;) {
-                            if (nextNode.isLeaf()) {
-                                nextKey = nextNode.getKeys()[nextKeysNumber - 1];
-                                break;
-                            } else {
-                                nextNode = nextNode.getChildren()[nextKeysNumber];
-                            }
-                        }
-                    }
-                    remove(nextNode, nextKey);
-                    node.getKeys()[pos] = nextKey;
-                    return;
-                }
-
-                int temp = predKeysNumber + 1;
-                pred.getKeys()[predKeysNumber] = node.getKeys()[pos];
-                pred.incrementKeysNumber();
-                for (int i = 0, j = pred.getKeysNumber(); i < nextKeysNumber; i++) {
-                    pred.getKeys()[j++] = nextNode.getKeys()[i];
-                    pred.incrementKeysNumber();
-                }
-                for (int i = 0; i < nextKeysNumber + 1; i++) {
-                    pred.getChildren()[temp++] = nextNode.getChildren()[i];
-                }
-                node.getChildren()[pos] = pred;
-                int nodeKeysNumber = node.getKeysNumber();
-                for (int i = pos; i < nodeKeysNumber; i++) {
-                    if (i != 2 * degree - 2) {
-                        node.getKeys()[i] = node.getKeys()[i + 1];
-                    }
-                }
-                for (int i = pos + 1; i < nodeKeysNumber + 1; i++) {
-                    if (i != 2 * degree - 1) {
-                        node.getChildren()[i] = node.getChildren()[i + 1];
-                    }
-                }
-                node.decrementKeysNumber();
-                if (node.getKeysNumber() == 0) {
-                    if (node.equals(root)) {
-                        root = node.getChildren()[0];
-                    }
-                    node = node.getChildren()[0];
-                }
-                remove(pred, key);
-                return;
+    private void remove(Node<T> currentNode, T keyToRemove) {
+        int keyPosition = currentNode.findKeyPosition(keyToRemove);
+        if (keyPosition != -1) {
+            if (currentNode.isLeaf()) {
+                removeKeyFromLeafNode(currentNode, keyToRemove);
+            } else {
+                handleInternalNodeCase(currentNode, keyPosition, keyToRemove);
             }
         } else {
-            int nodeKeysNumber = node.getKeysNumber();
-            T[] keys = node.getKeys();
-            Node<T>[] children = node.getChildren();
+            handleMissingKeyCase(currentNode, keyToRemove);
+        }
+    }
 
-            for (pos = 0; pos < nodeKeysNumber; pos++) {
-                if (keys[pos].compareTo(key) > 0) {
-                    break;
-                }
-            }
-            Node<T> tmp = children[pos];
-            if (tmp.getKeysNumber() >= degree) {
-                remove(tmp, key);
-                return;
-            }
-            if (true) {
-                Node<T> nb = null;
-                T devider = null;
+    private void removeKeyFromLeafNode(Node<T> node, T key) {
+        int keyPosition = 0;
+        while (keyPosition < node.getKeysNumber() && !node.getKeys()[keyPosition].equals(key)) {
+            keyPosition++;
+        }
+        for (int i = keyPosition; i < node.getKeysNumber(); i++) {
+            if (i != 2 * degree - 2) node.getKeys()[i] = node.getKeys()[i + 1];
+        }
+        node.decrementKeysNumber();
+    }
 
-                if (pos != node.getKeysNumber() && node.getChildren()[pos + 1].getKeysNumber() >= degree) {
-                    devider = node.getKeys()[pos];
-                    nb = node.getChildren()[pos + 1];
-                    node.getKeys()[pos] = nb.getKeys()[0];
-                    tmp.getKeys()[tmp.getKeysNumber()] = devider;
-                    tmp.incrementKeysNumber();
-                    tmp.getChildren()[tmp.getKeysNumber()] = nb.getChildren()[0];
-                    for (int i = 1; i < nb.getKeysNumber(); i++) {
-                        nb.getKeys()[i - 1] = nb.getKeys()[i];
-                    }
-                    for (int i = 1; i <= nb.getKeysNumber(); i++) {
-                        nb.getChildren()[i - 1] = nb.getChildren()[i];
-                    }
-                    nb.decrementKeysNumber();
-                    remove(tmp, key);
-                    return;
-                } else if (pos != 0 && node.getChildren()[pos - 1].getKeysNumber() >= degree) {
-                    devider = node.getKeys()[pos - 1];
-                    nb = node.getChildren()[pos - 1];
-                    node.getKeys()[pos - 1] = nb.getKeys()[nb.getKeysNumber() - 1];
-                    Node<T> child = nb.getChildren()[nb.getKeysNumber()];
-                    nb.decrementKeysNumber();
+    private void handleInternalNodeCase(Node<T> currentNode, int keyPosition, T keyToRemove) {
+        Node<T> predecessorNode = currentNode.getChildren()[keyPosition];
 
-                    for (int i = tmp.getKeysNumber(); i > 0; i--) {
-                        tmp.getKeys()[i] = tmp.getKeys()[i - 1];
-                    }
-                    tmp.getKeys()[0] = devider;
-                    for (int i = tmp.getKeysNumber() + 1; i > 0; i--) {
-                        tmp.getChildren()[i] = tmp.getChildren()[i - 1];
-                    }
-                    tmp.getChildren()[0] = child;
-                    tmp.incrementKeysNumber();
-                    remove(tmp, key);
-                    return;
-                } else {
-                    Node<T> lt = null;
-                    Node<T> rt = null;
-                    boolean last = false;
-                    if (pos != node.getKeysNumber()) {
-                        devider = node.getKeys()[pos];
-                        lt = node.getChildren()[pos];
-                        rt = node.getChildren()[pos + 1];
-                    } else {
-                        devider = node.getKeys()[pos - 1];
-                        rt = node.getChildren()[pos];
-                        lt = node.getChildren()[pos - 1];
-                        last = true;
-                        pos--;
-                    }
-                    for (int i = pos; i < node.getKeysNumber() - 1; i++) {
-                        node.getKeys()[i] = node.getKeys()[i + 1];
-                    }
-                    for (int i = pos + 1; i < node.getKeysNumber(); i++) {
-                        node.getChildren()[i] = node.getChildren()[i + 1];
-                    }
-                    node.decrementKeysNumber();
-                    lt.getKeys()[lt.getKeysNumber()] = devider;
-                    lt.setKeysNumber(lt.getKeysNumber() + 1);
+        if (predecessorNode.getKeysNumber() >= degree) {
+            T predecessorKey = getPredecessorKey(predecessorNode);
+            remove(predecessorNode, predecessorKey);
+            currentNode.getKeys()[keyPosition] = predecessorKey;
+        } else {
+            Node<T> nextNode = currentNode.getChildren()[keyPosition + 1];
 
-                    for (int i = 0, j = lt.getKeysNumber(); i < rt.getKeysNumber() + 1; i++, j++) {
-                        if (i < rt.getKeysNumber()) {
-                            lt.getKeys()[j] = rt.getKeys()[i];
-                        }
-                        lt.getChildren()[j] = rt.getChildren()[i];
-                    }
-                    lt.setKeysNumber(lt.getKeysNumber() + rt.getKeysNumber());
-                    if (node.getKeysNumber() == 0) {
-                        if (node == root) {
-                            root = node.getChildren()[0];
-                        }
-                        node = node.getChildren()[0];
-                    }
-                    remove(lt, key);
-                    return;
-                }
+            if (nextNode.getKeysNumber() >= degree) {
+                T nextKey = getNextKey(nextNode);
+                remove(nextNode, nextKey);
+                currentNode.getKeys()[keyPosition] = nextKey;
+            } else {
+                mergeNodes(currentNode, keyPosition, predecessorNode, nextNode);
+                remove(predecessorNode, keyToRemove);
             }
         }
+    }
+
+    private void handleMissingKeyCase(Node<T> currentNode, T keyToRemove) {
+        int keyPosition;
+        Node<T> targetNode;
+        int currentNodeKeysNumber = currentNode.getKeysNumber();
+
+        for (keyPosition = 0; keyPosition < currentNodeKeysNumber; keyPosition++) {
+            if (currentNode.getKeys()[keyPosition].compareTo(keyToRemove) > 0) break;
+        }
+
+        targetNode = currentNode.getChildren()[keyPosition];
+        if (targetNode.getKeysNumber() >= degree) remove(targetNode, keyToRemove);
+        else {
+            borrowOrMergeNodes(currentNode, keyPosition, targetNode);
+            remove(targetNode, keyToRemove);
+        }
+    }
+
+    private void borrowOrMergeNodes(Node<T> currentNode, int keyPosition, Node<T> targetNode) {
+        Node<T> neighborNode;
+        T dividerKey;
+
+        if (keyPosition != currentNode.getKeysNumber() && currentNode.getChildren()[keyPosition + 1].getKeysNumber() >= degree) {
+            dividerKey = currentNode.getKeys()[keyPosition];
+            neighborNode = currentNode.getChildren()[keyPosition + 1];
+            borrowKeyFromNextNode(currentNode, keyPosition, targetNode, neighborNode, dividerKey);
+        } else if (keyPosition != 0 && currentNode.getChildren()[keyPosition - 1].getKeysNumber() >= degree) {
+            dividerKey = currentNode.getKeys()[keyPosition - 1];
+            neighborNode = currentNode.getChildren()[keyPosition - 1];
+            borrowKeyFromPrevNode(currentNode, keyPosition, targetNode, neighborNode, dividerKey);
+        } else {
+            mergeNodes(currentNode, keyPosition);
+        }
+    }
+
+    private T getNextKey(Node<T> node) {
+        Node<T> current = node;
+        int currentKeysCount = current.getKeysNumber();
+        if (current.isLeaf()) return current.getKeys()[0];
+        current = current.getChildren()[0];
+        while (!current.isLeaf()) {
+            currentKeysCount = current.getKeysNumber();
+            current = current.getChildren()[currentKeysCount];
+        }
+        return current.getKeys()[currentKeysCount - 1];
+    }
+
+    private void mergeNodes(Node<T> parentNode, int pos, Node<T> predNode, Node<T> nextNode) {
+        int initialPredKeysCount = predNode.getKeysNumber();
+        predNode.getKeys()[initialPredKeysCount] = parentNode.getKeys()[pos];
+        predNode.incrementKeysNumber();
+
+        for (int i = 0; i < nextNode.getKeysNumber(); i++) {
+            predNode.getKeys()[initialPredKeysCount + 1 + i] = nextNode.getKeys()[i];
+            predNode.incrementKeysNumber();
+        }
+
+        int childIndex = initialPredKeysCount + 1;
+        for (int i = 0; i <= nextNode.getKeysNumber(); i++) {
+            predNode.getChildren()[childIndex + i] = nextNode.getChildren()[i];
+        }
+
+        int parentKeysCount = parentNode.getKeysNumber();
+        for (int i = pos; i < parentKeysCount - 1; i++) {
+            parentNode.getKeys()[i] = parentNode.getKeys()[i + 1];
+            parentNode.getChildren()[i + 1] = parentNode.getChildren()[i + 2];
+        }
+        parentNode.decrementKeysNumber();
+        if (parentNode.getKeysNumber() == 0 && parentNode.equals(root)) root = parentNode.getChildren()[0];
+    }
+
+
+    private T getPredecessorKey(Node<T> predNode) {
+        T predecessorKey;
+        int keysInNode;
+        while (true) {
+            keysInNode = predNode.getKeysNumber();
+            if (predNode.isLeaf()) {
+                predecessorKey = predNode.getKeys()[keysInNode - 1];
+                break;
+            }
+            predNode = predNode.getChildren()[keysInNode];
+        }
+        return predecessorKey;
+    }
+
+    private void borrowKeyFromNextNode(Node<T> currentNode, int position, Node<T> temporaryNode, Node<T> nextSibling, T dividerKey) {
+        currentNode.getKeys()[position] = nextSibling.getKeys()[0];
+        temporaryNode.getKeys()[temporaryNode.getKeysNumber()] = dividerKey;
+        temporaryNode.incrementKeysNumber();
+        temporaryNode.getChildren()[temporaryNode.getKeysNumber()] = nextSibling.getChildren()[0];
+
+        int numberOfKeysInNextSibling = nextSibling.getKeysNumber();
+        for (int i = 1; i < numberOfKeysInNextSibling; i++) {
+            nextSibling.getKeys()[i - 1] = nextSibling.getKeys()[i];
+        }
+        for (int i = 1; i <= numberOfKeysInNextSibling; i++) {
+            nextSibling.getChildren()[i - 1] = nextSibling.getChildren()[i];
+        }
+        nextSibling.decrementKeysNumber();
+    }
+
+    private void mergeNodes(Node<T> node, int pos) {
+        Node<T> leftChild;
+        Node<T> rightChild;
+        T dividerKey;
+
+        if (pos != node.getKeysNumber()) {
+            dividerKey = node.getKeys()[pos];
+            leftChild = node.getChildren()[pos];
+            rightChild = node.getChildren()[pos + 1];
+        } else {
+            dividerKey = node.getKeys()[pos - 1];
+            rightChild = node.getChildren()[pos];
+            leftChild = node.getChildren()[pos - 1];
+            pos--;
+        }
+        for (int i = pos; i < node.getKeysNumber() - 1; i++) {
+            node.getKeys()[i] = node.getKeys()[i + 1];
+        }
+        for (int i = pos + 1; i < node.getKeysNumber(); i++) {
+            node.getChildren()[i] = node.getChildren()[i + 1];
+        }
+        node.decrementKeysNumber();
+        leftChild.getKeys()[leftChild.getKeysNumber()] = dividerKey;
+        leftChild.setKeysNumber(leftChild.getKeysNumber() + 1);
+        for (int i = 0, j = leftChild.getKeysNumber(); i < rightChild.getKeysNumber() + 1; i++, j++) {
+            if (i < rightChild.getKeysNumber()) leftChild.getKeys()[j] = rightChild.getKeys()[i];
+            leftChild.getChildren()[j] = rightChild.getChildren()[i];
+        }
+        leftChild.setKeysNumber(leftChild.getKeysNumber() + rightChild.getKeysNumber());
+
+        if (node.getKeysNumber() == 0) {
+            if (node == root) root = node.getChildren()[0];
+            node = node.getChildren()[0];
+        }
+    }
+
+    private void borrowKeyFromPrevNode(Node<T> currentNode, int position, Node<T> targetNode, Node<T> neighborNode, T dividerKey) {
+        currentNode.getKeys()[position - 1] = neighborNode.getKeys()[neighborNode.getKeysNumber() - 1];
+        Node<T> lastChildOfNeighbor = neighborNode.getChildren()[neighborNode.getKeysNumber()];
+        neighborNode.decrementKeysNumber();
+
+        for (int i = targetNode.getKeysNumber(); i > 0; i--) {
+            targetNode.getKeys()[i] = targetNode.getKeys()[i - 1];
+        }
+        targetNode.getKeys()[0] = dividerKey;
+        for (int i = targetNode.getKeysNumber() + 1; i > 0; i--) {
+            targetNode.getChildren()[i] = targetNode.getChildren()[i - 1];
+        }
+        targetNode.getChildren()[0] = lastChildOfNeighbor;
+        targetNode.incrementKeysNumber();
     }
 
     public boolean update(T oldKey, T newKey) {
@@ -247,24 +261,38 @@ public class BTree<T extends Comparable<T>> {
     }
 
     private void insertNonFull(Node<T> node, T key) {
-        if (node.isLeaf()) {
-            insertIntoLeafNode(node, key);
-        } else {
-            insertIntoInternalNode(node, key);
-        }
+        if (node.isLeaf()) insertIntoLeafNode(node, key);
+        else insertIntoInternalNode(node, key);
     }
 
-    private void insertIntoLeafNode(Node<T> node, T key) {
-        int i;
-        for (i = node.getKeysNumber() - 1; i >= 0 && key.compareTo(node.getKeys()[i]) < 0; i--) {
-            node.getKeys()[i + 1] = node.getKeys()[i];
+    private void insertIntoLeafNode(Node<T> node, T keyToInsert) {
+        int keyCount = node.getKeysNumber();
+        T[] keys = node.getKeys();
+        int insertPosition = findInsertPosition(keys, keyCount, keyToInsert);
+        shiftKeysRight(keys, insertPosition, keyCount);
+        keys[insertPosition] = keyToInsert;
+        node.setKeysNumber(keyCount + 1);
+    }
+
+    private int findInsertPosition(T[] keys, int keyCount, T keyToInsert) {
+        int position;
+        for (position = keyCount - 1; position >= 0; position--) {
+            if (keyToInsert.compareTo(keys[position]) >= 0) {
+                break;
+            }
         }
-        node.getKeys()[i + 1] = key;
-        node.setKeysNumber(node.getKeysNumber() + 1);
+        return position + 1;
+    }
+
+    private void shiftKeysRight(T[] keys, int startPosition, int keyCount) {
+        for (int i = keyCount; i > startPosition; i--) {
+            keys[i] = keys[i - 1];
+        }
     }
 
     private void insertIntoInternalNode(Node<T> node, T key) {
-        int i = findInsertPosition(node, key);
+        T[] keys = node.getKeys();
+        int i = findInsertPosition(keys, node.getKeysNumber(), key);
         Node<T> tmp = node.getChildren()[i];
         if (tmp.isFull()) {
             split(node, i, tmp);
@@ -275,20 +303,14 @@ public class BTree<T extends Comparable<T>> {
         insertNonFull(node.getChildren()[i], key);
     }
 
-    private int findInsertPosition(Node<T> node, T key) {
-        int i;
-        for (i = node.getKeysNumber() - 1; i >= 0 && key.compareTo(node.getKeys()[i]) < 0; i--) {
-        }
-        return i + 1;
-    }
-
     private void split(Node<T> parent, int pos, Node<T> nodeToSplit) {
+        T[] keys = nodeToSplit.getKeys();
         Node<T> newNode = createNewNodeFromSplit(nodeToSplit);
 
         shiftChildrenRight(parent, pos);
         parent.getChildren()[pos + 1] = newNode;
 
-        shiftKeysRight(parent, pos);
+        shiftKeysRight(keys, degree - 1, degree);
         parent.getKeys()[pos] = nodeToSplit.getKeys()[degree - 1];
 
         parent.setKeysNumber(parent.getKeysNumber() + 1);
@@ -316,12 +338,6 @@ public class BTree<T extends Comparable<T>> {
     private void shiftChildrenRight(Node<T> node, int fromPos) {
         for (int j = node.getKeysNumber(); j >= fromPos + 1; j--) {
             node.getChildren()[j + 1] = node.getChildren()[j];
-        }
-    }
-
-    private void shiftKeysRight(Node<T> node, int fromPos) {
-        for (int j = node.getKeysNumber() - 1; j >= fromPos; j--) {
-            node.getKeys()[j + 1] = node.getKeys()[j];
         }
     }
 
