@@ -1,15 +1,30 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+/**
+ * The BTree class represents a B-Tree data structure.
+ *
+ * @param <T> The type of the keys that the tree stores.
+ */
 public class BTree<T extends Comparable<T>> {
     private final int degree;
     private Node<T> root;
 
+    /**
+     * Constructs a new BTree object with the given degree.
+     *
+     * @param degree The minimum degree for the B-tree.
+     */
     public BTree(int degree) {
         this.degree = degree;
         this.root = new Node<>(this.degree);
     }
 
-    public void insert(final T key) {
+    /**
+     * Inserts a new key into the B-Tree.
+     *
+     * @param key The key to insert.
+     */
+    public void insert(T key) {
         Node<T> currentNode = root;
         if (currentNode.isFull()) {
             handleFullRoot(key, currentNode);
@@ -18,6 +33,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Removes a key from the B-Tree.
+     *
+     * @param key The key to remove.
+     * @return True if the key was removed, false otherwise.
+     */
     public boolean remove(T key) {
         Node<T> valueExists = search(root, key);
         if (valueExists == null) return false;
@@ -25,6 +46,12 @@ public class BTree<T extends Comparable<T>> {
         return true;
     }
 
+    /**
+     * Removes a key from the B-Tree following the cases of deletion on a B-Tree.
+     *
+     * @param currentNode The current node where the key is located.
+     * @param keyToRemove The key to remove.
+     */
     private void remove(Node<T> currentNode, T keyToRemove) {
         int keyPosition = currentNode.findKeyPosition(keyToRemove);
         if (keyPosition != -1) {
@@ -38,6 +65,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Removes a key from a leaf node.
+     *
+     * @param node The node where the key is located.
+     * @param key  The key to remove.
+     */
     private void removeKeyFromLeafNode(Node<T> node, T key) {
         int keyPosition = 0;
         while (keyPosition < node.getKeysNumber() && !node.getKeys()[keyPosition].equals(key)) {
@@ -49,6 +82,13 @@ public class BTree<T extends Comparable<T>> {
         node.decrementKeysNumber();
     }
 
+    /**
+     * Handles the case where the key to remove is in an internal node.
+     *
+     * @param currentNode The current node where the key is located.
+     * @param keyPosition The position of the key to remove.
+     * @param keyToRemove The key to remove.
+     */
     private void handleInternalNodeCase(Node<T> currentNode, int keyPosition, T keyToRemove) {
         Node<T> predecessorNode = currentNode.getChildren()[keyPosition];
 
@@ -70,6 +110,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Handles the case where the key to be removed is not found in the current node.
+     *
+     * @param currentNode The node in which to look for the key.
+     * @param keyToRemove The key to be removed.
+     */
     private void handleMissingKeyCase(Node<T> currentNode, T keyToRemove) {
         int keyPosition;
         Node<T> targetNode;
@@ -87,6 +133,13 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Borrows a key from a neighbor node or merges nodes depending on their keys count.
+     *
+     * @param currentNode The parent node of the target node.
+     * @param keyPosition The position of the key in the parent node.
+     * @param targetNode  The node that needs to borrow a key or be merged.
+     */
     private void borrowOrMergeNodes(Node<T> currentNode, int keyPosition, Node<T> targetNode) {
         Node<T> neighborNode;
         T dividerKey;
@@ -104,6 +157,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Returns the next key from the given node following the tree's structure.
+     *
+     * @param node The node from which to start the search for the next key.
+     * @return The next key in the node.
+     */
     private T getNextKey(Node<T> node) {
         Node<T> current = node;
         int currentKeysCount = current.getKeysNumber();
@@ -116,6 +175,14 @@ public class BTree<T extends Comparable<T>> {
         return current.getKeys()[currentKeysCount - 1];
     }
 
+    /**
+     * Merges two nodes and updates their parent node accordingly.
+     *
+     * @param parentNode The parent node of the nodes to be merged.
+     * @param pos        The position of the key that divides the nodes to be merged in the parent node.
+     * @param predNode   The predecessor node that will absorb the nextNode.
+     * @param nextNode   The node to be absorbed into the predecessor node.
+     */
     private void mergeNodes(Node<T> parentNode, int pos, Node<T> predNode, Node<T> nextNode) {
         int initialPredKeysCount = predNode.getKeysNumber();
         predNode.getKeys()[initialPredKeysCount] = parentNode.getKeys()[pos];
@@ -140,7 +207,12 @@ public class BTree<T extends Comparable<T>> {
         if (parentNode.getKeysNumber() == 0 && parentNode.equals(root)) root = parentNode.getChildren()[0];
     }
 
-
+    /**
+     * Returns the predecessor key for the given node.
+     *
+     * @param predNode The node from which to get the predecessor key.
+     * @return The predecessor key.
+     */
     private T getPredecessorKey(Node<T> predNode) {
         T predecessorKey;
         int keysInNode;
@@ -155,6 +227,15 @@ public class BTree<T extends Comparable<T>> {
         return predecessorKey;
     }
 
+    /**
+     * Borrows a key from the next sibling node.
+     *
+     * @param currentNode   The parent node of the nodes involved in the operation.
+     * @param position      The position of the key to be replaced in the parent node.
+     * @param temporaryNode The node that will borrow the key.
+     * @param nextSibling   The node from which a key will be borrowed.
+     * @param dividerKey    The key that divides the temporaryNode and nextSibling in the parent node.
+     */
     private void borrowKeyFromNextNode(Node<T> currentNode, int position, Node<T> temporaryNode, Node<T> nextSibling, T dividerKey) {
         currentNode.getKeys()[position] = nextSibling.getKeys()[0];
         temporaryNode.getKeys()[temporaryNode.getKeysNumber()] = dividerKey;
@@ -171,6 +252,13 @@ public class BTree<T extends Comparable<T>> {
         nextSibling.decrementKeysNumber();
     }
 
+    /**
+     * Merges child nodes at the given position in the parent node, taking into
+     * account the divider key between them.
+     *
+     * @param node The parent node containing the children to be merged.
+     * @param pos  The position of the divider key in the parent node.
+     */
     private void mergeNodes(Node<T> node, int pos) {
         Node<T> leftChild;
         Node<T> rightChild;
@@ -207,6 +295,15 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Borrows a key from the previous sibling node.
+     *
+     * @param currentNode  The parent node of the nodes involved in the operation.
+     * @param position     The position of the key to be replaced in the parent node.
+     * @param targetNode   The node that will borrow the key.
+     * @param neighborNode The node from which a key will be borrowed.
+     * @param dividerKey   The key that divides the targetNode and neighborNode in the parent node.
+     */
     private void borrowKeyFromPrevNode(Node<T> currentNode, int position, Node<T> targetNode, Node<T> neighborNode, T dividerKey) {
         currentNode.getKeys()[position - 1] = neighborNode.getKeys()[neighborNode.getKeysNumber() - 1];
         Node<T> lastChildOfNeighbor = neighborNode.getChildren()[neighborNode.getKeysNumber()];
@@ -223,6 +320,13 @@ public class BTree<T extends Comparable<T>> {
         targetNode.incrementKeysNumber();
     }
 
+    /**
+     * Updates the key in the B-tree. Removes the old key and inserts the new key.
+     *
+     * @param oldKey The key to be replaced.
+     * @param newKey The new key to replace the old key with.
+     * @return true if the update was successful, false otherwise.
+     */
     public boolean update(T oldKey, T newKey) {
         Node<T> nodeContainingOldKey = search(root, oldKey);
         if (nodeContainingOldKey == null) {
@@ -233,7 +337,13 @@ public class BTree<T extends Comparable<T>> {
         return true;
     }
 
-
+    /**
+     * Searches for a key in the B-tree, starting from a given node.
+     *
+     * @param node The node from which the search starts.
+     * @param key  The key to be searched for.
+     * @return The node containing the key if found, null otherwise.
+     */
     public Node<T> search(Node<T> node, T key) {
         int i = 0;
         while (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) > 0) {
@@ -248,6 +358,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Handles the case when the root node is full and needs to be split.
+     *
+     * @param key         The key to be inserted.
+     * @param currentNode The current root node that is full.
+     */
     private void handleFullRoot(final T key, Node<T> currentNode) {
         Node<T> newNode = new Node<>(degree);
         root = newNode;
@@ -258,11 +374,23 @@ public class BTree<T extends Comparable<T>> {
         insertNonFull(newNode, key);
     }
 
+    /**
+     * Inserts a key into a node which is not full.
+     *
+     * @param node The node into which the key will be inserted.
+     * @param key  The key to be inserted.
+     */
     private void insertNonFull(Node<T> node, T key) {
         if (node.isLeaf()) insertIntoLeafNode(node, key);
         else insertIntoInternalNode(node, key);
     }
 
+    /**
+     * Inserts a key into a leaf node.
+     *
+     * @param node        The leaf node into which the key will be inserted.
+     * @param keyToInsert The key to be inserted into the leaf node.
+     */
     private void insertIntoLeafNode(Node<T> node, T keyToInsert) {
         int keyCount = node.getKeysNumber();
         T[] keys = node.getKeys();
@@ -272,6 +400,14 @@ public class BTree<T extends Comparable<T>> {
         node.setKeysNumber(keyCount + 1);
     }
 
+    /**
+     * Finds the appropriate position for inserting a new key into an array of keys.
+     *
+     * @param keys        The array of keys.
+     * @param keyCount    The number of keys currently in the array.
+     * @param keyToInsert The key to be inserted.
+     * @return The position where the new key should be inserted.
+     */
     private int findInsertPosition(T[] keys, int keyCount, T keyToInsert) {
         int position;
         for (position = keyCount - 1; position >= 0; position--) {
@@ -282,12 +418,25 @@ public class BTree<T extends Comparable<T>> {
         return position + 1;
     }
 
+    /**
+     * Shifts keys to the right in the array, starting from a specified position.
+     *
+     * @param keys          The array of keys to be shifted.
+     * @param startPosition The index position from which to start the shift.
+     * @param keyCount      The number of keys currently in the array.
+     */
     private void shiftKeysRight(T[] keys, int startPosition, int keyCount) {
         for (int i = keyCount; i > startPosition; i--) {
             keys[i] = keys[i - 1];
         }
     }
 
+    /**
+     * Inserts a key into an internal (non-leaf) node of the B-tree.
+     *
+     * @param node The internal node into which the key will be inserted.
+     * @param key  The key to be inserted.
+     */
     private void insertIntoInternalNode(Node<T> node, T key) {
         T[] keys = node.getKeys();
         int i = findInsertPosition(keys, node.getKeysNumber(), key);
@@ -301,6 +450,13 @@ public class BTree<T extends Comparable<T>> {
         insertNonFull(node.getChildren()[i], key);
     }
 
+    /**
+     * Splits a full child node, distributing its keys between itself and a new node.
+     *
+     * @param parent      The parent node of the node to be split.
+     * @param pos         The index of the child node to be split in the parent's children array.
+     * @param nodeToSplit The node to be split.
+     */
     private void split(Node<T> parent, int pos, Node<T> nodeToSplit) {
         T[] keys = nodeToSplit.getKeys();
         Node<T> newNode = createNewNodeFromSplit(nodeToSplit);
@@ -314,6 +470,12 @@ public class BTree<T extends Comparable<T>> {
         parent.setKeysNumber(parent.getKeysNumber() + 1);
     }
 
+    /**
+     * Creates a new node by splitting an existing node.
+     *
+     * @param nodeToSplit The node to be split.
+     * @return The new node containing keys from the node being split.
+     */
     private Node<T> createNewNodeFromSplit(Node<T> nodeToSplit) {
         Node<T> newNode = new Node<>(degree);
         newNode.setLeaf(nodeToSplit.isLeaf());
@@ -333,20 +495,41 @@ public class BTree<T extends Comparable<T>> {
         return newNode;
     }
 
+    /**
+     * Shifts children nodes to the right in a parent node starting from a specific position.
+     *
+     * @param node    The parent node whose children will be shifted.
+     * @param fromPos The index from which to start the shift.
+     */
     private void shiftChildrenRight(Node<T> node, int fromPos) {
         for (int j = node.getKeysNumber(); j >= fromPos + 1; j--) {
             node.getChildren()[j + 1] = node.getChildren()[j];
         }
     }
 
+    /**
+     * Retrieves the root node of the B-tree.
+     *
+     * @return The root node of the B-tree.
+     */
     public Node<T> getRoot() {
         return root;
     }
 
+    /**
+     * Prints the B-tree structure to the standard output.
+     */
     public void printBTree() {
         printBTreeRecursive(root, "", true);
     }
 
+    /**
+     * Recursively prints the B-tree structure, including node keys, starting from a given node.
+     *
+     * @param node        The node from which the printing starts.
+     * @param prefix      The string prefix for the current level of the tree.
+     * @param isLastChild Indicates if the node is the last child of its parent.
+     */
     private void printBTreeRecursive(Node<T> node, String prefix, boolean isLastChild) {
         if (node != null) {
             System.out.println(prefix + (isLastChild ? "\\-- " : "|-- ") + keysToString(node));
@@ -359,6 +542,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Converts the keys in a node to a string representation.
+     *
+     * @param x The node whose keys will be converted.
+     * @return A string representation of the keys in the node.
+     */
     private String keysToString(Node<T> x) {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < x.getKeysNumber(); i++) {

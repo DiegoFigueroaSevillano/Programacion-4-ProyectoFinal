@@ -1,5 +1,10 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+/**
+ * The Node class represents a node in a B-Tree.
+ *
+ * @param <T> The type of the keys that the node stores.
+ */
 public class Node<T extends Comparable<T>> {
     private final int degree;
     private int keysNumber;
@@ -7,6 +12,11 @@ public class Node<T extends Comparable<T>> {
     private final Node<T>[] children;
     private boolean isLeaf;
 
+    /**
+     * Constructs a new Node object with the given degree.
+     *
+     * @param degree degree The minimum degree for the B-tree node.
+     */
     @SuppressWarnings("unchecked")
     public Node(int degree) {
         this.degree = degree;
@@ -16,6 +26,12 @@ public class Node<T extends Comparable<T>> {
         this.keysNumber = 0;
     }
 
+    /**
+     * Finds the position of a specific key within the node.
+     *
+     * @param key The key to search for.
+     * @return The position index or -1 if not found.
+     */
     public int findKeyPosition(T key) {
         for (int i = 0; i < keysNumber; i++) {
             if (keys[i].compareTo(key) == 0) {
@@ -25,42 +41,88 @@ public class Node<T extends Comparable<T>> {
         return -1;
     }
 
+    /**
+     * Decrements the number of keys in the node.
+     */
     public void decrementKeysNumber() {
         keysNumber -= 1;
     }
 
+    /**
+     * Increments the number of keys in the node.
+     */
     public void incrementKeysNumber() {
         keysNumber += 1;
     }
 
+    /**
+     * Checks if the node is full.
+     *
+     * @return True if the node is full, false otherwise.
+     */
     public boolean isFull() {
         return keysNumber == 2 * degree - 1;
     }
 
+    /**
+     * Gets the number of keys in the node.
+     *
+     * @return The number of keys.
+     */
     public int getKeysNumber() {
         return keysNumber;
     }
 
+    /**
+     * Sets the number of keys in the node.
+     *
+     * @param keysNumber The new number of keys.
+     */
     public void setKeysNumber(int keysNumber) {
         this.keysNumber = keysNumber;
     }
 
+    /**
+     * Gets the array of keys in the node.
+     *
+     * @return The keys array.
+     */
     public T[] getKeys() {
         return keys;
     }
 
+    /**
+     * Gets the array of child nodes.
+     *
+     * @return The children array.
+     */
     public Node<T>[] getChildren() {
         return children;
     }
 
+    /**
+     * Checks if the node is a leaf.
+     *
+     * @return True if the node is a leaf, false otherwise.
+     */
     public boolean isLeaf() {
         return isLeaf;
     }
 
+    /**
+     * Sets whether the node is a leaf or not.
+     *
+     * @param leaf True if the node should be a leaf, false otherwise.
+     */
     public void setLeaf(boolean leaf) {
         isLeaf = leaf;
     }
 
+    /**
+     * Gets the minimum degree of the node.
+     *
+     * @return The minimum degree.
+     */
     public int getDegree() {
         return degree;
     }
