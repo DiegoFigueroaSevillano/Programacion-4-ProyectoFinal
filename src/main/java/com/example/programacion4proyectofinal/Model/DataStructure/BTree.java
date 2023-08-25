@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Model;
+package com.example.programacion4proyectofinal.Model.DataStructure;
 
 public class BTree<T extends Comparable<T>> {
     private final int degree;
@@ -224,17 +224,15 @@ public class BTree<T extends Comparable<T>> {
     }
 
     public boolean update(T oldKey, T newKey) {
-        Node<T> node = search(root, oldKey);
-        if (node != null) {
-            for (int i = 0; i < node.getKeysNumber(); i++) {
-                if (node.getKeys()[i].compareTo(oldKey) == 0) {
-                    node.getKeys()[i] = newKey;
-                    return true;
-                }
-            }
+        Node<T> nodeContainingOldKey = search(root, oldKey);
+        if (nodeContainingOldKey == null) {
+            return false;
         }
-        return false;
+        remove(nodeContainingOldKey, oldKey);
+        insert(newKey);
+        return true;
     }
+
 
     public Node<T> search(Node<T> node, T key) {
         int i = 0;

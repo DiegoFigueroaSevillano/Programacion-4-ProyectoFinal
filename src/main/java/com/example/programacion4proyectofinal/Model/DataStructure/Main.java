@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Model;
+package com.example.programacion4proyectofinal.Model.DataStructure;
 public class Main {
     public static void main(String[] args) {
         BTree<Integer> bTree = new BTree<>(3);
@@ -16,14 +16,13 @@ public class Main {
         //bTree.printBTree();
 
         // Searching data
-        /*System.out.println(bTree.search(bTree.getRoot(), 9));
+        System.out.println(bTree.search(bTree.getRoot(), 9));
         System.out.println(bTree.search(bTree.getRoot(), 4));
         System.out.println(bTree.search(bTree.getRoot(), 1));
-        System.out.println(bTree.search(bTree.getRoot(), 5));*/
+        System.out.println(bTree.search(bTree.getRoot(), 5));
 
         // Updating data
-        //System.out.println(bTree.update(30, 10000));
-        //bTree.printBTree();
+        System.out.println(bTree.update(999989, 10000000));
 
         // Deleting data
         long startTime2 = System.nanoTime();

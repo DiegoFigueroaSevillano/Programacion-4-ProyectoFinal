@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Model;
+package com.example.programacion4proyectofinal.Model.DataStructure;
 
 public class Node<T extends Comparable<T>> {
     private final int degree;
