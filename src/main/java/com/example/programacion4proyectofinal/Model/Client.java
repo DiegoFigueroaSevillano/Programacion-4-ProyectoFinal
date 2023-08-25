@@ -5,9 +5,9 @@ public class Client {
     String apellido;
     String CI;
     Integer tiempoReserva;
-    Integer prioridad; // VIP=3 , FRECUENTE=2, REGULAR=1
+    Enum prioridad;
 
-    public Client(String nombre, String apellido, String CI, Integer tiempoReserva, Integer prioridad) {
+    public Client(String nombre, String apellido, String CI, Integer tiempoReserva,Enum prioridad) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.CI = CI;
