@@ -1,12 +1,12 @@
 package com.example.programacion4proyectofinal.Model;
 
 public class BTree<T extends Comparable<T>> {
-    private final int T;
+    private final int degree;
     private Node<T> root;
 
     public BTree(int degree) {
-        this.T = degree;
-        this.root = new Node<>(T);
+        this.degree = degree;
+        this.root = new Node<>(this.degree);
     }
 
     public void insert(final T key) {
@@ -30,82 +30,80 @@ public class BTree<T extends Comparable<T>> {
         if (pos != -1) {
             if (node.isLeaf()) {
                 int i = 0;
-                for (i = 0; i < node.getKeysNumber() && node.getKeys()[i] != key; i++) {
+                for (i = 0; i < node.getKeysNumber() && !node.getKeys()[i].equals(key); i++) {
                 }
-                ;
                 for (; i < node.getKeysNumber(); i++) {
-                    if (i != 2 * T - 2) {
+                    if (i != 2 * degree - 2) {
                         node.getKeys()[i] = node.getKeys()[i + 1];
                     }
                 }
-                node.restKeysNumber(); // TODO: VER CON MAS DETALLE
+                node.decrementKeysNumber();
                 return;
-            } // TODO COMPLETE
+            }
             if (!node.isLeaf()) {
                 Node<T> pred = node.getChildren()[pos];
+                int predKeysNumber = pred.getKeysNumber();
                 T predKey = null;
-                if (pred.getKeysNumber() >= T) {
+
+                if (predKeysNumber >= degree) {
                     for (;;) {
                         if (pred.isLeaf()) {
-                            System.out.println(pred.getKeysNumber());
-                            predKey = pred.getKeys()[pred.getKeysNumber() - 1];
+                            predKey = pred.getKeys()[predKeysNumber - 1];
                             break;
                         } else {
-                            pred = pred.getChildren()[pred.getKeysNumber()];
+                            pred = pred.getChildren()[predKeysNumber];
                         }
                     }
                     remove(pred, predKey);
                     node.getKeys()[pos] = predKey;
                     return;
-                } // TODO COMPLETE
+                }
 
                 Node<T> nextNode = node.getChildren()[pos + 1];
-                if (nextNode.getKeysNumber() >= T) {
+                int nextKeysNumber = nextNode.getKeysNumber();
+                if (nextKeysNumber >= degree) {
                     T nextKey = nextNode.getKeys()[0];
                     if (!nextNode.isLeaf()) {
                         nextNode = nextNode.getChildren()[0];
                         for (;;) {
                             if (nextNode.isLeaf()) {
-                                nextKey = nextNode.getKeys()[nextNode.getKeysNumber() - 1];
+                                nextKey = nextNode.getKeys()[nextKeysNumber - 1];
                                 break;
                             } else {
-                                nextNode = nextNode.getChildren()[nextNode.getKeysNumber()];
+                                nextNode = nextNode.getChildren()[nextKeysNumber];
                             }
                         }
                     }
                     remove(nextNode, nextKey);
                     node.getKeys()[pos] = nextKey;
                     return;
-                } // TODO COMPLETE
+                }
 
-                int temp = pred.getKeysNumber() + 1;
-                //pred.getKeys()[pred.getKeysNumber() + 1] = node.getKeys()[pos]; // TODO: ver mas detalles
-                pred.getKeys()[pred.getKeysNumber()] = node.getKeys()[pos];
-                pred.setKeysNumber(pred.getKeysNumber() + 1);
-                for (int i = 0, j = pred.getKeysNumber(); i < nextNode.getKeysNumber(); i++) {
+                int temp = predKeysNumber + 1;
+                pred.getKeys()[predKeysNumber] = node.getKeys()[pos];
+                pred.incrementKeysNumber();
+                for (int i = 0, j = pred.getKeysNumber(); i < nextKeysNumber; i++) {
                     pred.getKeys()[j++] = nextNode.getKeys()[i];
-                    //pred.setKeysNumber(pred.getKeysNumber() + 1); TODO: VER MAS DETALLES
-                    pred.sumKeysNumber();
+                    pred.incrementKeysNumber();
                 }
-                for (int i = 0; i < nextNode.getKeysNumber() + 1; i++) {
-                    pred.getChildren()[temp + 1] = nextNode.getChildren()[i]; // TODO: ver mas detalles
+                for (int i = 0; i < nextKeysNumber + 1; i++) {
+                    pred.getChildren()[temp++] = nextNode.getChildren()[i];
                 }
-
                 node.getChildren()[pos] = pred;
-                for (int i = pos; i < node.getKeysNumber(); i++) {
-                    if (i != 2 * T - 2) {
+                int nodeKeysNumber = node.getKeysNumber();
+                for (int i = pos; i < nodeKeysNumber; i++) {
+                    if (i != 2 * degree - 2) {
                         node.getKeys()[i] = node.getKeys()[i + 1];
                     }
                 }
-                for (int i = pos + 1; i < node.getKeysNumber() + 1; i++) {
-                    if (i != 2 * T - 1) {
+                for (int i = pos + 1; i < nodeKeysNumber + 1; i++) {
+                    if (i != 2 * degree - 1) {
                         node.getChildren()[i] = node.getChildren()[i + 1];
                     }
                 }
-                //node.setKeysNumber(node.getKeysNumber() - 1); // TODO: ver mas detalles
-                node.restKeysNumber();
+                node.decrementKeysNumber();
                 if (node.getKeysNumber() == 0) {
-                    if (node == root) {
+                    if (node.equals(root)) {
                         root = node.getChildren()[0];
                     }
                     node = node.getChildren()[0];
@@ -114,13 +112,17 @@ public class BTree<T extends Comparable<T>> {
                 return;
             }
         } else {
-            for (pos = 0; pos < node.getKeysNumber(); pos++) {
-                if (node.getKeys()[pos].compareTo(key) > 0) { // TODO: see later
+            int nodeKeysNumber = node.getKeysNumber();
+            T[] keys = node.getKeys();
+            Node<T>[] children = node.getChildren();
+
+            for (pos = 0; pos < nodeKeysNumber; pos++) {
+                if (keys[pos].compareTo(key) > 0) {
                     break;
                 }
             }
-            Node<T> tmp = node.getChildren()[pos];
-            if (tmp.getKeysNumber() >= T) {
+            Node<T> tmp = children[pos];
+            if (tmp.getKeysNumber() >= degree) {
                 remove(tmp, key);
                 return;
             }
@@ -128,13 +130,12 @@ public class BTree<T extends Comparable<T>> {
                 Node<T> nb = null;
                 T devider = null;
 
-                if (pos != node.getKeysNumber() && node.getChildren()[pos + 1].getKeysNumber() >= T) {
+                if (pos != node.getKeysNumber() && node.getChildren()[pos + 1].getKeysNumber() >= degree) {
                     devider = node.getKeys()[pos];
                     nb = node.getChildren()[pos + 1];
                     node.getKeys()[pos] = nb.getKeys()[0];
-                    //tmp.getKeys()[tmp.getKeysNumber() + 1] = devider; // TODO: see later
                     tmp.getKeys()[tmp.getKeysNumber()] = devider;
-                    tmp.setKeysNumber(tmp.getKeysNumber() + 1);
+                    tmp.incrementKeysNumber();
                     tmp.getChildren()[tmp.getKeysNumber()] = nb.getChildren()[0];
                     for (int i = 1; i < nb.getKeysNumber(); i++) {
                         nb.getKeys()[i - 1] = nb.getKeys()[i];
@@ -142,17 +143,15 @@ public class BTree<T extends Comparable<T>> {
                     for (int i = 1; i <= nb.getKeysNumber(); i++) {
                         nb.getChildren()[i - 1] = nb.getChildren()[i];
                     }
-                    //nb.setKeysNumber(nb.getKeysNumber() - 1); // TODO: see later
-                    nb.restKeysNumber();
+                    nb.decrementKeysNumber();
                     remove(tmp, key);
                     return;
-                } else if (pos != 0 && node.getChildren()[pos - 1].getKeysNumber() >= T) {
+                } else if (pos != 0 && node.getChildren()[pos - 1].getKeysNumber() >= degree) {
                     devider = node.getKeys()[pos - 1];
                     nb = node.getChildren()[pos - 1];
                     node.getKeys()[pos - 1] = nb.getKeys()[nb.getKeysNumber() - 1];
                     Node<T> child = nb.getChildren()[nb.getKeysNumber()];
-                    //nb.setKeysNumber(nb.getKeysNumber() - 1); // TODO: see later
-                    nb.restKeysNumber();
+                    nb.decrementKeysNumber();
 
                     for (int i = tmp.getKeysNumber(); i > 0; i--) {
                         tmp.getKeys()[i] = tmp.getKeys()[i - 1];
@@ -162,8 +161,7 @@ public class BTree<T extends Comparable<T>> {
                         tmp.getChildren()[i] = tmp.getChildren()[i - 1];
                     }
                     tmp.getChildren()[0] = child;
-                    //tmp.setKeysNumber(tmp.getKeysNumber() + 1); // TODO: see later
-                    tmp.sumKeysNumber();
+                    tmp.incrementKeysNumber();
                     remove(tmp, key);
                     return;
                 } else {
@@ -187,9 +185,7 @@ public class BTree<T extends Comparable<T>> {
                     for (int i = pos + 1; i < node.getKeysNumber(); i++) {
                         node.getChildren()[i] = node.getChildren()[i + 1];
                     }
-                    // node.setKeysNumber(node.getKeysNumber() - 1);// TODO: see later
-                    node.restKeysNumber();
-                    //lt.getKeys()[lt.getKeysNumber() + 1] = devider; // TODO: see later
+                    node.decrementKeysNumber();
                     lt.getKeys()[lt.getKeysNumber()] = devider;
                     lt.setKeysNumber(lt.getKeysNumber() + 1);
 
@@ -199,7 +195,6 @@ public class BTree<T extends Comparable<T>> {
                         }
                         lt.getChildren()[j] = rt.getChildren()[i];
                     }
-                    //lt.setKeysNumber(+ rt.getKeysNumber()); // TODO: see later
                     lt.setKeysNumber(lt.getKeysNumber() + rt.getKeysNumber());
                     if (node.getKeysNumber() == 0) {
                         if (node == root) {
@@ -242,7 +237,7 @@ public class BTree<T extends Comparable<T>> {
     }
 
     private void handleFullRoot(final T key, Node<T> currentNode) {
-        Node<T> newNode = new Node<>(T);
+        Node<T> newNode = new Node<>(degree);
         root = newNode;
         newNode.setLeaf(false);
         newNode.setKeysNumber(0);
@@ -294,27 +289,27 @@ public class BTree<T extends Comparable<T>> {
         parent.getChildren()[pos + 1] = newNode;
 
         shiftKeysRight(parent, pos);
-        parent.getKeys()[pos] = nodeToSplit.getKeys()[T - 1];
+        parent.getKeys()[pos] = nodeToSplit.getKeys()[degree - 1];
 
         parent.setKeysNumber(parent.getKeysNumber() + 1);
     }
 
     private Node<T> createNewNodeFromSplit(Node<T> nodeToSplit) {
-        Node<T> newNode = new Node<>(T);
+        Node<T> newNode = new Node<>(degree);
         newNode.setLeaf(nodeToSplit.isLeaf());
-        newNode.setKeysNumber(T - 1);
+        newNode.setKeysNumber(degree - 1);
 
-        for (int j = 0; j < T - 1; j++) {
-            newNode.getKeys()[j] = nodeToSplit.getKeys()[j + T];
+        for (int j = 0; j < degree - 1; j++) {
+            newNode.getKeys()[j] = nodeToSplit.getKeys()[j + degree];
         }
 
         if (!nodeToSplit.isLeaf()) {
-            for (int j = 0; j < T; j++) {
-                newNode.getChildren()[j] = nodeToSplit.getChildren()[j + T];
+            for (int j = 0; j < degree; j++) {
+                newNode.getChildren()[j] = nodeToSplit.getChildren()[j + degree];
             }
         }
 
-        nodeToSplit.setKeysNumber(T - 1);
+        nodeToSplit.setKeysNumber(degree - 1);
         return newNode;
     }
 

@@ -25,16 +25,16 @@ public class Node<T extends Comparable<T>> {
         return -1;
     }
 
-    public void restKeysNumber() {
-        keysNumber--;
+    public void decrementKeysNumber() {
+        keysNumber -= 1;
     }
 
-    public void sumKeysNumber() {
-        keysNumber++;
+    public void incrementKeysNumber() {
+        keysNumber += 1;
     }
 
     public boolean isFull() {
-        return getKeysNumber() == 2 * degree - 1;
+        return keysNumber == 2 * degree - 1;
     }
 
     public int getKeysNumber() {
@@ -58,11 +58,10 @@ public class Node<T extends Comparable<T>> {
     }
 
     public void setLeaf(boolean leaf) {
-        this.isLeaf = leaf;
+        isLeaf = leaf;
     }
 
     public int getDegree() {
         return degree;
     }
 }
-
