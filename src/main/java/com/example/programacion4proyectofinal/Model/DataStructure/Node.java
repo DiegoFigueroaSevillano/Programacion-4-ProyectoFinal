@@ -33,9 +33,9 @@ public class Node<T extends Comparable<T>> {
      * @return The position index or -1 if not found.
      */
     public int findKeyPosition(T key) {
-        for (int i = 0; i < keysNumber; i++) {
-            if (keys[i].compareTo(key) == 0) {
-                return i;
+        for (int keyIndex = 0; keyIndex < keysNumber; keyIndex++) {
+            if (keys[keyIndex].compareTo(key) == 0) {
+                return keyIndex;
             }
         }
         return -1;

@@ -76,8 +76,8 @@ public class BTree<T extends Comparable<T>> {
         while (keyPosition < node.getKeysNumber() && !node.getKeys()[keyPosition].equals(key)) {
             keyPosition++;
         }
-        for (int i = keyPosition; i < node.getKeysNumber(); i++) {
-            if (i != 2 * degree - 2) node.getKeys()[i] = node.getKeys()[i + 1];
+        for (int keyIndex = keyPosition; keyIndex < node.getKeysNumber(); keyIndex++) {
+            if (keyIndex != 2 * degree - 2) node.getKeys()[keyIndex] = node.getKeys()[keyIndex + 1];
         }
         node.decrementKeysNumber();
     }
@@ -178,30 +178,30 @@ public class BTree<T extends Comparable<T>> {
     /**
      * Merges two nodes and updates their parent node accordingly.
      *
-     * @param parentNode The parent node of the nodes to be merged.
-     * @param pos        The position of the key that divides the nodes to be merged in the parent node.
-     * @param predNode   The predecessor node that will absorb the nextNode.
-     * @param nextNode   The node to be absorbed into the predecessor node.
+     * @param parentNode      The parent node of the nodes to be merged.
+     * @param positionToMerge The position of the key that divides the nodes to be merged in the parent node.
+     * @param leftNode        The predecessor node that will absorb the nextNode.
+     * @param rightNode       The node to be absorbed into the predecessor node.
      */
-    private void mergeNodes(Node<T> parentNode, int pos, Node<T> predNode, Node<T> nextNode) {
-        int initialPredKeysCount = predNode.getKeysNumber();
-        predNode.getKeys()[initialPredKeysCount] = parentNode.getKeys()[pos];
-        predNode.incrementKeysNumber();
+    private void mergeNodes(Node<T> parentNode, int positionToMerge, Node<T> leftNode, Node<T> rightNode) {
+        int leftNodeKeysCount = leftNode.getKeysNumber();
+        leftNode.getKeys()[leftNodeKeysCount] = parentNode.getKeys()[positionToMerge];
+        leftNode.incrementKeysNumber();
 
-        for (int i = 0; i < nextNode.getKeysNumber(); i++) {
-            predNode.getKeys()[initialPredKeysCount + 1 + i] = nextNode.getKeys()[i];
-            predNode.incrementKeysNumber();
+        for (int nextKeyIndex = 0; nextKeyIndex < rightNode.getKeysNumber(); nextKeyIndex++) {
+            leftNode.getKeys()[leftNodeKeysCount + 1 + nextKeyIndex] = rightNode.getKeys()[nextKeyIndex];
+            leftNode.incrementKeysNumber();
         }
 
-        int childIndex = initialPredKeysCount + 1;
-        for (int i = 0; i <= nextNode.getKeysNumber(); i++) {
-            predNode.getChildren()[childIndex + i] = nextNode.getChildren()[i];
+        int mergePositionForChildren = leftNodeKeysCount + 1;
+        for (int nextChildIndex = 0; nextChildIndex <= rightNode.getKeysNumber(); nextChildIndex++) {
+            leftNode.getChildren()[mergePositionForChildren + nextChildIndex] = rightNode.getChildren()[nextChildIndex];
         }
 
-        int parentKeysCount = parentNode.getKeysNumber();
-        for (int i = pos; i < parentKeysCount - 1; i++) {
-            parentNode.getKeys()[i] = parentNode.getKeys()[i + 1];
-            parentNode.getChildren()[i + 1] = parentNode.getChildren()[i + 2];
+        int parentNodeKeysCount = parentNode.getKeysNumber();
+        for (int parentIndex = positionToMerge; parentIndex < parentNodeKeysCount - 1; parentIndex++) {
+            parentNode.getKeys()[parentIndex] = parentNode.getKeys()[parentIndex + 1];
+            parentNode.getChildren()[parentIndex + 1] = parentNode.getChildren()[parentIndex + 2];
         }
         parentNode.decrementKeysNumber();
         if (parentNode.getKeysNumber() == 0 && parentNode.equals(root)) root = parentNode.getChildren()[0];
@@ -210,19 +210,19 @@ public class BTree<T extends Comparable<T>> {
     /**
      * Returns the predecessor key for the given node.
      *
-     * @param predNode The node from which to get the predecessor key.
+     * @param predecessorNode The node from which to get the predecessor key.
      * @return The predecessor key.
      */
-    private T getPredecessorKey(Node<T> predNode) {
+    private T getPredecessorKey(Node<T> predecessorNode) {
         T predecessorKey;
         int keysInNode;
         while (true) {
-            keysInNode = predNode.getKeysNumber();
-            if (predNode.isLeaf()) {
-                predecessorKey = predNode.getKeys()[keysInNode - 1];
+            keysInNode = predecessorNode.getKeysNumber();
+            if (predecessorNode.isLeaf()) {
+                predecessorKey = predecessorNode.getKeys()[keysInNode - 1];
                 break;
             }
-            predNode = predNode.getChildren()[keysInNode];
+            predecessorNode = predecessorNode.getChildren()[keysInNode];
         }
         return predecessorKey;
     }
@@ -243,49 +243,50 @@ public class BTree<T extends Comparable<T>> {
         temporaryNode.getChildren()[temporaryNode.getKeysNumber()] = nextSibling.getChildren()[0];
 
         int numberOfKeysInNextSibling = nextSibling.getKeysNumber();
-        for (int i = 1; i < numberOfKeysInNextSibling; i++) {
-            nextSibling.getKeys()[i - 1] = nextSibling.getKeys()[i];
+        for (int nextKeyIndex = 1; nextKeyIndex < numberOfKeysInNextSibling; nextKeyIndex++) {
+            nextSibling.getKeys()[nextKeyIndex - 1] = nextSibling.getKeys()[nextKeyIndex];
         }
-        for (int i = 1; i <= numberOfKeysInNextSibling; i++) {
-            nextSibling.getChildren()[i - 1] = nextSibling.getChildren()[i];
+        for (int nextChildrenIndex = 1; nextChildrenIndex <= numberOfKeysInNextSibling; nextChildrenIndex++) {
+            nextSibling.getChildren()[nextChildrenIndex - 1] = nextSibling.getChildren()[nextChildrenIndex];
         }
         nextSibling.decrementKeysNumber();
     }
 
     /**
-     * Merges child nodes at the given position in the parent node, taking into
+     * Merges child nodes at the given positionToMerge in the parent node, taking into
      * account the divider key between them.
      *
-     * @param node The parent node containing the children to be merged.
-     * @param pos  The position of the divider key in the parent node.
+     * @param node            The parent node containing the children to be merged.
+     * @param positionToMerge The positionToMerge of the divider key in the parent node.
      */
-    private void mergeNodes(Node<T> node, int pos) {
+    private void mergeNodes(Node<T> node, int positionToMerge) {
         Node<T> leftChild;
         Node<T> rightChild;
         T dividerKey;
 
-        if (pos != node.getKeysNumber()) {
-            dividerKey = node.getKeys()[pos];
-            leftChild = node.getChildren()[pos];
-            rightChild = node.getChildren()[pos + 1];
+        if (positionToMerge != node.getKeysNumber()) {
+            dividerKey = node.getKeys()[positionToMerge];
+            leftChild = node.getChildren()[positionToMerge];
+            rightChild = node.getChildren()[positionToMerge + 1];
         } else {
-            dividerKey = node.getKeys()[pos - 1];
-            rightChild = node.getChildren()[pos];
-            leftChild = node.getChildren()[pos - 1];
-            pos--;
+            dividerKey = node.getKeys()[positionToMerge - 1];
+            rightChild = node.getChildren()[positionToMerge];
+            leftChild = node.getChildren()[positionToMerge - 1];
+            positionToMerge--;
         }
-        for (int i = pos; i < node.getKeysNumber() - 1; i++) {
-            node.getKeys()[i] = node.getKeys()[i + 1];
+        for (int parentKeyIndex = positionToMerge; parentKeyIndex < node.getKeysNumber() - 1; parentKeyIndex++) {
+            node.getKeys()[parentKeyIndex] = node.getKeys()[parentKeyIndex + 1];
         }
-        for (int i = pos + 1; i < node.getKeysNumber(); i++) {
-            node.getChildren()[i] = node.getChildren()[i + 1];
+        for (int parentChildIndex = positionToMerge + 1; parentChildIndex < node.getKeysNumber(); parentChildIndex++) {
+            node.getChildren()[parentChildIndex] = node.getChildren()[parentChildIndex + 1];
         }
         node.decrementKeysNumber();
         leftChild.getKeys()[leftChild.getKeysNumber()] = dividerKey;
         leftChild.setKeysNumber(leftChild.getKeysNumber() + 1);
-        for (int i = 0, j = leftChild.getKeysNumber(); i < rightChild.getKeysNumber() + 1; i++, j++) {
-            if (i < rightChild.getKeysNumber()) leftChild.getKeys()[j] = rightChild.getKeys()[i];
-            leftChild.getChildren()[j] = rightChild.getChildren()[i];
+        for (int rightKeyIndex = 0, j = leftChild.getKeysNumber(); rightKeyIndex < rightChild.getKeysNumber() + 1; rightKeyIndex++, j++) {
+            if (rightKeyIndex < rightChild.getKeysNumber())
+                leftChild.getKeys()[j] = rightChild.getKeys()[rightKeyIndex];
+            leftChild.getChildren()[j] = rightChild.getChildren()[rightKeyIndex];
         }
         leftChild.setKeysNumber(leftChild.getKeysNumber() + rightChild.getKeysNumber());
 
@@ -309,12 +310,12 @@ public class BTree<T extends Comparable<T>> {
         Node<T> lastChildOfNeighbor = neighborNode.getChildren()[neighborNode.getKeysNumber()];
         neighborNode.decrementKeysNumber();
 
-        for (int i = targetNode.getKeysNumber(); i > 0; i--) {
-            targetNode.getKeys()[i] = targetNode.getKeys()[i - 1];
+        for (int targetKeyIndex = targetNode.getKeysNumber(); targetKeyIndex > 0; targetKeyIndex--) {
+            targetNode.getKeys()[targetKeyIndex] = targetNode.getKeys()[targetKeyIndex - 1];
         }
         targetNode.getKeys()[0] = dividerKey;
-        for (int i = targetNode.getKeysNumber() + 1; i > 0; i--) {
-            targetNode.getChildren()[i] = targetNode.getChildren()[i - 1];
+        for (int targetChildrenIndex = targetNode.getKeysNumber() + 1; targetChildrenIndex > 0; targetChildrenIndex--) {
+            targetNode.getChildren()[targetChildrenIndex] = targetNode.getChildren()[targetChildrenIndex - 1];
         }
         targetNode.getChildren()[0] = lastChildOfNeighbor;
         targetNode.incrementKeysNumber();
@@ -345,16 +346,16 @@ public class BTree<T extends Comparable<T>> {
      * @return The node containing the key if found, null otherwise.
      */
     public Node<T> search(Node<T> node, T key) {
-        int i = 0;
-        while (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) > 0) {
-            i++;
+        int keyIndex = 0;
+        while (keyIndex < node.getKeysNumber() && key.compareTo(node.getKeys()[keyIndex]) > 0) {
+            keyIndex++;
         }
-        if (i < node.getKeysNumber() && key.compareTo(node.getKeys()[i]) == 0) {
+        if (keyIndex < node.getKeysNumber() && key.compareTo(node.getKeys()[keyIndex]) == 0) {
             return node;
         } else if (node.isLeaf()) {
             return null;
         } else {
-            return search(node.getChildren()[i], key);
+            return search(node.getChildren()[keyIndex], key);
         }
     }
 
@@ -426,8 +427,8 @@ public class BTree<T extends Comparable<T>> {
      * @param keyCount      The number of keys currently in the array.
      */
     private void shiftKeysRight(T[] keys, int startPosition, int keyCount) {
-        for (int i = keyCount; i > startPosition; i--) {
-            keys[i] = keys[i - 1];
+        for (int shitKeyIndex = keyCount; shitKeyIndex > startPosition; shitKeyIndex--) {
+            keys[shitKeyIndex] = keys[shitKeyIndex - 1];
         }
     }
 
@@ -439,33 +440,33 @@ public class BTree<T extends Comparable<T>> {
      */
     private void insertIntoInternalNode(Node<T> node, T key) {
         T[] keys = node.getKeys();
-        int i = findInsertPosition(keys, node.getKeysNumber(), key);
-        Node<T> tmp = node.getChildren()[i];
+        int positionFound = findInsertPosition(keys, node.getKeysNumber(), key);
+        Node<T> tmp = node.getChildren()[positionFound];
         if (tmp.isFull()) {
-            split(node, i, tmp);
-            if (key.compareTo(node.getKeys()[i]) > 0) {
-                i++;
+            split(node, positionFound, tmp);
+            if (key.compareTo(node.getKeys()[positionFound]) > 0) {
+                positionFound++;
             }
         }
-        insertNonFull(node.getChildren()[i], key);
+        insertNonFull(node.getChildren()[positionFound], key);
     }
 
     /**
      * Splits a full child node, distributing its keys between itself and a new node.
      *
-     * @param parent      The parent node of the node to be split.
-     * @param pos         The index of the child node to be split in the parent's children array.
-     * @param nodeToSplit The node to be split.
+     * @param parent          The parent node of the node to be split.
+     * @param positionToSplit The index of the child node to be split in the parent's children array.
+     * @param nodeToSplit     The node to be split.
      */
-    private void split(Node<T> parent, int pos, Node<T> nodeToSplit) {
+    private void split(Node<T> parent, int positionToSplit, Node<T> nodeToSplit) {
         T[] keys = nodeToSplit.getKeys();
         Node<T> newNode = createNewNodeFromSplit(nodeToSplit);
 
-        shiftChildrenRight(parent, pos);
-        parent.getChildren()[pos + 1] = newNode;
+        shiftChildrenRight(parent, positionToSplit);
+        parent.getChildren()[positionToSplit + 1] = newNode;
 
         shiftKeysRight(keys, degree - 1, degree);
-        parent.getKeys()[pos] = nodeToSplit.getKeys()[degree - 1];
+        parent.getKeys()[positionToSplit] = nodeToSplit.getKeys()[degree - 1];
 
         parent.setKeysNumber(parent.getKeysNumber() + 1);
     }
@@ -481,13 +482,13 @@ public class BTree<T extends Comparable<T>> {
         newNode.setLeaf(nodeToSplit.isLeaf());
         newNode.setKeysNumber(degree - 1);
 
-        for (int j = 0; j < degree - 1; j++) {
-            newNode.getKeys()[j] = nodeToSplit.getKeys()[j + degree];
+        for (int keyIndex = 0; keyIndex < degree - 1; keyIndex++) {
+            newNode.getKeys()[keyIndex] = nodeToSplit.getKeys()[keyIndex + degree];
         }
 
         if (!nodeToSplit.isLeaf()) {
-            for (int j = 0; j < degree; j++) {
-                newNode.getChildren()[j] = nodeToSplit.getChildren()[j + degree];
+            for (int childIndex = 0; childIndex < degree; childIndex++) {
+                newNode.getChildren()[childIndex] = nodeToSplit.getChildren()[childIndex + degree];
             }
         }
 
@@ -498,12 +499,12 @@ public class BTree<T extends Comparable<T>> {
     /**
      * Shifts children nodes to the right in a parent node starting from a specific position.
      *
-     * @param node    The parent node whose children will be shifted.
-     * @param fromPos The index from which to start the shift.
+     * @param node         The parent node whose children will be shifted.
+     * @param fromPosition The index from which to start the shift.
      */
-    private void shiftChildrenRight(Node<T> node, int fromPos) {
-        for (int j = node.getKeysNumber(); j >= fromPos + 1; j--) {
-            node.getChildren()[j + 1] = node.getChildren()[j];
+    private void shiftChildrenRight(Node<T> node, int fromPosition) {
+        for (int childIndex = node.getKeysNumber(); childIndex >= fromPosition + 1; childIndex--) {
+            node.getChildren()[childIndex + 1] = node.getChildren()[childIndex];
         }
     }
 
