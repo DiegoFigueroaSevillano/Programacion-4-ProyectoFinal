@@ -393,12 +393,12 @@ public class BTree<T extends Comparable<T>> {
      * @param keyToInsert The key to be inserted into the leaf node.
      */
     private void insertIntoLeafNode(Node<T> node, T keyToInsert) {
-        int keyCount = node.getKeysNumber();
-        T[] keys = node.getKeys();
-        int insertPosition = findInsertPosition(keys, keyCount, keyToInsert);
-        shiftKeysRight(keys, insertPosition, keyCount);
-        keys[insertPosition] = keyToInsert;
-        node.setKeysNumber(keyCount + 1);
+        int keyIndex;
+        for (keyIndex = node.getKeysNumber() - 1; keyIndex >= 0 && keyToInsert.compareTo(node.getKeys()[keyIndex]) < 0; keyIndex--) {
+            node.getKeys()[keyIndex + 1] = node.getKeys()[keyIndex];
+        }
+        node.getKeys()[keyIndex + 1] = keyToInsert;
+        node.incrementKeysNumber();
     }
 
     /**
@@ -422,13 +422,12 @@ public class BTree<T extends Comparable<T>> {
     /**
      * Shifts keys to the right in the array, starting from a specified position.
      *
-     * @param keys          The array of keys to be shifted.
-     * @param startPosition The index position from which to start the shift.
-     * @param keyCount      The number of keys currently in the array.
+     * @param node    The Node to be shifted.
+     * @param fromPos The index position from which to start the shift.
      */
-    private void shiftKeysRight(T[] keys, int startPosition, int keyCount) {
-        for (int shitKeyIndex = keyCount; shitKeyIndex > startPosition; shitKeyIndex--) {
-            keys[shitKeyIndex] = keys[shitKeyIndex - 1];
+    private void shiftKeysRight(Node<T> node, int fromPos) {
+        for (int shitKeyIndex = node.getKeysNumber() - 1; shitKeyIndex >= fromPos; shitKeyIndex--) {
+            node.getKeys()[shitKeyIndex + 1] = node.getKeys()[shitKeyIndex];
         }
     }
 
@@ -459,13 +458,12 @@ public class BTree<T extends Comparable<T>> {
      * @param nodeToSplit     The node to be split.
      */
     private void split(Node<T> parent, int positionToSplit, Node<T> nodeToSplit) {
-        T[] keys = nodeToSplit.getKeys();
         Node<T> newNode = createNewNodeFromSplit(nodeToSplit);
 
         shiftChildrenRight(parent, positionToSplit);
         parent.getChildren()[positionToSplit + 1] = newNode;
 
-        shiftKeysRight(keys, degree - 1, degree);
+        shiftKeysRight(parent, positionToSplit);
         parent.getKeys()[positionToSplit] = nodeToSplit.getKeys()[degree - 1];
 
         parent.setKeysNumber(parent.getKeysNumber() + 1);
