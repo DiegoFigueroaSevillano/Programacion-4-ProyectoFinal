@@ -25,7 +25,7 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton;
+    private Button homeButton, passengersButton, passengerRegisterButton;
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
@@ -65,12 +65,12 @@ public class Header {
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
-
+        createPassengersRegisterButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton);
+        menu.getChildren().addAll(homeButton, passengersButton,passengerRegisterButton);
     }
 
     /**
@@ -98,6 +98,14 @@ public class Header {
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
         generatorMenuOptions(passengersButton, "passengers");
+    }
+
+    /**
+     * Creates the "REGISTER" button.
+     */
+    private void createPassengersRegisterButton() {
+        passengerRegisterButton = new Button("REGISTER");
+        generatorMenuOptions(passengerRegisterButton, "Passengers Register");
     }
 
     /**
@@ -129,4 +137,5 @@ public class Header {
     public HBox getHeader() {
         return header;
     }
+
 }
