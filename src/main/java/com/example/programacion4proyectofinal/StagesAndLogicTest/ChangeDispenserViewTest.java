@@ -32,15 +32,8 @@ public class ChangeDispenserViewTest extends Application {
 
         ChangeDispenser changeDispenser = new ChangeDispenser(root, stage);
 
-        Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
-
-        Scene currentScene = changeDispenser.getChangeDispenserScene();
-
-        ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
-        changePropertiesStage.changeSizeStage(800, 700, stage);
-        stage.setResizable(true);
-        stage.setScene(currentScene);
-        stage.getIcons().add(iconApp);
+        Scene scene = changeDispenser.getChangeDispenserScene();
+        stage.setScene(scene);
         stage.show();
     }
 }
