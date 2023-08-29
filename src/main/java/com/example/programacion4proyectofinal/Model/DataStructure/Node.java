@@ -1,5 +1,7 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+import java.lang.reflect.Array;
+
 /**
  * The Node class represents a node in a B-Tree.
  *
@@ -11,6 +13,7 @@ public class Node<T extends Comparable<T>> {
     private final T[] keys;
     private final Node<T>[] children;
     private boolean isLeaf;
+    private String jsonPath;
 
     /**
      * Constructs a new Node object with the given degree.
@@ -18,12 +21,41 @@ public class Node<T extends Comparable<T>> {
      * @param degree degree The minimum degree for the B-tree node.
      */
     @SuppressWarnings("unchecked")
+    public Node(int degree, Class<T> clazz) {
+        this.degree = degree;
+        this.keys = (T[]) Array.newInstance(clazz, 2 * this.degree - 1);
+        this.children = (Node<T>[]) Array.newInstance(Node.class, 2 * this.degree);
+        this.isLeaf = true;
+        this.keysNumber = 0;
+        this.jsonPath = null;
+    }
+
     public Node(int degree) {
         this.degree = degree;
         this.keys = (T[]) new Comparable[2 * this.degree - 1];
         this.children = new Node[2 * this.degree];
         this.isLeaf = true;
         this.keysNumber = 0;
+        this.jsonPath = null;
+    }
+
+    public Node(int degree, Class<T> clazz, String jsonPath) {
+        this.degree = degree;
+        this.keys = (T[]) Array.newInstance(clazz, 2 * this.degree - 1);
+        this.children = (Node<T>[]) Array.newInstance(Node.class, 2 * this.degree);
+        this.isLeaf = true;
+        this.keysNumber = 0;
+        this.jsonPath = jsonPath;
+    }
+
+    public String getJsonPath() {
+        return jsonPath;
+    }
+
+
+
+    public void setJsonPath(String jsonPath) {
+        this.jsonPath = jsonPath;
     }
 
     /**
