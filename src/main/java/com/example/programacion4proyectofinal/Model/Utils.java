@@ -4,7 +4,17 @@ import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+
+/**
+ * This class is used for comparate the clients' reservation time and priority.
+ */
 public class Utils implements Comparator{
+    /**
+     * This method is used for compare the clients' priority.
+     * @param o1
+     * @param o2
+     * @return
+     */
     public int compareEnum(PRIORITY o1, PRIORITY o2) {
         int returnValue = 0;
         if (o1.getIndex() > o2.getIndex()) {
@@ -15,8 +25,29 @@ public class Utils implements Comparator{
         return returnValue;
     }
 
+    /**
+     * This method is used for return the comparator.
+     * @return
+     */
+    public static  Comparator returnComparator(){
+        Utils utilsComparator = new Utils();
+        Comparator<Client> customComparator = new Comparator<Client>() {
+            @Override
+            public int compare(Client o1, Client o2) {
+                return utilsComparator.compareClient(o1, o2);
+            }
+        };
+        return customComparator;
+    }
+
+    /**
+     * THis method is used for compare clients' priority.
+     * @param o1
+     * @param o2
+     * @return
+     */
     public int compareClient(Client o1,Client o2){
-        return compare(o1.prioridad,o2.prioridad);
+        return compare(o1.priority,o2.priority);
     }
 
 
