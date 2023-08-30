@@ -7,8 +7,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * The ParserJson class provides methods to parse JSON data into lists of nodes.
+ */
 public class ParserJson {
 
+    /**
+     * Converts JSON data from a file into a list of Node objects.
+     *
+     * @param path The path to the JSON file.
+     * @return An ArrayList containing Node objects parsed from the JSON data.
+     */
     public ArrayList<Node> convertJsonToListOfNode(String path) {
         ArrayList<Node> result = new ArrayList<>();
 
@@ -33,5 +42,4 @@ public class ParserJson {
 
         return result;
     }
-
 }
