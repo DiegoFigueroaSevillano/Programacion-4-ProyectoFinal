@@ -1,5 +1,14 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
 /**
  * The BTree class represents a B-Tree data structure.
  *
@@ -8,6 +17,7 @@ package com.example.programacion4proyectofinal.Model.DataStructure;
 public class BTree<T extends Comparable<T>> {
     private final int degree;
     private Node<T> root;
+    private int counter;
 
     /**
      * Constructs a new BTree object with the given degree.
@@ -17,6 +27,7 @@ public class BTree<T extends Comparable<T>> {
     public BTree(int degree) {
         this.degree = degree;
         this.root = new Node<>(this.degree);
+        this.counter = 0;
     }
 
     /**
@@ -31,6 +42,7 @@ public class BTree<T extends Comparable<T>> {
         } else {
             insertNonFull(currentNode, key);
         }
+        counter++;
     }
 
     /**
@@ -557,5 +569,64 @@ public class BTree<T extends Comparable<T>> {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    public void JsonCreationAndFill(HashMap<Integer, Passenger> hashMap){
+        iterativeJsonCreation(root);
+        iterativeJsonFill(root, hashMap);
+    }
+
+    public void iterativeJsonCreation(Node<T> node){
+        counter++;
+        if (node == null){
+            return;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode rootNode = mapper.createObjectNode();
+        try {
+            mapper.writeValue(new File("src/main/resources/com/example/programacion4proyectofinal/JSON/Users/" +
+                    "Node_" + counter + ".json"), rootNode);
+            node.setJsonPath("src/main/resources/com/example/programacion4proyectofinal/JSON/Users/" +
+                    "Node_" + counter + ".json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i <= node.getKeysNumber(); i++) {
+            iterativeJsonCreation(node.getChildren()[i]);
+        }
+
+    }
+
+    public void iterativeJsonFill(Node<T> node, HashMap<Integer, Passenger> hashMap){
+        if (node == null){
+            return;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode passengersNode = mapper.createArrayNode();
+
+        for (int i = 0; i < node.getKeysNumber(); i++) {
+            Passenger passenger = hashMap.get(node.getKeys()[i]); // ARREGLAR
+            ObjectNode passengerNode = mapper.createObjectNode(); // ARREGLAR
+            passengerNode.put("name", passenger.getName());
+            passengerNode.put("id", passenger.getId());
+            if (node.getChildren()[i] != null) {
+                passengerNode.put("leftSon", node.getChildren()[i].getJsonPath());
+            }
+            if (node.getChildren()[i + 1] != null) {
+                passengerNode.put("rightSon", node.getChildren()[i + 1].getJsonPath());
+            }
+            passengersNode.add(passengerNode);
+        }
+
+        try {
+            mapper.writeValue(new File(node.getJsonPath()), passengersNode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i <= node.getKeysNumber(); i++) {
+            iterativeJsonFill(node.getChildren()[i], hashMap);
+        }
+
     }
 }

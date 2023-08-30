@@ -1,5 +1,10 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 
 /**
@@ -31,6 +36,7 @@ public class Node<T extends Comparable<T>> {
     }
 
     public Node(int degree) {
+        ObjectMapper mapper = new ObjectMapper();
         this.degree = degree;
         this.keys = (T[]) new Comparable[2 * this.degree - 1];
         this.children = new Node[2 * this.degree];
