@@ -1,0 +1,20 @@
+[
+  {
+    "name": "LIAM",
+    "id": 225,
+    "leftSon": "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_14.json",
+    "rightSon": "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_15.json"
+  },
+  {
+    "name": "EMMA",
+    "id": 250,
+    "leftSon": "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_15.json",
+    "rightSon": "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_16.json"
+  },
+  {
+    "name": "NOAH",
+    "id": 275,
+    "leftSon": "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_16.json",
+    "rightSon": "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_17.json"
+  }
+]

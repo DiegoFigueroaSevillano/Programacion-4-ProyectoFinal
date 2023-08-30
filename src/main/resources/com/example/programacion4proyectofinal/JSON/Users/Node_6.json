@@ -1,0 +1,20 @@
+[
+  {
+    "name": "LILIANA",
+    "id": 1,
+    "leftSon": null,
+    "rightSon": null
+  },
+  {
+    "name": "LUCIA",
+    "id": 7,
+    "leftSon": null,
+    "rightSon": null
+  },
+  {
+    "name": "LEONARDO",
+    "id": 14,
+    "leftSon": null,
+    "rightSon": null
+  }
+]
