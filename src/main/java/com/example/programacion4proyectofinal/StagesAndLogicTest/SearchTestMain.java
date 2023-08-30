@@ -1,7 +1,7 @@
-package com.example.programacion4proyectofinal;
+package com.example.programacion4proyectofinal.StagesAndLogicTest;
 
 import com.example.programacion4proyectofinal.Model.Objects.Node;
-import com.example.programacion4proyectofinal.Model.Search;
+import com.example.programacion4proyectofinal.Model.DataStructure.BTreeSearch.Search;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class SearchTestMain {
     public static void main(String[] args) {
         Search search = new Search();
 
-        Node node = search.searchById(333);
+        Node node = search.searchById(5130909);
 
         System.out.println("===============================================");
         if (node == null) {
@@ -23,7 +23,7 @@ public class SearchTestMain {
         }
         System.out.println("===============================================");
 
-        ArrayList<Node> result = search.searchByName("juan");
+        ArrayList<Node> result = search.searchByName("ANGEL PHILLIPS");
 
         System.out.println("===============================================");
         if (!result.isEmpty()) {

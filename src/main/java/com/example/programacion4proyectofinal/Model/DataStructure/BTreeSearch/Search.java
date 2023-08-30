@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Model;
+package com.example.programacion4proyectofinal.Model.DataStructure.BTreeSearch;
 
 import com.example.programacion4proyectofinal.Model.Objects.Node;
 import com.example.programacion4proyectofinal.Utils.ParserJson;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Search {
 
-    private final String PATH_ROOT = "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_1.json";
+    private final String PATH_ROOT = "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/Node_11.json";
     private ParserJson parserJson;
 
     /**
