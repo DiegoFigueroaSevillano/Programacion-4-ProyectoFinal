@@ -35,6 +35,11 @@ public class Node<T extends Comparable<T>> {
         this.jsonPath = null;
     }
 
+    /**
+     * Constructs a new Node object with the given degree.
+     *
+     * @param degree degree The minimum degree for the B-tree node.
+     */
     public Node(int degree) {
         ObjectMapper mapper = new ObjectMapper();
         this.degree = degree;
@@ -45,6 +50,11 @@ public class Node<T extends Comparable<T>> {
         this.jsonPath = null;
     }
 
+    /**
+     * Constructs a new Node object with the given degree.
+     *
+     * @param degree degree The minimum degree for the B-tree node.
+     */
     public Node(int degree, Class<T> clazz, String jsonPath) {
         this.degree = degree;
         this.keys = (T[]) Array.newInstance(clazz, 2 * this.degree - 1);
@@ -54,12 +64,21 @@ public class Node<T extends Comparable<T>> {
         this.jsonPath = jsonPath;
     }
 
+    /**
+     * Method that return us the json path of the node
+     *
+     * @return the respective json path
+     */
     public String getJsonPath() {
         return jsonPath;
     }
 
 
-
+    /**
+     * Method that set the json path of the node
+     *
+     * @param jsonPath the new jsonPath
+     */
     public void setJsonPath(String jsonPath) {
         this.jsonPath = jsonPath;
     }

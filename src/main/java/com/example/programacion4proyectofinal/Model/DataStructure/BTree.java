@@ -571,12 +571,23 @@ public class BTree<T extends Comparable<T>> {
         return sb.toString();
     }
 
+    /**
+     * Method that makes use of sub methods, for the creation and filling of the Json
+     * of the generation of users in the tree B
+     *
+     * @param hashMap The hashmap with passenger information
+     */
     public void JsonCreationAndFill(HashMap<Integer, Passenger> hashMap){
         iterativeJsonCreation(root);
         iterativeJsonFill(root, hashMap);
     }
 
-    public void iterativeJsonCreation(Node<T> node){
+    /**
+     * Method that iterates through the tree to create a Json for each node in an ordered manner
+     *
+     * @param node Node to iterate from
+     */
+    private void iterativeJsonCreation(Node<T> node){
         counter++;
         if (node == null){
             return;
@@ -597,7 +608,13 @@ public class BTree<T extends Comparable<T>> {
 
     }
 
-    public void iterativeJsonFill(Node<T> node, HashMap<Integer, Passenger> hashMap){
+    /**
+     * Iterative method that will fill each Json of a node with their respective data
+     *
+     * @param node Node from which the iteration will start
+     * @param hashMap The hashmap with passenger information
+     */
+    private void iterativeJsonFill(Node<T> node, HashMap<Integer, Passenger> hashMap){
         if (node == null){
             return;
         }

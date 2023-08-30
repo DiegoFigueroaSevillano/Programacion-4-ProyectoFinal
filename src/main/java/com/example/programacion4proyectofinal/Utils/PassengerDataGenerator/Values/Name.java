@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.UserGenerator.UserData;
+package com.example.programacion4proyectofinal.Utils.PassengerDataGenerator.Values;
 
 public enum Name {
     AARON,

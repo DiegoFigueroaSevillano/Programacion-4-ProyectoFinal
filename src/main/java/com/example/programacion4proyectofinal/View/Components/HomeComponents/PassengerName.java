@@ -1,14 +1,14 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 
 /**
  * This class generates and configures a section for entering passenger's name.

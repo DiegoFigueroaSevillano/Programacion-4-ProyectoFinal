@@ -1,4 +1,7 @@
-package com.example.programacion4proyectofinal.Model.DataStructure;
+package com.example.programacion4proyectofinal.StagesAndLogicTest;
+
+import com.example.programacion4proyectofinal.Model.DataStructure.BTree;
+
 public class Main {
     public static void main(String[] args) {
         BTree<Integer> bTree = new BTree<>(3);

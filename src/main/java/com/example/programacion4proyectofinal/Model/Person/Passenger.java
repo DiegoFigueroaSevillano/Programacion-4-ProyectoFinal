@@ -16,11 +16,22 @@ public class Passenger extends Person implements Comparable<Passenger> {
         super(name, id);
     }
 
+    /**
+     * Method that helps us to compare two elements of type Passenger
+     *
+     * @param o the object to be compared.
+     * @return the equality of the element, if it is greater or less
+     */
     @Override
     public int compareTo(Passenger o) {
         return this.getName().compareTo(o.getName());
     }
 
+    /**
+     * Method that returns a string when calling the element
+     *
+     * @return a string with the username
+     */
     @Override
     public String toString() {
         return getName();

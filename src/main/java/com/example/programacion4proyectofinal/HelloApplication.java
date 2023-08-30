@@ -1,7 +1,7 @@
 package com.example.programacion4proyectofinal;
 
 import com.example.programacion4proyectofinal.Controller.LogInController;
-import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

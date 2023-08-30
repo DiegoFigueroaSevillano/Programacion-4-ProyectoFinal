@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Model;
+package com.example.programacion4proyectofinal.Model.TicketModel;
 
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
 

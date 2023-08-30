@@ -1,7 +1,7 @@
-package com.example.programacion4proyectofinal.Model.DataStructure.GeneradorDeNombreYCI;
+package com.example.programacion4proyectofinal.Utils.PassengerDataGenerator;
 
-import com.example.programacion4proyectofinal.UserGenerator.UserData.LastName;
-import com.example.programacion4proyectofinal.UserGenerator.UserData.Name;
+import com.example.programacion4proyectofinal.Utils.PassengerDataGenerator.Values.LastName;
+import com.example.programacion4proyectofinal.Utils.PassengerDataGenerator.Values.Name;
 
 import java.util.Random;
 
