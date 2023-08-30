@@ -1,5 +1,7 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+import com.example.programacion4proyectofinal.Utils.UUIDGenerator.GeneratorUUID;
+
 /**
  * The Node class represents a node in a B-Tree.
  *
@@ -11,6 +13,8 @@ public class Node<T extends Comparable<T>> {
     private final T[] keys;
     private final Node<T>[] children;
     private boolean isLeaf;
+    private String id;
+    private String[] childrenIds;
 
     /**
      * Constructs a new Node object with the given degree.
@@ -19,11 +23,28 @@ public class Node<T extends Comparable<T>> {
      */
     @SuppressWarnings("unchecked")
     public Node(int degree) {
+        if (degree <= 1) {
+            throw new IllegalArgumentException("Order must be greater than 1");
+        }
         this.degree = degree;
         this.keys = (T[]) new Comparable[2 * this.degree - 1];
-        this.children = new Node[2 * this.degree];
+        this.children = (Node<T>[]) new Node<?>[2 * this.degree];
+        this.childrenIds = new String[2 * this.degree];
         this.isLeaf = true;
         this.keysNumber = 0;
+        this.id = GeneratorUUID.generateUUID();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setChildrenIds(int index) {
+        childrenIds[index] = children[index].getId();
+    }
+
+    public String[] getChildrenIds() {
+        return childrenIds;
     }
 
     /**
