@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Model.FileHandler;
+package com.example.programacion4proyectofinal.Model.FileHandler.Writer;
 
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.fasterxml.jackson.core.JsonGenerator;

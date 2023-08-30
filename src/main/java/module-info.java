@@ -19,4 +19,8 @@ module com.example.programacion4proyectofinal {
 
     opens com.example.programacion4proyectofinal to javafx.fxml;
     exports com.example.programacion4proyectofinal;
+    exports com.example.programacion4proyectofinal.Model.FileHandler.Deserializer;
+    opens com.example.programacion4proyectofinal.Model.FileHandler.Deserializer to com.fasterxml.jackson.annotation, com.fasterxml.jackson.core, com.fasterxml.jackson.databind;
+    exports com.example.programacion4proyectofinal.Model.FileHandler.Writer;
+    opens com.example.programacion4proyectofinal.Model.FileHandler.Writer to com.fasterxml.jackson.annotation, com.fasterxml.jackson.core, com.fasterxml.jackson.databind;
 }

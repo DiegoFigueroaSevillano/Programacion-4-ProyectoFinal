@@ -1,12 +1,15 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+import com.example.programacion4proyectofinal.Model.FileHandler.Deserializer.DeserializerNode;
 import com.example.programacion4proyectofinal.Utils.UUIDGenerator.GeneratorUUID;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * The Node class represents a node in a B-Tree.
  *
  * @param <T> The type of the keys that the node stores.
  */
+@JsonDeserialize(using = DeserializerNode.class)
 public class Node<T extends Comparable<T>> {
     private final int degree;
     private int keysNumber;
@@ -39,14 +42,21 @@ public class Node<T extends Comparable<T>> {
         return id;
     }
 
-    public void setChildrenIds(int index) {
-        childrenIds[index] = children[index].getId();
+    public void setChildrenIds(String[] childrenIds) {
+        this.childrenIds = childrenIds;
+    }
+
+    public void setChildrenId(int index, String id) {
+        this.childrenIds[index] = id;
     }
 
     public String[] getChildrenIds() {
         return childrenIds;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     /**
      * Finds the position of a specific key within the node.
      *

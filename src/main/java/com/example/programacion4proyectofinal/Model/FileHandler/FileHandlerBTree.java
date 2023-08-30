@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal.Model.FileHandler;
 
 import com.example.programacion4proyectofinal.Model.DataStructure.Node;
+import com.example.programacion4proyectofinal.Model.FileHandler.Writer.WriterNode;
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
