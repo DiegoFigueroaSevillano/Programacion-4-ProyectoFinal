@@ -13,7 +13,7 @@ public class Passenger extends Person implements Comparable<Passenger> {
      * @param name The name of the passenger.
      * @param id The ID of the passenger.
      */
-    public Passenger(String name, String lastName, String country, int id, Category category) {
+    public Passenger(int id, String name, String lastName, String country, Category category) {
         super(name, lastName, country, id);
         this.category = category;
     }

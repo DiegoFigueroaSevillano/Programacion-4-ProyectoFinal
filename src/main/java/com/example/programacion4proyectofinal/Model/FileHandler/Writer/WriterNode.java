@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class WriterNode {
     private static WriterNode instance;
-    private WriterPassenger writerPassenger;
 
     public static WriterNode getInstance() {
         if (instance == null) instance = new WriterNode();
@@ -24,7 +23,7 @@ public class WriterNode {
         generator.writeFieldName("keys");
         generator.writeStartArray();
         for (int i = 0; i < node.getKeysNumber(); i++) {
-            writerPassenger.writePassenger(generator, node.getKeys()[i]);
+            WriterPassenger.writePassenger(generator, node.getKey(i));
         }
         generator.writeEndArray();
         generator.writeFieldName("childrenIds");

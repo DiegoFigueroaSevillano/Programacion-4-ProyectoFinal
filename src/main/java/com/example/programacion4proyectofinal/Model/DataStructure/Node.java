@@ -24,15 +24,15 @@ public class Node<T extends Comparable<T>> {
      *
      * @param degree degree The minimum degree for the B-tree node.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(value = "unchecked")
     public Node(int degree) {
         if (degree <= 1) {
             throw new IllegalArgumentException("Order must be greater than 1");
         }
         this.degree = degree;
-        this.keys = (T[]) new Comparable[2 * this.degree - 1];
-        this.children = (Node<T>[]) new Node<?>[2 * this.degree];
-        this.childrenIds = new String[2 * this.degree];
+        this.keys = (T[]) new Comparable[2 * degree - 1];
+        this.children = (Node<T>[]) new Node<?>[2 * degree];
+        this.childrenIds = new String[2 * degree];
         this.isLeaf = true;
         this.keysNumber = 0;
         this.id = GeneratorUUID.generateUUID();
@@ -120,6 +120,10 @@ public class Node<T extends Comparable<T>> {
      */
     public T[] getKeys() {
         return keys;
+    }
+
+    public T getKey(final int index) {
+        return keys[index];
     }
 
     /**

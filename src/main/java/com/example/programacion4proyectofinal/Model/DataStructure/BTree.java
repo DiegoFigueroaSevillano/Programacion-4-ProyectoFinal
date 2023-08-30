@@ -1,5 +1,7 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
+import com.example.programacion4proyectofinal.Model.FileHandler.IFileHandlerBTree;
+
 /**
  * The BTree class represents a B-Tree data structure.
  *
@@ -8,6 +10,8 @@ package com.example.programacion4proyectofinal.Model.DataStructure;
 public class BTree<T extends Comparable<T>> {
     private final int degree;
     private Node<T> root;
+    private IFileHandlerBTree<T> fileHandler;
+    private boolean fileHandlerEnabled;
 
     /**
      * Constructs a new BTree object with the given degree.
@@ -15,8 +19,28 @@ public class BTree<T extends Comparable<T>> {
      * @param degree The minimum degree for the B-tree.
      */
     public BTree(int degree) {
+        if (degree <= 1) {
+            throw new IllegalArgumentException("Order must be greater than 1");
+        }
         this.degree = degree;
         this.root = new Node<>(this.degree);
+    }
+
+    public BTree(int degree, IFileHandlerBTree<T> fileHandler) {
+        if (degree <= 1) {
+            throw new IllegalArgumentException("Order must be greater than 1");
+        }
+        this.degree = degree;
+        this.root = new Node<>(this.degree);
+        this.fileHandler = fileHandler;
+        Node<T> node = fileHandler.readNodeById("root");
+        if (node != null) {
+            this.root = node;
+        } else {
+            this.root = new Node<>(this.degree);
+            this.root.setId("root");
+        }
+        this.fileHandlerEnabled = true;
     }
 
     /**
@@ -367,10 +391,14 @@ public class BTree<T extends Comparable<T>> {
      */
     private void handleFullRoot(final T key, Node<T> currentNode) {
         Node<T> newNode = new Node<>(degree);
+        String temp = newNode.getId();
+        newNode.setId(currentNode.getId());
         root = newNode;
+        currentNode.setId(temp);
         newNode.setLeaf(false);
         newNode.setKeysNumber(0);
         newNode.getChildren()[0] = currentNode;
+        newNode.setChildrenId(0, currentNode.getId());
         split(newNode, 0, currentNode);
         insertNonFull(newNode, key);
     }
@@ -399,6 +427,7 @@ public class BTree<T extends Comparable<T>> {
         }
         node.getKeys()[keyIndex + 1] = keyToInsert;
         node.incrementKeysNumber();
+        if (fileHandlerEnabled) saveDataNode(node);
     }
 
     /**
@@ -441,6 +470,11 @@ public class BTree<T extends Comparable<T>> {
         T[] keys = node.getKeys();
         int positionFound = findInsertPosition(keys, node.getKeysNumber(), key);
         Node<T> tmp = node.getChildren()[positionFound];
+        if (fileHandlerEnabled && tmp == null) {
+            tmp = fileHandler.readNodeById(node.getChildrenIds()[positionFound]);
+            node.getChildren()[positionFound] = tmp;
+            node.setChildrenId(positionFound, tmp.getId());
+        }
         if (tmp.isFull()) {
             split(node, positionFound, tmp);
             if (key.compareTo(node.getKeys()[positionFound]) > 0) {
@@ -462,11 +496,16 @@ public class BTree<T extends Comparable<T>> {
 
         shiftChildrenRight(parent, positionToSplit);
         parent.getChildren()[positionToSplit + 1] = newNode;
+        parent.setChildrenId(positionToSplit + 1, newNode.getId());
 
         shiftKeysRight(parent, positionToSplit);
         parent.getKeys()[positionToSplit] = nodeToSplit.getKeys()[degree - 1];
 
         parent.setKeysNumber(parent.getKeysNumber() + 1);
+
+        if (fileHandlerEnabled) {
+            fileHandlerOperations(parent, nodeToSplit, newNode);
+        }
     }
 
     /**
@@ -487,6 +526,7 @@ public class BTree<T extends Comparable<T>> {
         if (!nodeToSplit.isLeaf()) {
             for (int childIndex = 0; childIndex < degree; childIndex++) {
                 newNode.getChildren()[childIndex] = nodeToSplit.getChildren()[childIndex + degree];
+                newNode.setChildrenId(childIndex, nodeToSplit.getChildren()[childIndex + degree].getId());
             }
         }
 
@@ -557,5 +597,27 @@ public class BTree<T extends Comparable<T>> {
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    private void fileHandlerOperations(Node<T> parent, Node<T> child, Node<T> newChild) {
+        if (child.getKeysNumber() == 0) {
+            fileHandler.deleteNode(child);
+            fileHandler.deleteNode(newChild);
+            fileHandler.saveNode(parent);
+        } else if (newChild.getKeysNumber() == 0) {
+            fileHandler.deleteNode(child);
+            fileHandler.deleteNode(newChild);
+            fileHandler.saveNode(parent);
+        } else {
+            saveDataNode(parent, child, newChild);
+        }
+    }
+
+    @SafeVarargs
+    private void saveDataNode(Node<T>... nodes) {
+        for (Node<T> node : nodes) {
+            if (node.getKeysNumber() == 0) fileHandler.deleteNode(node);
+            else fileHandler.saveNode(node);
+        }
     }
 }

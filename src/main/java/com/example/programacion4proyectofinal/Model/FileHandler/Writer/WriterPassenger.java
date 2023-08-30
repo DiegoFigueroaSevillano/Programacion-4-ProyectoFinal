@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import java.io.IOException;
 
 public class WriterPassenger {
-    public void writePassenger(JsonGenerator generator, Passenger passenger) throws IOException {
+    public static void writePassenger(JsonGenerator generator, Passenger passenger) throws IOException {
         generator.writeStartObject();
         generator.writeNumberField("id", passenger.getId());
         generator.writeStringField("name", passenger.getName());

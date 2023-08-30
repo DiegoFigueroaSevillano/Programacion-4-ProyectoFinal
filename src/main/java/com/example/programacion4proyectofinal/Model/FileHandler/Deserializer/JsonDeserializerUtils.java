@@ -26,7 +26,7 @@ public class JsonDeserializerUtils {
             String lastName = node.get(i).get("lastName").asText();
             String country = node.get(i).get("country").asText();
             Category category = mapper.readValue(node.get("category").traverse(), Category.class);
-            Passenger passenger = new Passenger(name, lastName, country, id, category);
+            Passenger passenger = new Passenger(id, name, lastName, country, category);
             passengers.add(passenger);
         }
         return passengers;
