@@ -629,9 +629,13 @@ public class BTree<T extends Comparable<T>> {
             passengerNode.put("id", passenger.getId());
             if (node.getChildren()[i] != null) {
                 passengerNode.put("leftSon", node.getChildren()[i].getJsonPath());
+            }else{
+                passengerNode.put("leftSon", (String) null);
             }
             if (node.getChildren()[i + 1] != null) {
                 passengerNode.put("rightSon", node.getChildren()[i + 1].getJsonPath());
+            }else{
+                passengerNode.put("rightSon", (String) null);
             }
             passengersNode.add(passengerNode);
         }
