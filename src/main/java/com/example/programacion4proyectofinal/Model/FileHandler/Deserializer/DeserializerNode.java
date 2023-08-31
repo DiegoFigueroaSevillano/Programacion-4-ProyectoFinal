@@ -30,7 +30,7 @@ public class DeserializerNode extends JsonDeserializer<Node<Passenger>> {
         newNode.setKeysNumber(keysNumber);
         newNode.setLeaf(isLeaf);
         for (int i = 0; i < keys.size(); i++) {
-            newNode.getKeys()[i] = keys.get(i);
+            newNode.setKey(i, keys.get(i));
         }
         newNode.setChildrenIds(childrenIds);
         return newNode;

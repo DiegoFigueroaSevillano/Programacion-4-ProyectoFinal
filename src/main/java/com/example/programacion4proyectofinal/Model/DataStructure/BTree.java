@@ -379,6 +379,10 @@ public class BTree<T extends Comparable<T>> {
         } else if (node.isLeaf()) {
             return null;
         } else {
+            if (fileHandlerEnabled && node.getChildren()[keyIndex] == null) {
+                node.getChildren()[keyIndex] = fileHandler.readNodeById(node.getChildrenIds()[keyIndex]);
+                node.setChildrenId(keyIndex, node.getChildren()[keyIndex].getId());
+            }
             return search(node.getChildren()[keyIndex], key);
         }
     }

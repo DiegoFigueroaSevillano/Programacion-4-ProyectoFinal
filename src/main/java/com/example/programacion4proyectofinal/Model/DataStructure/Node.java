@@ -135,6 +135,9 @@ public class Node<T extends Comparable<T>> {
         return children;
     }
 
+    public void setKey(final int index, final T key) {
+        this.keys[index] = key;
+    }
     /**
      * Checks if the node is a leaf.
      *
