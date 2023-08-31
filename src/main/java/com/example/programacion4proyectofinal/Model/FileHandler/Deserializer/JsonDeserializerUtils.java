@@ -9,7 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is util for deserialize JSON files into objects.
+ */
 public class JsonDeserializerUtils {
+    /**
+     * This method will deserialize a JSON file into a String array.
+     * @param node JsonNode to deserialize.
+     * @return String array with the values of the JsonNode.
+     */
     public String[] deserializeArrayString(JsonNode node) {
         String[] array = new String[node.size()];
         for (int i = 0; i < node.size(); i++) {
@@ -18,6 +26,13 @@ public class JsonDeserializerUtils {
         return array;
     }
 
+    /**
+     * This method will deserialize a JSON file into a Passenger array.
+     * @param node JsonNode to deserialize.
+     * @param mapper ObjectMapper to deserialize the category.
+     * @return Passenger array with the values of the JsonNode.
+     * @throws IOException If there is an error deserializing the category.
+     */
     public List<Passenger> deserializeArrayPassenger(JsonNode node, ObjectMapper mapper) throws IOException {
         List<Passenger> passengers = new ArrayList<>();
         for (int i = 0; i < node.size(); i++) {

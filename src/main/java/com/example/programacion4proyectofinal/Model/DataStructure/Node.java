@@ -38,22 +38,43 @@ public class Node<T extends Comparable<T>> {
         this.id = GeneratorUUID.generateUUID();
     }
 
+    /**
+     * This method returns the unique id of the node.
+     * @return The unique id of the node.
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * This method sets the array of children ids of the node.
+     * @param childrenIds The array of children ids of the node.
+     */
     public void setChildrenIds(String[] childrenIds) {
         this.childrenIds = childrenIds;
     }
 
+    /**
+     * This method puts a children id in a specific index of the array of children ids of the node.
+     * @param index The index of the array of children ids of the node.
+     * @param id The children id to put in the array of children ids of the node.
+     */
     public void setChildrenId(int index, String id) {
         this.childrenIds[index] = id;
     }
 
+    /**
+     * This method returns the array of children ids of the node.
+     * @return The array of children ids of the node.
+     */
     public String[] getChildrenIds() {
         return childrenIds;
     }
 
+    /**
+     * This method sets the unique id of the node.
+     * @param id The unique id of the node.
+     */
     public void setId(String id) {
         this.id = id;
     }

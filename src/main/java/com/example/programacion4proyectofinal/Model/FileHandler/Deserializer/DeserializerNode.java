@@ -12,9 +12,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * In this class are customized the deserialization of a Node object.
+ */
 public class DeserializerNode extends JsonDeserializer<Node<Passenger>> {
     private final JsonDeserializerUtils jsonDeserializerUtils = new JsonDeserializerUtils();
 
+    /**
+     * Method that can be called to ask implementation to deserialize
+     * @param p Parsed used for reading JSON content
+     * @param ctxt Context that can be used to access information about
+     *   this deserialization activity.
+     *
+     * @return Deserializer value
+     * @throws IOException If there is an error deserializing the category.
+     * @throws JacksonException If there is an error deserializing the category.
+     */
     @Override
     public Node<Passenger> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
         ObjectMapper mapper = new ObjectMapper();

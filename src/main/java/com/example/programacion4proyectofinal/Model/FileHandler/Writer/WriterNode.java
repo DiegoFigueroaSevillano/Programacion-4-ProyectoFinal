@@ -6,14 +6,27 @@ import com.fasterxml.jackson.core.JsonGenerator;
 
 import java.io.IOException;
 
+/**
+ * This class writes the values of a node in a JSON file using a JsonGenerator.
+ */
 public class WriterNode {
     private static WriterNode instance;
 
+    /**
+     * This is the singleton constructor of the class.
+     * @return The instance of the class.
+     */
     public static WriterNode getInstance() {
         if (instance == null) instance = new WriterNode();
         return instance;
     }
 
+    /**
+     * This method will write the values of a node in a JSON file using a JsonGenerator.
+     * @param generator JsonGenerator to write the values of the node.
+     * @param node Node to write its values.
+     * @throws IOException If there is an error writing the values.
+     */
     public void writeNode(JsonGenerator generator, Node<Passenger> node) throws IOException {
         generator.writeStartObject();
         generator.writeStringField("id", node.getId());

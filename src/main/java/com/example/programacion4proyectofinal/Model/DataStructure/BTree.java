@@ -26,6 +26,11 @@ public class BTree<T extends Comparable<T>> {
         this.root = new Node<>(this.degree);
     }
 
+    /**
+     * This is a second constructor of the BTree class that receives a fileHandler as a parameter.
+     * @param degree The minimum degree for the B-tree.
+     * @param fileHandler The fileHandler to save the nodes of the BTree.
+     */
     public BTree(int degree, IFileHandlerBTree<T> fileHandler) {
         if (degree <= 1) {
             throw new IllegalArgumentException("Order must be greater than 1");
@@ -603,6 +608,12 @@ public class BTree<T extends Comparable<T>> {
         return sb.toString();
     }
 
+    /**
+     * This method sets the fileHandler of the BTree when that is split.
+     * @param parent The parent node of the node to be split.
+     * @param child The node to be split.
+     * @param newChild The new node containing keys from the node being split.
+     */
     private void fileHandlerOperations(Node<T> parent, Node<T> child, Node<T> newChild) {
         if (child.getKeysNumber() == 0) {
             fileHandler.deleteNode(child);
@@ -617,6 +628,10 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * This method saves the nodes in the fileHandler.
+     * @param nodes The nodes to be saved.
+     */
     @SafeVarargs
     private void saveDataNode(Node<T>... nodes) {
         for (Node<T> node : nodes) {
