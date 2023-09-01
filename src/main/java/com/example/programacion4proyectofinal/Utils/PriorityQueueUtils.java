@@ -14,9 +14,9 @@ import java.util.function.ToLongFunction;
 public class PriorityQueueUtils implements Comparator{
     /**
      * This method is used for compare the clients' priority.
-     * @param o1
-     * @param o2
-     * @return
+     * @param o1 first enum's priority
+     * @param o2 second enum's priority
+     * @return value.
      */
     public int compareEnum(PRIORITY o1, PRIORITY o2) {
         int returnValue = 0;
@@ -30,7 +30,7 @@ public class PriorityQueueUtils implements Comparator{
 
     /**
      * This method is used for return the comparator.
-     * @return
+     * @return comparator.
      */
     public static  Comparator returnComparator(){
         PriorityQueueUtils utilsComparator = new PriorityQueueUtils();
@@ -45,9 +45,9 @@ public class PriorityQueueUtils implements Comparator{
 
     /**
      * THis method is used for compare clients' priority.
-     * @param o1
-     * @param o2
-     * @return
+     * @param o1 first enum's priority
+     * @param o2 second enum's priority
+     * @return client's priority.
      */
     public int compareClient(Passenger o1,Passenger o2){
         return compare(o1.priority,o2.priority);

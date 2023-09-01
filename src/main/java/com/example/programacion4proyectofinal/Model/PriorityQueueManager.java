@@ -30,7 +30,7 @@ public class PriorityQueueManager<T>{
 
     /**
      * This method is used for poll an element.
-     * @return
+     * @return priority queue but without the element.
      */
     public T poll(){
         T result = priorityQueue.poll();
@@ -38,7 +38,7 @@ public class PriorityQueueManager<T>{
     }
     /**
      * This method is used for peek an element.
-     * @return
+     * @return the element
      */
     public T peek(){
         T aux = priorityQueue.peek();
@@ -56,18 +56,15 @@ public class PriorityQueueManager<T>{
 
     /**
      * This method is used when a client cancel a flight.
-     * @param client,
+     * @param client, client whose flight is going to be canceled.
      */
-    public void cancelFlight(Passenger client){
-        List<T> auxList = getList();
-        auxList.remove(client);
-        priorityQueue.clear();
-        priorityQueue.addAll(auxList);
+    public void cancelFlight(T client){
+        priorityQueue.remove(client);
     }
 
     /**
      * This method is used to verify the flight.
-     * @param client
+     * @param client, client whose flight is going to be verified.
      * @return
      */
     public boolean verifyFlight(Passenger client){

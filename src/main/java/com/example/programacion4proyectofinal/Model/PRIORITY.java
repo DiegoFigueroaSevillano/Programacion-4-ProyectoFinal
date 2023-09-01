@@ -13,8 +13,8 @@ public enum PRIORITY {
 
     /**
      * This is the constructor method for Priority.
-     * @param name
-     * @param index
+     * @param name Priority's name
+     * @param index Priority's index.
      */
     PRIORITY(String name, int index) {
         this.name = name;
@@ -23,7 +23,7 @@ public enum PRIORITY {
 
     /**
      * This method returns the index.
-     * @return
+     * @return index.
      */
     public int getIndex() {
         return index;
