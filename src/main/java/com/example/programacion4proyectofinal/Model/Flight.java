@@ -3,7 +3,7 @@ package com.example.programacion4proyectofinal.Model;
 import java.util.Date;
 
 public class Flight {
-    Integer numberFlight;
+    Integer idFlight;
     Integer numberSeat;
     String categorySeat;
     Integer numberReservation;
@@ -19,7 +19,7 @@ public class Flight {
 
 
     public Flight(Integer numberFlight,Integer numberReservation,Integer numberSeat,String categorySeat, String origin, String destination, String airline, Date departureDate, Date departureTime, Date arrivalDate, Date arrivalTime, String namePassenger, String lastNamePassenger) {
-        this.numberFlight = numberFlight;
+        this.idFlight = numberFlight;
         this.origin = origin;
         this.destination = destination;
         this.airline = airline;
@@ -43,7 +43,7 @@ public class Flight {
                 return false;
         if (anObject instanceof Flight){
             Flight aux = ((Flight) anObject);
-            result=numberFlight.equals(aux.numberFlight)
+            result= idFlight.equals(aux.idFlight)
                     && numberSeat.equals(aux.numberSeat)
                     && numberReservation.equals(aux.numberReservation)
                     && namePassenger.equals(aux.namePassenger)
