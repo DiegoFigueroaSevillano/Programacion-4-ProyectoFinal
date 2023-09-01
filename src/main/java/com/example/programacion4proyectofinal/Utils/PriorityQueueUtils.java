@@ -1,4 +1,7 @@
-package com.example.programacion4proyectofinal.Model;
+package com.example.programacion4proyectofinal.Utils;
+import com.example.programacion4proyectofinal.Model.PRIORITY;
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
+
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
@@ -8,7 +11,7 @@ import java.util.function.ToLongFunction;
 /**
  * This class is used for comparate the clients' reservation time and priority.
  */
-public class Utils implements Comparator{
+public class PriorityQueueUtils implements Comparator{
     /**
      * This method is used for compare the clients' priority.
      * @param o1
@@ -30,10 +33,10 @@ public class Utils implements Comparator{
      * @return
      */
     public static  Comparator returnComparator(){
-        Utils utilsComparator = new Utils();
-        Comparator<Client> customComparator = new Comparator<Client>() {
+        PriorityQueueUtils utilsComparator = new PriorityQueueUtils();
+        Comparator<Passenger> customComparator = new Comparator<Passenger>() {
             @Override
-            public int compare(Client o1, Client o2) {
+            public int compare(Passenger o1, Passenger o2) {
                 return utilsComparator.compareClient(o1, o2);
             }
         };
@@ -46,7 +49,7 @@ public class Utils implements Comparator{
      * @param o2
      * @return
      */
-    public int compareClient(Client o1,Client o2){
+    public int compareClient(Passenger o1,Passenger o2){
         return compare(o1.priority,o2.priority);
     }
 

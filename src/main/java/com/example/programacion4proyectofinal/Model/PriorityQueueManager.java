@@ -1,5 +1,7 @@
 package com.example.programacion4proyectofinal.Model;
 
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -19,7 +21,7 @@ public class PriorityQueueManager<T>{
 
     /**
      * This method is used for add an element.
-     * @param element
+     * @param element, element that is going to be added.
      */
     public void addElement(T element){
         priorityQueue.add(element);
@@ -44,8 +46,8 @@ public class PriorityQueueManager<T>{
     }
 
     /**
-     * This method is for return the clients' list.
-     * @return
+     * This method is for return the passengers' list.
+     * @return Passengers' list
      */
     public List<T> getList(){
         List<T> clientList = priorityQueue.stream().collect(Collectors.toCollection(ArrayList::new));
@@ -54,9 +56,9 @@ public class PriorityQueueManager<T>{
 
     /**
      * This method is used when a client cancel a flight.
-     * @param client
+     * @param client,
      */
-    public void cancelFlight(Client client){
+    public void cancelFlight(Passenger client){
         List<T> auxList = getList();
         auxList.remove(client);
         priorityQueue.clear();
@@ -68,7 +70,7 @@ public class PriorityQueueManager<T>{
      * @param client
      * @return
      */
-    public boolean verifyFlight(Client client){
+    public boolean verifyFlight(Passenger client){
         return priorityQueue.contains(client);
 
     }
