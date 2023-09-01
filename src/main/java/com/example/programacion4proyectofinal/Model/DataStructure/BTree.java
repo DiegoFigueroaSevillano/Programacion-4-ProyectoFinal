@@ -402,7 +402,7 @@ public class BTree<T extends Comparable<T>> {
         Node<T> newNode = new Node<>(degree);
         String temp = newNode.getId();
         newNode.setId(currentNode.getId());
-        root = newNode;
+        this.root = newNode;
         currentNode.setId(temp);
         newNode.setLeaf(false);
         newNode.setKeysNumber(0);
@@ -552,6 +552,7 @@ public class BTree<T extends Comparable<T>> {
     private void shiftChildrenRight(Node<T> node, int fromPosition) {
         for (int childIndex = node.getKeysNumber(); childIndex >= fromPosition + 1; childIndex--) {
             node.getChildren()[childIndex + 1] = node.getChildren()[childIndex];
+            node.setChildrenId(childIndex + 1, node.getChildren()[childIndex].getId());
         }
     }
 
