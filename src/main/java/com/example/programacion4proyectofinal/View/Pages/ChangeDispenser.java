@@ -56,7 +56,7 @@ public class ChangeDispenser {
         this.changeDispenserPanel = new VBox(0);
         this.changeDispenserPanel.prefWidthProperty().bind(stage.widthProperty());
         this.changeDispenserPanel.prefHeightProperty().bind(stage.heightProperty());
-        this.changeDispenserPanel.setBackground(backgroundGenerator.createBackground(LIGHT_CYAN));
+        this.changeDispenserPanel.setBackground(backgroundGenerator.createBackground(SKY_BLUE_75));
 
         createChangeDispenserSection(scene);
 
@@ -67,7 +67,7 @@ public class ChangeDispenser {
         this.changeDispenserSection = new Pane();
         this.changeDispenserSection.prefWidthProperty().bind(scene.widthProperty());
         this.changeDispenserSection.prefHeightProperty().bind(scene.heightProperty());
-        this.changeDispenserSection.setBackground(backgroundGenerator.createBackground(RED));
+        this.changeDispenserSection.setBackground(backgroundGenerator.createBackground(SKY_BLUE_75));
 
         createChangeDispenserForm(this.changeDispenserSection);
 
@@ -77,10 +77,12 @@ public class ChangeDispenser {
 
     private void createChangeDispenserForm(Pane stackPane){
         this.changeDispenserForm = new HBox(10);
-        this.changeDispenserForm.prefHeightProperty().bind(stackPane.heightProperty().subtract(200));
-        this.changeDispenserForm.prefWidthProperty().bind(stackPane.widthProperty().subtract(50));
+        this.changeDispenserForm.prefHeightProperty().bind(stackPane.heightProperty().subtract(300));
+        this.changeDispenserForm.prefWidthProperty().bind(stackPane.widthProperty().subtract(600));
+        this.changeDispenserForm.setStyle("-fx-background-color: #26C6DA; -fx-background-radius: 10 10 10 10; -fx-border-radius: 10 10 10 10;");
         this.changeDispenserForm.layoutXProperty().bind(stackPane.widthProperty().subtract(this.changeDispenserForm.widthProperty()).divide(2));
         this.changeDispenserForm.layoutYProperty().bind(stackPane.heightProperty().subtract(this.changeDispenserForm.heightProperty()).divide(2));
+        this.changeDispenserForm.setAlignment(Pos.CENTER);
 
         this.changeDispenserForm.setBackground(backgroundGenerator.createBackground(SKY_BLUE));
 

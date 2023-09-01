@@ -3,6 +3,7 @@ package com.example.programacion4proyectofinal.View.Components.ChangeDispenserCo
 import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.Colors;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
@@ -38,14 +39,29 @@ public class BillSection {
         this.container.getChildren().addAll(firstSection, secondSection, thirdSection, fourthSection);
     }
 
+    public Spinner<Integer> getFirstSpinner() {
+        return firstSpinner;
+    }
+
+    public Spinner<Integer> getSecondSpinner() {
+        return secondSpinner;
+    }
+
+    public Spinner<Integer> getThirdSpinner() {
+        return thirdSpinner;
+    }
+
+    public Spinner<Integer> getFourthSpinner() {
+        return fourthSpinner;
+    }
+
     public VBox getContainer() {
         return container;
     }
 
     public void createContainer(HBox ultraContainer){
-        this.container = new VBox();
-        this.container.prefHeightProperty().bind(ultraContainer.heightProperty());
-        this.container.prefWidthProperty().bind(ultraContainer.widthProperty().divide(2));
+        this.container = new VBox(10);
+        this.container.setPadding(new Insets(30));
         this.container.setAlignment(Pos.CENTER);
 
         this.firstSection = createSection(this.firstPane, this.firstImagePath, this.firstSpinner, this.firstSection, this.container);
@@ -63,16 +79,16 @@ public class BillSection {
     private HBox createSection(Pane imagePane, String imagePath, Spinner<Integer> spinner, HBox section, VBox container){
         section = new HBox(10);
         section.prefWidthProperty().bind(container.widthProperty());
-        section.prefHeightProperty().bind(container.heightProperty().multiply(0.25));
-        section.setAlignment(Pos.CENTER_LEFT);
+        section.prefHeightProperty().bind(container.heightProperty());
+        section.setAlignment(Pos.CENTER);
 
         imagePane = new Pane();
         imagePane.setBackground(backgroundGenerator.createBackgroundImage(imagePath));
-        imagePane.prefWidthProperty().bind(section.widthProperty().multiply(0.5));
-        imagePane.prefHeightProperty().bind(section.heightProperty().multiply(500));
+        imagePane.prefWidthProperty().bind(section.widthProperty().multiply(0.56));
+        imagePane.prefHeightProperty().bind(section.heightProperty());
 
         spinner = new Spinner<>();
-        spinner.prefHeightProperty().bind(section.heightProperty().multiply(0.05));
+        spinner.prefHeightProperty().bind(section.heightProperty().multiply(0.1));
         spinner.prefWidthProperty().bind(section.widthProperty().multiply(0.1));
         spinner.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 300, 0);
