@@ -37,7 +37,13 @@ public class DeserializerNode extends JsonDeserializer<Node<Passenger>> {
         boolean isLeaf = node.get("isLeaf").asBoolean();
         int order = node.get("order").asInt();
         List<Passenger> keys = jsonDeserializerUtils.deserializeArrayPassenger(node.get("keys"), mapper);
-        String[] childrenIds = jsonDeserializerUtils.deserializeArrayString(node.get("childrenIds"));
+        JsonNode childrenIdsNode = node.get("childrenIds");
+        String[] childrenIds = childrenIdsNode.isArray() ? jsonDeserializerUtils.deserializeArrayString(childrenIdsNode) : null;
+        if (childrenIds != null) {
+            for (int i = 0; i < childrenIds.length; i++) {
+                if ("null".equals(childrenIds[i])) childrenIds[i] = null;
+            }
+        }
         Node<Passenger> newNode = new Node<>(order);
         newNode.setId(id);
         newNode.setKeysNumber(keysNumber);

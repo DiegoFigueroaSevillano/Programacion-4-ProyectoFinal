@@ -77,6 +77,7 @@ public class FileHandlerBTree implements IFileHandlerBTree<Passenger> {
      */
     @Override
     public boolean deleteNode(Node<Passenger> node) {
+        if (node == null) return false;
         String fileName = getPathName(node.getId());
         File file = new File(fileName);
         if (file.exists()) {

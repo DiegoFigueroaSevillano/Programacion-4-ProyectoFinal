@@ -156,6 +156,17 @@ public class Node<T extends Comparable<T>> {
         return children;
     }
 
+    public Node<T> getChild(final int index) {
+        return children[index];
+    }
+
+    public void setChild(final int index, final Node<T> child) {
+        children[index] = child;
+        if (child != null) {
+            childrenIds[index] = child.getId();
+        }
+    }
+
     public void setKey(final int index, final T key) {
         this.keys[index] = key;
     }
@@ -166,6 +177,14 @@ public class Node<T extends Comparable<T>> {
      */
     public boolean isLeaf() {
         return isLeaf;
+    }
+
+    public void setIdChild(int i, String id) {
+        childrenIds[i] = id;
+    }
+
+    public String getIdChild(int index) {
+        return childrenIds[index];
     }
 
     /**
@@ -184,5 +203,20 @@ public class Node<T extends Comparable<T>> {
      */
     public int getDegree() {
         return degree;
+    }
+
+    public int findKeyPositionInNode(Node<T> node, T targetKey) {
+        int left = 0;
+        int right = node.getKeysNumber() - 1;
+        int middleIndex;
+        int comparison;
+        while (left <= right) {
+            middleIndex = left + (right - left) / 2;
+            comparison = targetKey.compareTo(node.getKey(middleIndex));
+            if (comparison == 0) return middleIndex;
+            else if (comparison < 0) right = middleIndex - 1;
+            else left = middleIndex + 1;
+        }
+        return left;
     }
 }
