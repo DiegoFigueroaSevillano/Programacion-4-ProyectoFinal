@@ -228,7 +228,7 @@ public class BTree<T extends Comparable<T>> {
      * @param predecessorNode        The predecessor node that will absorb the nextNode.
      * @param successorNode       The node to be absorbed into the predecessor node.
      */
-    private void mergeNodes(Node<T> parentNode, int positionToMerge, Node<T> predecessorNode, Node<T> successorNode) { // TODO: ADAPTED
+    private void mergeNodes(Node<T> parentNode, int positionToMerge, Node<T> predecessorNode, Node<T> successorNode) {
         int leftNodeKeysCount = predecessorNode.getKeysNumber();
         predecessorNode.setKey(leftNodeKeysCount, parentNode.getKey(positionToMerge));
         predecessorNode.incrementKeysNumber();
@@ -259,49 +259,6 @@ public class BTree<T extends Comparable<T>> {
 
         parentNode.decrementKeysNumber();
         if (parentNode.getKeysNumber() == 0){
-            decreaseBTree(parentNode, predecessorNode, successorNode);
-        } else if (fileHandlerEnabled) {
-            fileHandler.deleteNode(successorNode);
-            saveDataNode(parentNode, predecessorNode);
-        }
-    }
-    private void mergeKeyFromParentToPredecessor(Node<T> parentNode, int positionToMerge, Node<T> predecessorNode) {
-        predecessorNode.setKey(predecessorNode.getKeysNumber(), parentNode.getKey(positionToMerge));
-        predecessorNode.incrementKeysNumber();
-    }
-
-    private void mergeSuccessorKeysIntoPredecessor(Node<T> predecessorNode, Node<T> successorNode) {
-        int startPosition = predecessorNode.getKeysNumber();
-        for (int i = 0; i < successorNode.getKeysNumber(); i++) {
-            predecessorNode.setKey(startPosition++, successorNode.getKey(i));
-            predecessorNode.incrementKeysNumber();
-        }
-    }
-
-    private void mergeChildrenOfSuccessorIntoPredecessor(Node<T> predecessorNode, Node<T> successorNode) {
-        int mergePositionForChildren = predecessorNode.getKeysNumber();
-        for (int i = 0; i <= successorNode.getKeysNumber(); i++) {
-            predecessorNode.setChild(mergePositionForChildren, successorNode.getChild(i));
-            predecessorNode.setChildrenId(mergePositionForChildren, successorNode.getChildrenIds()[i]);
-            mergePositionForChildren++;
-        }
-    }
-
-    private void updateParentNodeKeysAndChildren(Node<T> parentNode, int positionToMerge) {
-        int parentNodeKeysCount = parentNode.getKeysNumber();
-        for (int i = positionToMerge; i < parentNodeKeysCount; i++) {
-            parentNode.setKey(i, parentNode.getKey(i + 1));
-        }
-
-        for (int i = positionToMerge + 1; i <= parentNodeKeysCount; i++) {
-            parentNode.setChild(i, parentNode.getChild(i + 1));
-            parentNode.setChildrenId(i, parentNode.getChildrenIds()[i + 1]);
-        }
-        parentNode.decrementKeysNumber();
-    }
-
-    private void handleAfterMergeActions(Node<T> parentNode, Node<T> predecessorNode, Node<T> successorNode) {
-        if (parentNode.getKeysNumber() == 0) {
             decreaseBTree(parentNode, predecessorNode, successorNode);
         } else if (fileHandlerEnabled) {
             fileHandler.deleteNode(successorNode);
@@ -379,12 +336,16 @@ public class BTree<T extends Comparable<T>> {
 
         node.decrementKeysNumber();
         leftChild.getKeys()[leftChild.getKeysNumber()] = dividerKey;
-        //leftChild.incrementKeysNumber();
         remove(leftChild, keyToRemove);
         mergeKeysAndChildren(node, leftChild, rightChild);
     }
 
-
+    /**
+     * This method merges the keys and children of two nodes into one node.
+     * @param node The parent node of the nodes to be merged.
+     * @param leftChild The left child node.
+     * @param rightChild The right child node.
+     */
     private void mergeKeysAndChildren(Node<T> node, Node<T> leftChild, Node<T> rightChild) {
         for (int i = 0, j = leftChild.getKeysNumber(); i < rightChild.getKeysNumber() + 1; i++, j++) {
             if (i < rightChild.getKeysNumber()) {
@@ -714,6 +675,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Checks if a redistribution from the left sibling is possible.
+     * @param node The parent node of the node to be split.
+     * @param position The position of the node to be split.
+     * @return True if a redistribution from the left sibling is possible, false otherwise.
+     */
     private boolean redistributionFromLeftSiblingIsAvailable(Node<T> node, int position) {
         if (position == 0) return false;
         Node<T> leftSibling = node.getChild(position - 1);
@@ -723,6 +690,12 @@ public class BTree<T extends Comparable<T>> {
         return leftSibling.getKeysNumber() > degree;
     }
 
+    /**
+     * Checks if a redistribution from the right sibling is possible.
+     * @param node The parent node of the node to be split.
+     * @param position The position of the node to be split.
+     * @return True if a redistribution from the right sibling is possible, false otherwise.
+     */
     private boolean redistributionFromRightSiblingIsAvailable(Node<T> node, int position) {
         if (position == node.getKeysNumber()) return false;
         Node<T> rightSibling = node.getChild(position + 1);
@@ -732,6 +705,12 @@ public class BTree<T extends Comparable<T>> {
         return rightSibling.getKeysNumber() > degree;
     }
 
+    /**
+     * This method decreases the BTree when the root node is empty.
+     * @param parent The parent node of the node to be split.
+     * @param leftChild The node to be split.
+     * @param rightChild The new node containing keys from the node being split.
+     */
     private void decreaseBTree(Node<T> parent, Node<T> leftChild, Node<T> rightChild) {
         root = parent.getChild(0);
         if (fileHandlerEnabled) {
@@ -743,6 +722,12 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * This method loads the node from the fileHandler.
+     * @param index The index of the child.
+     * @param node The node to be loaded.
+     * @return The node loaded.
+     */
     private Node<T> loadNodeFromFiles(int index, Node<T> node) {
         Node<T> newNode = fileHandler.readNodeById(node.getIdChild(index));
         node.setChild(index, newNode);

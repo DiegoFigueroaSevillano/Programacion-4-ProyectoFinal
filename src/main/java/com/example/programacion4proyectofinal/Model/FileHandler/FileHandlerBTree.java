@@ -7,10 +7,11 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.DataOutput;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Arrays;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * This class implements the interface IFileHandlerBTree and is responsible for saving, reading and deleting nodes.
@@ -98,6 +99,10 @@ public class FileHandlerBTree implements IFileHandlerBTree<Passenger> {
         return PATH_USERS + "/" + fileName + ".json";
     }
 
+    /**
+     * This method deletes the files of the nodes that are not root and have no children.
+     * @param node Node to check. It must be a node of the BTree.
+     */
     @Override
     public void deleteNonRootFilesIfChildrenNull(Node<Passenger> node) {
         String[] childrenIds = node.getChildrenIds();
