@@ -53,13 +53,25 @@ public class BTree<T extends Comparable<T>> {
      *
      * @param key The key to insert.
      */
-    public void insert(T key) {
+    private void insert(T key) {
         Node<T> currentNode = root;
         if (currentNode.isFull()) {
             handleFullRoot(key, currentNode);
         } else {
             insertNonFull(currentNode, key);
         }
+    }
+
+    /**
+     * Inserts a new key into a node which is not full.
+     * @param key The key to insert.
+     * @return True if the key was inserted, false otherwise.
+     */
+    public boolean insertKey(T key) {
+        Node<T> isExist = search(root, key);
+        if (isExist != null) return false;
+        insert(key);
+        return true;
     }
 
     /**
@@ -167,7 +179,7 @@ public class BTree<T extends Comparable<T>> {
         Node<T> targetNode = currentNode.getChild(keyPosition);
 
         if (fileHandlerEnabled && targetNode == null) targetNode = loadNodeFromFiles(keyPosition, currentNode);
-        if (targetNode.getKeysNumber() >= this.degree) remove(targetNode, keyToRemove);
+        if (targetNode.getKeysNumber() >= degree) remove(targetNode, keyToRemove);
         else {
             borrowOrMergeNodes(currentNode, keyPosition, targetNode, keyToRemove);
             remove(targetNode, keyToRemove);
@@ -336,8 +348,9 @@ public class BTree<T extends Comparable<T>> {
 
         node.decrementKeysNumber();
         leftChild.getKeys()[leftChild.getKeysNumber()] = dividerKey;
-        remove(leftChild, keyToRemove);
+        leftChild.incrementKeysNumber();
         mergeKeysAndChildren(node, leftChild, rightChild);
+        //remove(leftChild, keyToRemove);
     }
 
     /**
@@ -431,8 +444,7 @@ public class BTree<T extends Comparable<T>> {
             return null;
         } else {
             if (fileHandlerEnabled && node.getChildren()[keyIndex] == null) {
-                node.getChildren()[keyIndex] = fileHandler.readNodeById(node.getChildrenIds()[keyIndex]);
-                node.setChildrenId(keyIndex, node.getChildren()[keyIndex].getId());
+                node.getChildren()[keyIndex] = loadNodeFromFiles(keyIndex, node);
             }
             return search(node.getChildren()[keyIndex], key);
         }
@@ -452,8 +464,7 @@ public class BTree<T extends Comparable<T>> {
         currentNode.setId(temp);
         newNode.setLeaf(false);
         newNode.setKeysNumber(0);
-        newNode.getChildren()[0] = currentNode;
-        newNode.setChildrenId(0, currentNode.getId());
+        newNode.setChild(0, currentNode);
         split(newNode, 0, currentNode);
         insertNonFull(newNode, key);
     }
@@ -476,11 +487,12 @@ public class BTree<T extends Comparable<T>> {
      * @param keyToInsert The key to be inserted into the leaf node.
      */
     private void insertIntoLeafNode(Node<T> node, T keyToInsert) {
-        int keyIndex;
-        for (keyIndex = node.getKeysNumber() - 1; keyIndex >= 0 && keyToInsert.compareTo(node.getKeys()[keyIndex]) < 0; keyIndex--) {
-            node.getKeys()[keyIndex + 1] = node.getKeys()[keyIndex];
+        int keyIndex = node.getKeysNumber() - 1;
+        while (keyIndex >= 0 && keyToInsert.compareTo(node.getKey(keyIndex)) < 0) {
+            node.setKey(keyIndex + 1, node.getKey(keyIndex));
+            keyIndex--;
         }
-        node.getKeys()[keyIndex + 1] = keyToInsert;
+        node.setKey(keyIndex + 1, keyToInsert);
         node.incrementKeysNumber();
         if (fileHandlerEnabled) saveDataNode(node);
     }
@@ -511,7 +523,7 @@ public class BTree<T extends Comparable<T>> {
      */
     private void shiftKeysRight(Node<T> node, int fromPos) {
         for (int shitKeyIndex = node.getKeysNumber() - 1; shitKeyIndex >= fromPos; shitKeyIndex--) {
-            node.getKeys()[shitKeyIndex + 1] = node.getKeys()[shitKeyIndex];
+            node.setKey(shitKeyIndex + 1, node.getKey(shitKeyIndex));
         }
     }
 
@@ -522,17 +534,14 @@ public class BTree<T extends Comparable<T>> {
      * @param key  The key to be inserted.
      */
     private void insertIntoInternalNode(Node<T> node, T key) {
-        T[] keys = node.getKeys();
-        int positionFound = findInsertPosition(keys, node.getKeysNumber(), key);
-        Node<T> tmp = node.getChildren()[positionFound];
+        int positionFound = node.findKeyPositionInNode(node, key);
+        Node<T> tmp = node.getChild(positionFound);
         if (fileHandlerEnabled && tmp == null) {
-            tmp = fileHandler.readNodeById(node.getChildrenIds()[positionFound]);
-            node.getChildren()[positionFound] = tmp;
-            node.setChildrenId(positionFound, tmp.getId());
+            tmp = loadNodeFromFiles(positionFound, node);
         }
         if (tmp.isFull()) {
             split(node, positionFound, tmp);
-            if (key.compareTo(node.getKeys()[positionFound]) > 0) {
+            if (key.compareTo(node.getKey(positionFound)) > 0) {
                 positionFound++;
             }
         }
@@ -550,16 +559,15 @@ public class BTree<T extends Comparable<T>> {
         Node<T> newNode = createNewNodeFromSplit(nodeToSplit);
 
         shiftChildrenRight(parent, positionToSplit);
-        parent.getChildren()[positionToSplit + 1] = newNode;
-        parent.setChildrenId(positionToSplit + 1, newNode.getId());
+        parent.setChild(positionToSplit + 1, newNode);
 
         shiftKeysRight(parent, positionToSplit);
-        parent.getKeys()[positionToSplit] = nodeToSplit.getKeys()[degree - 1];
+        parent.setKey(positionToSplit, nodeToSplit.getKey(degree - 1));
 
         parent.setKeysNumber(parent.getKeysNumber() + 1);
 
         if (fileHandlerEnabled) {
-            fileHandlerOperations(parent, nodeToSplit, newNode);
+            saveDataNode(parent, nodeToSplit, newNode);
         }
     }
 
@@ -575,13 +583,12 @@ public class BTree<T extends Comparable<T>> {
         newNode.setKeysNumber(degree - 1);
 
         for (int keyIndex = 0; keyIndex < degree - 1; keyIndex++) {
-            newNode.getKeys()[keyIndex] = nodeToSplit.getKeys()[keyIndex + degree];
+            newNode.setKey(keyIndex, nodeToSplit.getKey(keyIndex + degree));
         }
 
         if (!nodeToSplit.isLeaf()) {
             for (int childIndex = 0; childIndex < degree; childIndex++) {
-                newNode.getChildren()[childIndex] = nodeToSplit.getChildren()[childIndex + degree];
-                newNode.setChildrenId(childIndex, nodeToSplit.getChildren()[childIndex + degree].getId());
+                newNode.setChild(childIndex, nodeToSplit.getChild(childIndex + degree));
             }
         }
 
@@ -597,8 +604,7 @@ public class BTree<T extends Comparable<T>> {
      */
     private void shiftChildrenRight(Node<T> node, int fromPosition) {
         for (int childIndex = node.getKeysNumber(); childIndex >= fromPosition + 1; childIndex--) {
-            node.getChildren()[childIndex + 1] = node.getChildren()[childIndex];
-            node.setChildrenId(childIndex + 1, node.getChildren()[childIndex].getId());
+            node.setChild(childIndex + 1, node.getChild(childIndex));
         }
     }
 
@@ -656,26 +662,6 @@ public class BTree<T extends Comparable<T>> {
     }
 
     /**
-     * This method sets the fileHandler of the BTree when that is split.
-     * @param parent The parent node of the node to be split.
-     * @param child The node to be split.
-     * @param newChild The new node containing keys from the node being split.
-     */
-    private void fileHandlerOperations(Node<T> parent, Node<T> child, Node<T> newChild) {
-        if (child.getKeysNumber() == 0) {
-            fileHandler.deleteNode(child);
-            fileHandler.deleteNode(newChild);
-            fileHandler.saveNode(parent);
-        } else if (newChild.getKeysNumber() == 0) {
-            fileHandler.deleteNode(child);
-            fileHandler.deleteNode(newChild);
-            fileHandler.saveNode(parent);
-        } else {
-            saveDataNode(parent, child, newChild);
-        }
-    }
-
-    /**
      * Checks if a redistribution from the left sibling is possible.
      * @param node The parent node of the node to be split.
      * @param position The position of the node to be split.
@@ -687,7 +673,7 @@ public class BTree<T extends Comparable<T>> {
         if (fileHandlerEnabled && leftSibling == null) {
             leftSibling = loadNodeFromFiles(position - 1, node);
         }
-        return leftSibling.getKeysNumber() > degree;
+        return leftSibling.getKeysNumber() >= degree;
     }
 
     /**
@@ -702,7 +688,7 @@ public class BTree<T extends Comparable<T>> {
         if (fileHandlerEnabled && rightSibling == null) {
             rightSibling = loadNodeFromFiles(position + 1, node);
         }
-        return rightSibling.getKeysNumber() > degree;
+        return rightSibling.getKeysNumber() >= degree;
     }
 
     /**

@@ -5,7 +5,7 @@ public class Main {
         // Inserting data
         long startTime = System.nanoTime();
         for (int i = 1; i <= 1000000; i++) {
-            bTree.insert(i);
+            bTree.insertKey(i);
         }
         long endTime = System.nanoTime();
         long duration = endTime - startTime;

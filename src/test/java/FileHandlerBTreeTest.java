@@ -14,7 +14,7 @@ public class FileHandlerBTreeTest {
 
         long startTime = System.nanoTime();
         for (int i = 1; i <= 10000; i++) {
-            bTree.insert(createRandomPassengers());
+            bTree.insertKey(createRandomPassengers());
         }
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
@@ -52,7 +52,7 @@ public class FileHandlerBTreeTest {
         long duration = endTime - startTime;
 
         double durationInSeconds = (double)duration / 1_000_000_000.0;
-        System.out.printf("Time execution (Search): %.4f seconds%n", durationInSeconds);
+        System.out.printf("Time execution (Remove): %.4f seconds%n", durationInSeconds);
     }
 
     @Test
