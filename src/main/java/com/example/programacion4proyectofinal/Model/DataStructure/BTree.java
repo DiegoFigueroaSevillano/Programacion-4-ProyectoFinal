@@ -1,6 +1,16 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
 import com.example.programacion4proyectofinal.Model.FileHandler.IFileHandlerBTree;
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * The BTree class represents a B-Tree data structure.
@@ -743,6 +753,65 @@ public class BTree<T extends Comparable<T>> {
         for (Node<T> node : nodes) {
             if (node.getKeysNumber() == 0) fileHandler.deleteNode(node);
             else fileHandler.saveNode(node);
+        }
+    }
+
+    public void createAndFillJson(HashMap<Integer, Passenger> hashMap){
+        createAndFillJsonBFS(root, hashMap);
+    }
+
+    private void createAndFillJsonBFS(Node<T> root, HashMap<Integer, Passenger> hashMap) {
+        Queue<Node<T>> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            Node<T> node = queue.poll();
+
+            if (node == null) {
+                continue;
+            }
+
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode nodeObject = mapper.createObjectNode();
+
+            // Set node properties
+            nodeObject.put("id", node.getId());
+            nodeObject.put("keysNumber", node.getKeysNumber());
+            nodeObject.put("isLeaf", node.isLeaf());
+            nodeObject.put("order", node.getDegree());
+
+            // Set keys
+            ArrayNode keysArray = mapper.createArrayNode();
+            for (int i = 0; i < node.getKeysNumber(); i++) {
+                Passenger passenger = hashMap.get(node.getKeys()[i]);
+                ObjectNode passengerObject = mapper.createObjectNode();
+                passengerObject.put("id", passenger.getId());
+                passengerObject.put("name", passenger.getName());
+                passengerObject.put("lastName", passenger.getLastName());
+                passengerObject.put("country", passenger.getCountry());
+                passengerObject.put("category", passenger.getCategory().toString());
+                keysArray.add(passengerObject);
+            }
+            nodeObject.set("keys", keysArray);
+
+            // Set childrenIds
+            ArrayNode childrenIdsArray = mapper.createArrayNode();
+            for (int i = 0; i <= node.getKeysNumber(); i++) {
+                if (node.getChildren()[i] != null) {
+                    childrenIdsArray.add(node.getChildren()[i].getId());
+                    queue.add(node.getChildren()[i]);
+                } else {
+                    childrenIdsArray.addNull();
+                }
+            }
+            nodeObject.set("childrenIds", childrenIdsArray);
+
+            // Write to file
+            try {
+                mapper.writeValue(new File("src/main/resources/com/example/programacion4proyectofinal/JSON/Users/" + node.getId() + ".json"), nodeObject);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

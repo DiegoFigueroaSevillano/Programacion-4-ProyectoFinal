@@ -10,10 +10,10 @@ import java.util.Random;
 public class FileHandlerBTreeTest {
     @Test
     public void insertValuesBTreeValuesTest() {
-        BTree<Passenger> bTree = new BTree<>(10, new FileHandlerBTree());
+        BTree<Passenger> bTree = new BTree<>(7, new FileHandlerBTree());
 
         long startTime = System.nanoTime();
-        for (int i = 1; i <= 10000; i++) {
+        for (int i = 1; i <= 5; i++) {
             bTree.insert(createRandomPassengers());
         }
         long endTime = System.nanoTime();

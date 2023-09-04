@@ -20,7 +20,7 @@ public class FileHandlerBTree implements IFileHandlerBTree<Passenger> {
     /**
      * The path where the nodes will be saved.
      */
-    private static final String PATH_USERS = "src/main/resources/com/example/programacion4proyectofinal/Users";
+    private static final String PATH_USERS = "src/main/resources/com/example/programacion4proyectofinal/JSON/Users";
     private final JsonFactory jsonFactory;
 
     /**

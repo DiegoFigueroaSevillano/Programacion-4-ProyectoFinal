@@ -1,10 +1,10 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 public class Main {
     public static void main(String[] args) {
-        BTree<Integer> bTree = new BTree<>(3);
+        BTree<Integer> bTree = new BTree<>(5);
         // Inserting data
         long startTime = System.nanoTime();
-        for (int i = 1; i <= 1000000; i++) {
+        for (int i = 1; i <= 50; i++) {
             bTree.insert(i);
         }
         long endTime = System.nanoTime();
