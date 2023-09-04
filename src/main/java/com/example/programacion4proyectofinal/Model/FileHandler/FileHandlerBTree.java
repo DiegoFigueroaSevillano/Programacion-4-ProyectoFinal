@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This class implements the interface IFileHandlerBTree and is responsible for saving, reading and deleting nodes.
@@ -94,5 +96,26 @@ public class FileHandlerBTree implements IFileHandlerBTree<Passenger> {
      */
     private String getPathName(String fileName) {
         return PATH_USERS + "/" + fileName + ".json";
+    }
+
+    @Override
+    public void deleteNonRootFilesIfChildrenNull(Node<Passenger> node) {
+        String[] childrenIds = node.getChildrenIds();
+        boolean allChildrenNull = Arrays.stream(childrenIds).allMatch(Objects::isNull);
+
+        if (allChildrenNull) {
+            File folder = new File(PATH_USERS);
+            File[] listOfFiles = folder.listFiles();
+
+            if (listOfFiles != null) {
+                for (File file : listOfFiles) {
+                    if (!"root.json".equals(file.getName())) {
+                        if (!file.delete()) {
+                            System.out.println("Failed to delete " + file.getName());
+                        }
+                    }
+                }
+            }
+        }
     }
 }

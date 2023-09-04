@@ -97,14 +97,14 @@ public class Node<T extends Comparable<T>> {
      * Decrements the number of keys in the node.
      */
     public void decrementKeysNumber() {
-        keysNumber -= 1;
+        keysNumber--;
     }
 
     /**
      * Increments the number of keys in the node.
      */
     public void incrementKeysNumber() {
-        keysNumber += 1;
+        keysNumber++;
     }
 
     /**

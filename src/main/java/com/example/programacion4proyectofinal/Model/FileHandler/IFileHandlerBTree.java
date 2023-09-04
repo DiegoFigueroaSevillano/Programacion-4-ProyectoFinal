@@ -28,4 +28,5 @@ public interface IFileHandlerBTree<T extends Comparable<T>> {
      * @return The node found.
      */
     Node<T> readNodeById(String id);
+    void deleteNonRootFilesIfChildrenNull(Node<T> node);
 }
