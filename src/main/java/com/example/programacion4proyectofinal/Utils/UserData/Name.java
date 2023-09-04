@@ -1,5 +1,8 @@
 package com.example.programacion4proyectofinal.Utils.UserData;
 
+/**
+ * Enum class with a name of a passenger
+ */
 public enum Name {
     MARIA, JOSE, ANA, CARLOS, LUCIA, JUAN, LAURA, MIGUEL, SOFIA, DIEGO,
     PAULA, PEDRO, CAMILA, ANDRES, VALERIA, ALEJANDRO, NATALIA, FRANCISCO, ISABELLA, RAFAEL,

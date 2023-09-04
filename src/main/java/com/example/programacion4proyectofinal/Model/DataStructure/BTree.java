@@ -756,10 +756,21 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * Iterative method who charge all data of a node into their respective json file
+     *
+     * @param hashMap the list of data
+     */
     public void createAndFillJson(HashMap<Integer, Passenger> hashMap){
         createAndFillJsonBFS(root, hashMap);
     }
 
+    /**
+     * Iterative method who takes a node and charge it data into their respective json file
+     *
+     * @param root the node
+     * @param hashMap the hashmap with the data
+     */
     private void createAndFillJsonBFS(Node<T> root, HashMap<Integer, Passenger> hashMap) {
         Queue<Node<T>> queue = new LinkedList<>();
         queue.add(root);
@@ -774,13 +785,11 @@ public class BTree<T extends Comparable<T>> {
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode nodeObject = mapper.createObjectNode();
 
-            // Set node properties
             nodeObject.put("id", node.getId());
             nodeObject.put("keysNumber", node.getKeysNumber());
             nodeObject.put("isLeaf", node.isLeaf());
             nodeObject.put("order", node.getDegree());
 
-            // Set keys
             ArrayNode keysArray = mapper.createArrayNode();
             for (int i = 0; i < node.getKeysNumber(); i++) {
                 Passenger passenger = hashMap.get(node.getKeys()[i]);
@@ -794,7 +803,6 @@ public class BTree<T extends Comparable<T>> {
             }
             nodeObject.set("keys", keysArray);
 
-            // Set childrenIds
             ArrayNode childrenIdsArray = mapper.createArrayNode();
             for (int i = 0; i <= node.getKeysNumber(); i++) {
                 if (node.getChildren()[i] != null) {
@@ -806,7 +814,6 @@ public class BTree<T extends Comparable<T>> {
             }
             nodeObject.set("childrenIds", childrenIdsArray);
 
-            // Write to file
             try {
                 mapper.writeValue(new File("src/main/resources/com/example/programacion4proyectofinal/JSON/Users/" + node.getId() + ".json"), nodeObject);
             } catch (IOException e) {
