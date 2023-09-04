@@ -762,6 +762,7 @@ public class BTree<T extends Comparable<T>> {
      * @param hashMap the list of data
      */
     public void createAndFillJson(HashMap<Integer, Passenger> hashMap){
+        this.root.setId("root");
         createAndFillJsonBFS(root, hashMap);
     }
 
