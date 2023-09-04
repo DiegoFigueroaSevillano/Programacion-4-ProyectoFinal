@@ -1,8 +1,9 @@
 package com.example.programacion4proyectofinal.StagesAndLogicTest;
 
+import com.example.programacion4proyectofinal.Controller.ChangeDispenserController;
 import com.example.programacion4proyectofinal.Controller.LogInController;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
-import com.example.programacion4proyectofinal.View.Pages.ChangeDispenser;
+import com.example.programacion4proyectofinal.View.Pages.ChangeDispenserPage;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -30,10 +31,17 @@ public class ChangeDispenserViewTest extends Application {
     public void start(Stage stage) throws Exception {
         Group root = new Group();
 
-        ChangeDispenser changeDispenser = new ChangeDispenser(root, stage);
+        ChangeDispenserController logIn = new ChangeDispenserController(root, stage);
 
-        Scene scene = changeDispenser.getChangeDispenserScene();
-        stage.setScene(scene);
+        Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
+
+        Scene currentScene = logIn.getChangeDispenserView().getChangeDispenserScene();
+
+        ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
+        changePropertiesStage.changeSizeStage(1000, 1000, stage);
+        stage.setResizable(true);
+        stage.setScene(currentScene);
+        stage.getIcons().add(iconApp);
         stage.show();
     }
 }
