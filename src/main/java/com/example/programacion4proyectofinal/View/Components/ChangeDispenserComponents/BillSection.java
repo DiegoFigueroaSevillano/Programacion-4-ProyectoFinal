@@ -19,6 +19,9 @@ import javafx.scene.paint.Color;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
 
+/**
+ *  * This class represents a section with money values and images
+ */
 public class BillSection {
 
     private VBox container;
@@ -29,6 +32,14 @@ public class BillSection {
     private BackgroundGenerator backgroundGenerator;
 
 
+    /**
+     * Constructor method that initialize the container
+     *
+     * @param firstImagePath of the first bill
+     * @param secondImagePath of the second bill
+     * @param thirdImagePath of the third bill
+     * @param fourthImagePath of the fourth bill
+     */
     public BillSection(String firstImagePath, String secondImagePath, String thirdImagePath,
                        String fourthImagePath){
         this.backgroundGenerator = new BackgroundGenerator();
@@ -40,42 +51,55 @@ public class BillSection {
         createContainer();
     }
 
+    /**
+     * Method that return us the first label of first data
+     *
+     * @return the first label
+     */
     public Label getFirstLabel() {
         return firstLabel;
     }
 
+    /**
+     * Method that return us the second label of second data
+     *
+     * @return the second label
+     */
     public Label getSecondLabel() {
         return secondLabel;
     }
 
+    /**
+     * Method that return us the third label of third data
+     *
+     * @return the third label
+     */
     public Label getThirdLabel() {
         return thirdLabel;
     }
 
+    /**
+     * Method that return us the fourth label of fourth data
+     *
+     * @return the fourth label
+     */
     public Label getFourthLabel() {
         return fourthLabel;
     }
 
+    /**
+     * Method that return us the container
+     *
+     * @return the container of the data
+     */
     public VBox getContainer() {
         return container;
     }
 
-    public Button getFirstButton() {
-        return firstButton;
-    }
 
-    public Button getSecondButton() {
-        return secondButton;
-    }
-
-    public Button getThirdButton() {
-        return thirdButton;
-    }
-
-    public Button getFourthButton() {
-        return fourthButton;
-    }
-
+    /**
+     * This method create the container with its components
+     */
     public void createContainer(){
         this.container = new VBox(10);
         this.container.setPadding(new Insets(30));
@@ -89,6 +113,11 @@ public class BillSection {
         this.container.getChildren().addAll(firstSection, secondSection, thirdSection, fourthSection);
     }
 
+    /**
+     * Method that creates the first section
+     *
+     * @param container the vertical box container
+     */
     private void initializeFirstSection(VBox container){
         this.firstSection = new HBox(10);
         this.firstSection.prefWidthProperty().bind(container.widthProperty());
@@ -113,6 +142,11 @@ public class BillSection {
         this.firstSection.getChildren().addAll(this.firstButton, this.firstLabel);
     }
 
+    /**
+     * Method that set the action of the first button
+     * This button increment the respective label in 1 with the left click of the mouse
+     * This button decrement the respective label in 1 with the right click of the mouse
+     */
     private void firstButtonAction(){
         this.firstButton.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY){
@@ -128,6 +162,11 @@ public class BillSection {
         });
     }
 
+    /**
+     * Method that set the action of the second button
+     * This button increment the respective label in 1 with the left click of the mouse
+     * This button decrement the respective label in 1 with the right click of the mouse
+     */
     private void secondButtonAction(){
         this.secondButton.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY){
@@ -143,6 +182,11 @@ public class BillSection {
         });
     }
 
+    /**
+     * Method that set the action of the third button
+     * This button increment the respective label in 1 with the left click of the mouse
+     * This button decrement the respective label in 1 with the right click of the mouse
+     */
     private void thirdButtonAction(){
         this.thirdButton.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY){
@@ -158,6 +202,11 @@ public class BillSection {
         });
     }
 
+    /**
+     * Method that set the action of the fourth button
+     * This button increment the respective label in 1 with the left click of the mouse
+     * This button decrement the respective label in 1 with the right click of the mouse
+     */
     private void fourthButtonAction(){
         this.fourthButton.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY){
@@ -173,6 +222,11 @@ public class BillSection {
         });
     }
 
+    /**
+     * Method that creates the second section
+     *
+     * @param container the vertical box container
+     */
     private void initializeSecondSection(VBox container){
         this.secondSection = new HBox(10);
         this.secondSection.prefWidthProperty().bind(container.widthProperty());
@@ -197,6 +251,11 @@ public class BillSection {
         this.secondSection.getChildren().addAll(this.secondButton, this.secondLabel);
     }
 
+    /**
+     * Method that creates the third section
+     *
+     * @param container the vertical box container
+     */
     private void initializeThirdSection(VBox container){
         this.thirdSection = new HBox(10);
         this.thirdSection.prefWidthProperty().bind(container.widthProperty());
@@ -221,6 +280,11 @@ public class BillSection {
         this.thirdSection.getChildren().addAll(this.thirdButton, this.thirdLabel);
     }
 
+    /**
+     * Method that creates the fourth section
+     *
+     * @param container the vertical box container
+     */
     private void initializeFourthSection(VBox container){
         this.fourthSection = new HBox(10);
         this.fourthSection.prefWidthProperty().bind(container.widthProperty());

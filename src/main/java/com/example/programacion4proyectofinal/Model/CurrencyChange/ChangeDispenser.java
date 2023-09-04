@@ -102,6 +102,12 @@ public class ChangeDispenser {
         auxChangeHeap = new MaxHeap<>(9);
     }
 
+    /**
+     * Method that sums the coins
+     *
+     * @param coinStock the list of coins with her quantity
+     * @return the total money
+     */
     public int sumTheArray(CoinStock[] coinStock){
         int money = 0;
         for (CoinStock stock : coinStock) {

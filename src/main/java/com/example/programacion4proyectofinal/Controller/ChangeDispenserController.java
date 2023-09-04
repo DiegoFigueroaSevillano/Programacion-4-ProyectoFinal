@@ -7,16 +7,22 @@ import com.example.programacion4proyectofinal.View.Pages.ChangeDispenserPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
+/**
+ * Controller class for the Change Dispenser view.
+ */
 public class ChangeDispenserController {
     ChangeDispenserPage changeDispenserView;
     ChangeDispenser changeDispenserModel;
     boolean isPressed;
 
+    /**
+     * Constructor for the change dispenser controller.
+     *
+     * @param group  The root Group node.
+     * @param stage The primary Stage.
+     */
     public ChangeDispenserController(Group group, Stage stage){
         this.changeDispenserView = new ChangeDispenserPage(group, stage);
         this.changeDispenserModel = new ChangeDispenser();
@@ -24,14 +30,20 @@ public class ChangeDispenserController {
         addActionToActionButton();
     }
 
+    /**
+     * Method that return us the view
+     *
+     * @return the view
+     */
     public ChangeDispenserPage getChangeDispenserView() {
         return changeDispenserView;
     }
 
-    public ChangeDispenser getChangeDispenserModel() {
-        return changeDispenserModel;
-    }
-
+    /**
+     * Method that save the money entered by the operator
+     *
+     * @return the array of coins entered by the operator
+     */
     public CoinStock[] saveTheMoney(){
         CoinStock[] coinStock = new CoinStock[]{
                 new CoinStock(Coin.TWO_HUNDRED_BS, Integer.parseInt(changeDispenserView.getLeftSection().getFirstLabel().getText())),
@@ -47,12 +59,19 @@ public class ChangeDispenserController {
         return coinStock;
     }
 
+    /**
+     * Method that return the change of the client
+     * Reset the values of the labels
+     */
     public void returnChange(){
         CoinStock[] coinStock = changeDispenserModel.getTheChange(changeDispenserModel.sumTheArray(saveTheMoney()), 300);  //TODO: LA VISTA AL MOMENTO DE COMPARA EL TICKET DEBE MANDAR A ESTA EL COSTO DEL BOLETO
         resetLabels();
         chargeTheChange(coinStock);
     }
 
+    /**
+     * Method that reset the values of the labels
+     */
     public void resetLabels(){
         changeDispenserView.getLeftSection().getFirstLabel().setText("0");
         changeDispenserView.getLeftSection().getSecondLabel().setText("0");
@@ -64,6 +83,11 @@ public class ChangeDispenserController {
         changeDispenserView.getRightSection().getFourthLabel().setText("0");
     }
 
+    /**
+     * Method that show the new values into her coins labels
+     *
+     * @param coinStock the change of the user
+     */
     public void chargeTheChange(CoinStock[] coinStock){
         changeDispenserView.getLeftSection().getFirstLabel().setText(String.valueOf(coinStock[0].getQuantity()));
         changeDispenserView.getLeftSection().getSecondLabel().setText(String.valueOf(coinStock[1].getQuantity()));
@@ -75,6 +99,11 @@ public class ChangeDispenserController {
         changeDispenserView.getRightSection().getFourthLabel().setText(String.valueOf(coinStock[7].getQuantity()));
     }
 
+    /**
+     * Method that set the action of the action button
+     * It return the change with the first click
+     * It reset all with the second click
+     */
     public void addActionToActionButton(){
         changeDispenserView.getActionButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
