@@ -158,13 +158,11 @@ public class FileHandlerBTree implements IFileHandlerBTree<Passenger> {
             ObjectMapper mapper = new ObjectMapper();
             ObjectNode nodeObject = mapper.createObjectNode();
 
-            // Set node properties
             nodeObject.put("id", node.getId());
             nodeObject.put("keysNumber", node.getKeysNumber());
             nodeObject.put("isLeaf", node.isLeaf());
             nodeObject.put("order", node.getDegree());
 
-            // Set keys
             ArrayNode keysArray = mapper.createArrayNode();
             for (int i = 0; i < node.getKeysNumber(); i++) {
                 Passenger passenger = hashMap.get(node.getKeys()[i]);
@@ -178,9 +176,8 @@ public class FileHandlerBTree implements IFileHandlerBTree<Passenger> {
             }
             nodeObject.set("keys", keysArray);
 
-            // Set childrenIds
             ArrayNode childrenIdsArray = mapper.createArrayNode();
-            for (int i = 0; i <= node.getKeysNumber(); i++) {
+            for (int i = 0; i < node.getDegree() * 2; i++) {
                 if (node.getChildren()[i] != null) {
                     childrenIdsArray.add(node.getChildren()[i].getId());
                     queue.add(node.getChildren()[i]);
@@ -190,7 +187,6 @@ public class FileHandlerBTree implements IFileHandlerBTree<Passenger> {
             }
             nodeObject.set("childrenIds", childrenIdsArray);
 
-            // Write to file
             try {
                 mapper.writeValue(
                         new File("src/main/resources/com/example/programacion4proyectofinal/JSON/Users/"
