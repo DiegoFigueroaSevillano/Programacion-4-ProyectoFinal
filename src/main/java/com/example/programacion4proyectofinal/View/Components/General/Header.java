@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.View.Components.HomeComponents;
+package com.example.programacion4proyectofinal.View.Components.General;
 
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.Home;
@@ -79,17 +79,6 @@ public class Header {
     private void createHomeButton() {
         homeButton = new Button("HOME");
         generatorMenuOptions(homeButton, "home");
-        homeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("home")) {
-                    Group root = new Group();
-                    Home home = new Home(root, stage);
-                    Scene homeScene = home.getHomeScene();
-                    stage.setScene(homeScene);
-                }
-            }
-        });
     }
 
     /**
@@ -128,5 +117,13 @@ public class Header {
      */
     public HBox getHeader() {
         return header;
+    }
+
+    public Button getHomeButton() {
+        return homeButton;
+    }
+
+    public Button getPassengersButton() {
+        return passengersButton;
     }
 }

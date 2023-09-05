@@ -1,9 +1,11 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
+import com.example.programacion4proyectofinal.Controller.HeaderController;
 import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.PlacesListDB;
+import com.example.programacion4proyectofinal.View.Components.General.Header;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +33,7 @@ public class Home {
     private VBox home, ticketForm, passenger;
     private HBox places, options, dates, quantityPassengers;
     private Stage stage;
-    private Header header;
+    private HeaderController headerController;
     private StackPane ticketSection;
     private ChangePropertiesStage changePropertiesStage;
     private BackgroundGenerator backgroundGenerator;
@@ -53,7 +55,7 @@ public class Home {
         this.changePropertiesStage.changeToMaximizeSizeStage(950, 900, this.stage);
         this.stage.setTitle("HOME - AEROLAB");
         this.homeScene = new Scene(root);
-        this.header = new Header(stage, "home");
+        this.headerController = new HeaderController(root, stage, "home");
         this.generateFont = new GenerateFont();
         createHome(homeScene);
         root.getChildren().add(home);
@@ -72,7 +74,7 @@ public class Home {
         home.setAlignment(Pos.CENTER);
         home.layoutXProperty().bind(scene.widthProperty().subtract(home.widthProperty()).divide(2));
         home.layoutYProperty().bind(scene.heightProperty().subtract(home.heightProperty()).divide(2));
-        home.getChildren().addAll(header.getHeader(), ticketSection);
+        home.getChildren().addAll(headerController.getHeader().getHeader(), ticketSection);
     }
 
     /**
