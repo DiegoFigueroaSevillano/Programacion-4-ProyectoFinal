@@ -14,14 +14,14 @@ public class BTreeTest {
 
     @Test
     public void insertTest() {
-        bTree.insert(10);
-        bTree.insert(20);
-        bTree.insert(30);
-        bTree.insert(40);
-        bTree.insert(50);
-        bTree.insert(60);
-        bTree.insert(70);
-        bTree.insert(80);
+        bTree.insertKey(10);
+        bTree.insertKey(20);
+        bTree.insertKey(30);
+        bTree.insertKey(40);
+        bTree.insertKey(50);
+        bTree.insertKey(60);
+        bTree.insertKey(70);
+        bTree.insertKey(80);
 
         Node<Integer> value = bTree.search(bTree.getRoot(), 10);
 
@@ -32,14 +32,14 @@ public class BTreeTest {
 
     @Test
     public void removeTest() {
-        bTree.insert(10);
-        bTree.insert(20);
-        bTree.insert(30);
-        bTree.insert(40);
-        bTree.insert(50);
-        bTree.insert(60);
-        bTree.insert(70);
-        bTree.insert(80);
+        bTree.insertKey(10);
+        bTree.insertKey(20);
+        bTree.insertKey(30);
+        bTree.insertKey(40);
+        bTree.insertKey(50);
+        bTree.insertKey(60);
+        bTree.insertKey(70);
+        bTree.insertKey(80);
         System.out.println("Before remove");
         bTree.printBTree();
 
@@ -50,14 +50,14 @@ public class BTreeTest {
 
     @Test
     public void updateTest() {
-        bTree.insert(10);
-        bTree.insert(20);
-        bTree.insert(30);
-        bTree.insert(40);
-        bTree.insert(50);
-        bTree.insert(60);
-        bTree.insert(70);
-        bTree.insert(80);
+        bTree.insertKey(10);
+        bTree.insertKey(20);
+        bTree.insertKey(30);
+        bTree.insertKey(40);
+        bTree.insertKey(50);
+        bTree.insertKey(60);
+        bTree.insertKey(70);
+        bTree.insertKey(80);
         System.out.println("Before update");
         bTree.printBTree();
 
@@ -68,14 +68,14 @@ public class BTreeTest {
 
     @Test
     public void printBTreeTest() {
-        bTree.insert(10);
-        bTree.insert(20);
-        bTree.insert(30);
-        bTree.insert(40);
-        bTree.insert(50);
-        bTree.insert(60);
-        bTree.insert(70);
-        bTree.insert(80);
+        bTree.insertKey(10);
+        bTree.insertKey(20);
+        bTree.insertKey(30);
+        bTree.insertKey(40);
+        bTree.insertKey(50);
+        bTree.insertKey(60);
+        bTree.insertKey(70);
+        bTree.insertKey(80);
         System.out.println("Print BTree");
         bTree.printBTree();
     }
@@ -84,7 +84,7 @@ public class BTreeTest {
     public void timeExecutionInsertingOneMillionValues() {
         long startTime = System.nanoTime();
         for (int i = 1; i <= 1000000; i++) {
-            bTree.insert(i);
+            bTree.insertKey(i);
         }
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
@@ -98,7 +98,7 @@ public class BTreeTest {
     public void timeExecutionRemovingOneMillionValues() {
         BTree<Integer> bTree = new BTree<>(3);
         for (int i = 1; i <= 1000000; i++) {
-            bTree.insert(i);
+            bTree.insertKey(i);
         }
         long startTime = System.nanoTime();
         for (int i = 1; i <= 1000000; i++) {
