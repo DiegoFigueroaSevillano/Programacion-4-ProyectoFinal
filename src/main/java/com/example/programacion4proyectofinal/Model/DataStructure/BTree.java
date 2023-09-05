@@ -53,7 +53,7 @@ public class BTree<T extends Comparable<T>> {
      *
      * @param key The key to insert.
      */
-    private void insert(T key) {
+    public void insert(T key) {
         Node<T> currentNode = root;
         if (currentNode.isFull()) {
             handleFullRoot(key, currentNode);
@@ -84,7 +84,6 @@ public class BTree<T extends Comparable<T>> {
         Node<T> valueExists = search(root, key);
         if (valueExists == null) return false;
         remove(root, key);
-        //fileHandler.deleteNonRootFilesIfChildrenNull(root);
         return true;
     }
 
@@ -182,7 +181,6 @@ public class BTree<T extends Comparable<T>> {
         if (targetNode.getKeysNumber() >= degree) remove(targetNode, keyToRemove);
         else {
             borrowOrMergeNodes(currentNode, keyPosition, targetNode, keyToRemove);
-            //remove(targetNode, keyToRemove);
         }
     }
 
@@ -497,24 +495,6 @@ public class BTree<T extends Comparable<T>> {
         node.setKey(keyIndex + 1, keyToInsert);
         node.incrementKeysNumber();
         if (fileHandlerEnabled) saveDataNode(node);
-    }
-
-    /**
-     * Finds the appropriate position for inserting a new key into an array of keys.
-     *
-     * @param keys        The array of keys.
-     * @param keyCount    The number of keys currently in the array.
-     * @param keyToInsert The key to be inserted.
-     * @return The position where the new key should be inserted.
-     */
-    private int findInsertPosition(T[] keys, int keyCount, T keyToInsert) {
-        int position;
-        for (position = keyCount - 1; position >= 0; position--) {
-            if (keyToInsert.compareTo(keys[position]) >= 0) {
-                break;
-            }
-        }
-        return position + 1;
     }
 
     /**
