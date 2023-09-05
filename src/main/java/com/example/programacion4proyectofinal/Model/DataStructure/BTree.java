@@ -54,7 +54,7 @@ public class BTree<T extends Comparable<T>> {
      *
      * @param key The key to insert.
      */
-    public void insert(T key) {
+    private void insert(T key) {
         Node<T> currentNode = root;
         if (currentNode.isFull()) {
             handleFullRoot(key, currentNode);

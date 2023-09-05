@@ -47,24 +47,18 @@ public class Passenger extends Person implements Comparable<Passenger> {
     }
 
     /**
-     * This method compares two passengers by their full name, if they have the same full name, then it compares them by their ID.
+     * This method compares two passengers by their id, if they have the same id, then it compares them by their full name.
      *
      * @param o the object to be compared.
      * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
      */
     @Override
     public int compareTo(Passenger o) {
-        if (this.getFullName().equals(o.getFullName())) {
-            if (this.getId() < o.getId()) {
-                return -1;
-            } else if (this.getId() > o.getId()) {
-                return 1;
-            } else {
-                return 0;
-            }
-        } else {
-            return this.getFullName().compareTo(o.getFullName());
+        if (this.getId() < o.getId()) {
+            return -1;
+        } else if (this.getId() > o.getId()) {
+            return 1;
         }
+        return this.getFullName().compareTo(o.getFullName());
     }
-
 }
