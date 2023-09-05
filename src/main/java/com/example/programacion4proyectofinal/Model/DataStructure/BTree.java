@@ -38,7 +38,8 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * This is a second constructor of the BTree class that receives a fileHandler as a parameter.
-     * @param degree The minimum degree for the B-tree.
+     *
+     * @param degree      The minimum degree for the B-tree.
      * @param fileHandler The fileHandler to save the nodes of the BTree.
      */
     public BTree(int degree, IFileHandlerBTree<T> fileHandler) {
@@ -74,6 +75,7 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * Inserts a new key into a node which is not full.
+     *
      * @param key The key to insert.
      * @return True if the key was inserted, false otherwise.
      */
@@ -94,7 +96,6 @@ public class BTree<T extends Comparable<T>> {
         Node<T> valueExists = search(root, key);
         if (valueExists == null) return false;
         remove(root, key);
-        //fileHandler.deleteNonRootFilesIfChildrenNull(root);
         return true;
     }
 
@@ -192,7 +193,6 @@ public class BTree<T extends Comparable<T>> {
         if (targetNode.getKeysNumber() >= degree) remove(targetNode, keyToRemove);
         else {
             borrowOrMergeNodes(currentNode, keyPosition, targetNode, keyToRemove);
-            //remove(targetNode, keyToRemove);
         }
     }
 
@@ -249,8 +249,8 @@ public class BTree<T extends Comparable<T>> {
      *
      * @param parentNode      The parent node of the nodes to be merged.
      * @param positionToMerge The position of the key that divides the nodes to be merged in the parent node.
-     * @param predecessorNode        The predecessor node that will absorb the nextNode.
-     * @param successorNode       The node to be absorbed into the predecessor node.
+     * @param predecessorNode The predecessor node that will absorb the nextNode.
+     * @param successorNode   The node to be absorbed into the predecessor node.
      */
     private void mergeNodes(Node<T> parentNode, int positionToMerge, Node<T> predecessorNode, Node<T> successorNode) {
         int leftNodeKeysCount = predecessorNode.getKeysNumber();
@@ -282,7 +282,7 @@ public class BTree<T extends Comparable<T>> {
         }
 
         parentNode.decrementKeysNumber();
-        if (parentNode.getKeysNumber() == 0){
+        if (parentNode.getKeysNumber() == 0) {
             decreaseBTree(parentNode, predecessorNode, successorNode);
         } else if (fileHandlerEnabled) {
             fileHandler.deleteNode(successorNode);
@@ -300,7 +300,8 @@ public class BTree<T extends Comparable<T>> {
         Node<T> nodeAux;
         while (!predecessorNode.isLeaf()) {
             nodeAux = predecessorNode.getChild(predecessorNode.getKeysNumber());
-            if (fileHandlerEnabled && nodeAux == null) nodeAux = loadNodeFromFiles(predecessorNode.getKeysNumber(), predecessorNode);
+            if (fileHandlerEnabled && nodeAux == null)
+                nodeAux = loadNodeFromFiles(predecessorNode.getKeysNumber(), predecessorNode);
             predecessorNode = nodeAux;
         }
         return predecessorNode.getKey(predecessorNode.getKeysNumber() - 1);
@@ -312,7 +313,7 @@ public class BTree<T extends Comparable<T>> {
      * @param currentNode   The parent node of the nodes involved in the operation.
      * @param position      The position of the key to be replaced in the parent node.
      * @param temporaryNode The node that will borrow the key.
-     * @param rightSibling   The node from which a key will be borrowed.
+     * @param rightSibling  The node from which a key will be borrowed.
      * @param dividerKey    The key that divides the temporaryNode and rightSibling in the parent node.
      */
     private void borrowKeyFromNextNode(Node<T> currentNode, int position, Node<T> temporaryNode, Node<T> rightSibling, T dividerKey) {
@@ -367,8 +368,9 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * This method merges the keys and children of two nodes into one node.
-     * @param node The parent node of the nodes to be merged.
-     * @param leftChild The left child node.
+     *
+     * @param node       The parent node of the nodes to be merged.
+     * @param leftChild  The left child node.
      * @param rightChild The right child node.
      */
     private void mergeKeysAndChildren(Node<T> node, Node<T> leftChild, Node<T> rightChild) {
@@ -392,17 +394,18 @@ public class BTree<T extends Comparable<T>> {
     /**
      * Borrows a key from the previous sibling node.
      *
-     * @param currentNode  The parent node of the nodes involved in the operation.
-     * @param position     The position of the key to be replaced in the parent node.
-     * @param targetNode   The node that will borrow the key.
+     * @param currentNode The parent node of the nodes involved in the operation.
+     * @param position    The position of the key to be replaced in the parent node.
+     * @param targetNode  The node that will borrow the key.
      * @param leftSibling The node from which a key will be borrowed.
-     * @param dividerKey   The key that divides the targetNode and leftSibling in the parent node.
+     * @param dividerKey  The key that divides the targetNode and leftSibling in the parent node.
      */
     private void borrowKeyFromPrevNode(Node<T> currentNode, int position, Node<T> targetNode, Node<T> leftSibling, T dividerKey) {
         currentNode.setKey(position - 1, leftSibling.getKey(leftSibling.getKeysNumber() - 1));
         Node<T> childToMove = leftSibling.getChild(leftSibling.getKeysNumber());
 
-        if (fileHandlerEnabled && childToMove == null) childToMove = loadNodeFromFiles(leftSibling.getKeysNumber(), leftSibling);
+        if (fileHandlerEnabled && childToMove == null)
+            childToMove = loadNodeFromFiles(leftSibling.getKeysNumber(), leftSibling);
 
         leftSibling.decrementKeysNumber();
 
@@ -507,24 +510,6 @@ public class BTree<T extends Comparable<T>> {
         node.setKey(keyIndex + 1, keyToInsert);
         node.incrementKeysNumber();
         if (fileHandlerEnabled) saveDataNode(node);
-    }
-
-    /**
-     * Finds the appropriate position for inserting a new key into an array of keys.
-     *
-     * @param keys        The array of keys.
-     * @param keyCount    The number of keys currently in the array.
-     * @param keyToInsert The key to be inserted.
-     * @return The position where the new key should be inserted.
-     */
-    private int findInsertPosition(T[] keys, int keyCount, T keyToInsert) {
-        int position;
-        for (position = keyCount - 1; position >= 0; position--) {
-            if (keyToInsert.compareTo(keys[position]) >= 0) {
-                break;
-            }
-        }
-        return position + 1;
     }
 
     /**
@@ -675,7 +660,8 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * Checks if a redistribution from the left sibling is possible.
-     * @param node The parent node of the node to be split.
+     *
+     * @param node     The parent node of the node to be split.
      * @param position The position of the node to be split.
      * @return True if a redistribution from the left sibling is possible, false otherwise.
      */
@@ -690,7 +676,8 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * Checks if a redistribution from the right sibling is possible.
-     * @param node The parent node of the node to be split.
+     *
+     * @param node     The parent node of the node to be split.
      * @param position The position of the node to be split.
      * @return True if a redistribution from the right sibling is possible, false otherwise.
      */
@@ -705,8 +692,9 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * This method decreases the BTree when the root node is empty.
-     * @param parent The parent node of the node to be split.
-     * @param leftChild The node to be split.
+     *
+     * @param parent     The parent node of the node to be split.
+     * @param leftChild  The node to be split.
      * @param rightChild The new node containing keys from the node being split.
      */
     private void decreaseBTree(Node<T> parent, Node<T> leftChild, Node<T> rightChild) {
@@ -722,8 +710,9 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * This method loads the node from the fileHandler.
+     *
      * @param index The index of the child.
-     * @param node The node to be loaded.
+     * @param node  The node to be loaded.
      * @return The node loaded.
      */
     private Node<T> loadNodeFromFiles(int index, Node<T> node) {
@@ -734,6 +723,7 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * This method saves the nodes in the fileHandler.
+     *
      * @param nodes The nodes to be saved.
      */
     @SafeVarargs
