@@ -94,7 +94,7 @@ public class BTree<T extends Comparable<T>> {
         Node<T> valueExists = search(root, key);
         if (valueExists == null) return false;
         remove(root, key);
-        fileHandler.deleteNonRootFilesIfChildrenNull(root);
+        //fileHandler.deleteNonRootFilesIfChildrenNull(root);
         return true;
     }
 
@@ -192,7 +192,7 @@ public class BTree<T extends Comparable<T>> {
         if (targetNode.getKeysNumber() >= degree) remove(targetNode, keyToRemove);
         else {
             borrowOrMergeNodes(currentNode, keyPosition, targetNode, keyToRemove);
-            remove(targetNode, keyToRemove);
+            //remove(targetNode, keyToRemove);
         }
     }
 
@@ -223,7 +223,9 @@ public class BTree<T extends Comparable<T>> {
             borrowKeyFromPrevNode(currentNode, keyPosition, targetNode, neighborNode, dividerKey);
         } else {
             mergeNodes(currentNode, keyPosition, keyToRemove);
+            return;
         }
+        remove(targetNode, keyToRemove);
     }
 
     /**
@@ -360,7 +362,7 @@ public class BTree<T extends Comparable<T>> {
         leftChild.getKeys()[leftChild.getKeysNumber()] = dividerKey;
         leftChild.incrementKeysNumber();
         mergeKeysAndChildren(node, leftChild, rightChild);
-        //remove(leftChild, keyToRemove);
+        remove(leftChild, keyToRemove);
     }
 
     /**
