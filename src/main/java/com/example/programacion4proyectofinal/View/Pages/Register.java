@@ -1,10 +1,7 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
-import com.example.programacion4proyectofinal.Utils.PassengerType;
-import com.example.programacion4proyectofinal.View.Components.HomeComponents.Header;
-import com.example.programacion4proyectofinal.View.Components.HomeComponents.PlacesList;
+import com.example.programacion4proyectofinal.Utils.*;
+import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,7 +28,8 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
  */
 public class Register {
     private final Scene registerScene;
-    private VBox register, ticketForm, name, ci, passengerType , container;
+    private VBox register, ticketForm, name, container,ci;
+    private HBox passengerType;
     private Stage stage;
     private Header header;
     private StackPane ticketSection;
@@ -39,30 +39,35 @@ public class Register {
     private Label label ;
     private TextField textField ;
 
+    private GenerateFont generateFont;
+
     /**
-     * Constructor for the Register class.
+     * Constructs the register page.
      *
-     * @param root  The root node group.
-     * @param stage The main application window.
+     * @param root  The root group for UI components.
+     * @param stage The primary stage of the application.
      */
     public Register(Group root, Stage stage) {
         this.backgroundGenerator = new BackgroundGenerator();
-        this.changePropertiesStage = new ChangePropertiesStage();
+        this.changePropertiesStage=new ChangePropertiesStage();
+        this.generateFont = new GenerateFont();
         this.stage = stage;
         this.changePropertiesStage.changeToMaximizeSizeStage(950, 900, this.stage);
-        this.stage.setTitle("Register");
+        this.stage.setTitle("REGISTER - AEROLAB");
+
         this.registerScene = new Scene(root);
-        this.header = new Header(stage, "register");
-        createRegister(registerScene);
+        this.header = new Header(root,stage, "register");
+
+        createHome(registerScene);
         root.getChildren().add(register);
     }
 
     /**
-     * Creates the main registration interface.
+     * Creates and configures the home page UI.
      *
-     * @param scene The scene for the registration interface.
+     * @param scene The scene in which the home page will be displayed.
      */
-    private void createRegister(Scene scene) {
+    private void createHome(Scene scene) {
         createTicketSection(scene);
         register = new VBox(0);
         register.prefHeightProperty().bind(stage.heightProperty());
@@ -74,9 +79,9 @@ public class Register {
     }
 
     /**
-     * Creates the ticket section within the interface.
+     * Creates and configures the ticket section UI.
      *
-     * @param scene The scene for the ticket section.
+     * @param scene The scene in which the ticket section will be displayed.
      */
     private void createTicketSection(Scene scene) {
         createTicketForm();
@@ -89,52 +94,57 @@ public class Register {
     }
 
     /**
-     * Creates the ticket form within the ticket section.
+     * Creates and configures the ticket form UI.
      */
     private void createTicketForm() {
-        createNameSection();
         createPlacesSection();
+        createNameSection();
         createCiSection();
         createCreateButton();
 
         ticketForm = new VBox(40);
         ticketForm.setPrefWidth(900);
-        ticketForm.setPrefHeight(850);
+        ticketForm.setPrefHeight(700);
         ticketForm.setMaxWidth(900);
-        ticketForm.setMaxHeight(850);
+        ticketForm.setMaxHeight(700);
         ticketForm.setPadding(new Insets(10));
         ticketForm.setBackground(backgroundGenerator.createBackground(SKY_BLUE));
         ticketForm.getChildren().addAll(name, ci,passengerType,createButton);
     }
 
     /**
-     * Creates the passenger type section within the ticket form.
+     * Creates and configures the places section UI.
      */
     private void createPlacesSection() {
         ObservableList<String> placesList = FXCollections.observableArrayList(PassengerType.PASSENGER_TYPE);
-        PlacesList fromList = new PlacesList(placesList, "TYPE:");
-        passengerType = fromList.getContainer();
+
+        PlacesList fromList = new PlacesList(placesList, "REGISTER:" , 740 ,740);
+        passengerType = new HBox(40);
+        passengerType.setPrefWidth(900);
+        passengerType.setPrefHeight(120);
+        passengerType.getChildren().addAll(fromList.getContainer());
+        passengerType.setAlignment(Pos.CENTER);
+
+
     }
 
     /**
-     * Creates the CI (Identification Card) section within the ticket form.
-     */
-
-    private void createCiSection() {
-        createContainer("CI :");
-        ci = getContainer();
-    }
-
-    /**
-     * Creates the name section within the ticket form.
+     * Creates the name section
      */
     private void createNameSection() {
-        createContainer("NAME :");
+        createContainer("NAME: :");
         name = getContainer();
     }
 
     /**
-     * Creates the "CREATE" button within the ticket form.
+     * Creates the ci section
+     */
+    private void createCiSection() {
+        createContainer("CI :");
+        ci = getContainer();
+    }
+    /**
+     * Creates and configures the create button UI.
      */
     private void createCreateButton() {
         createButton = new Button("CREATE");
@@ -144,14 +154,16 @@ public class Register {
         createButton.setPrefHeight(80);
         createButton.setMaxHeight(740);
         createButton.setCursor(Cursor.HAND);
-        createButton.setStyle("-fx-font-size: 24px");
-        createButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
+        createButton.setFont(generateFont.latoRegular(24));
+    }
 
-            }
-        });
-
+    /**
+     * Gets the Register scene.
+     *
+     * @return The home scene.
+     */
+    public Scene getRegisterScene() {
+        return registerScene;
     }
 
     /**
@@ -179,8 +191,9 @@ public class Register {
         label.setPrefWidth(740);
         label.setPrefHeight(40);
         label.setAlignment(Pos.CENTER_LEFT);
-        label.setStyle("-fx-font-size: 24px");
+        label.setFont(generateFont.latoRegular(24));
         label.setTextFill(Color.valueOf(WHITE));
+
     }
 
     /**
@@ -191,7 +204,7 @@ public class Register {
         textField.setPrefWidth(740);
         textField.setMaxWidth(740);
         textField.setPrefHeight(80);
-        textField.setStyle("-fx-font-size: 24px");
+        textField.setFont(generateFont.latoRegular(24));
         BackgroundGenerator backgroundGenerator = new BackgroundGenerator();
         textField.setBackground(backgroundGenerator.createBackground(WHITE));
     }
@@ -203,23 +216,5 @@ public class Register {
      */
     public VBox getContainer() {
         return container;
-    }
-
-    /**
-     * Retrieves the Scene associated with the Register view.
-     *
-     * @return The Scene object representing the registration screen.
-     */
-    public Scene getRegisterScene() {
-        return registerScene;
-    }
-
-    /**
-     * Retrieves the "CREATE" button used for registration submission.
-     *
-     * @return The "CREATE" Button element for registration submission.
-     */
-    public Button getRegisterButton() {
-        return createButton;
     }
 }
