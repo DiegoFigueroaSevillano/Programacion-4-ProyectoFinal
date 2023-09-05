@@ -33,8 +33,9 @@ public class UserGenerator {
             CI = generator.generateCI();
             country = generator.generateCountry();
             Passenger passenger = new Passenger(CI, name, lastName, country, Category.VIP);
-            hashMap.put(CI, passenger);
-            bTree.insert(CI);
+            if (bTree.insertKey(CI)){
+                hashMap.put(CI, passenger);
+            }
         }
 
         long start = System.nanoTime();
