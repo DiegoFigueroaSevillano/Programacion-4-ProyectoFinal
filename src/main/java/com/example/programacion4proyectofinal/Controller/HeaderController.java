@@ -39,8 +39,8 @@ public class HeaderController {
             public void handle(ActionEvent actionEvent) {
                 if (!currentOption.equals("passengers")) {
                     Group root = new Group();
-                    Passengers passengers = new Passengers(root, stage);
-                    Scene passengersScene = passengers.getPassengersScene();
+                    PassengersController passengersController = new PassengersController(root, stage);
+                    Scene passengersScene = passengersController.getPassengers().getPassengersScene();
                     stage.setScene(passengersScene);
                 }
             }

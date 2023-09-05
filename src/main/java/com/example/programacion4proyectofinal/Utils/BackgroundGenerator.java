@@ -38,4 +38,10 @@ public class BackgroundGenerator {
         return new Background(background);
     }
 
+    public Background createBackgroundRadius(int radius, String color) {
+        CornerRadii cornerRadii = new CornerRadii(radius);
+        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(color), cornerRadii, null);
+        return new Background(backgroundFill);
+    }
+
 }
