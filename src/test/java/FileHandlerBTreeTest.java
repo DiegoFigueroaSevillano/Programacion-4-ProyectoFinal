@@ -52,7 +52,7 @@ public class FileHandlerBTreeTest {
         long duration = endTime - startTime;
 
         double durationInSeconds = (double)duration / 1_000_000_000.0;
-        System.out.printf("Time execution (Search): %.4f seconds%n", durationInSeconds);
+        System.out.printf("Time execution (Remove): %.4f seconds%n", durationInSeconds);
     }
 
     @Test
