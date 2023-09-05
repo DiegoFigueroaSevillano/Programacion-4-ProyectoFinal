@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal.Utils.UserGenerator;
 
 import com.example.programacion4proyectofinal.Model.DataStructure.BTree;
+import com.example.programacion4proyectofinal.Model.FileHandler.FileHandlerBTree;
 import com.example.programacion4proyectofinal.Model.Person.Category;
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
 
@@ -33,7 +34,7 @@ public class UserGenerator {
         }
 
         long start = System.nanoTime();
-        bTree.createAndFillJson(hashMap);
+        FileHandlerBTree.createAndFillJson(bTree, hashMap);
         long end = System.nanoTime();
         long result = end - start;
 
