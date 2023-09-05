@@ -7,7 +7,11 @@ import com.example.programacion4proyectofinal.Model.Person.Passenger;
 
 import java.util.HashMap;
 
+/**
+ * This class is used to create the initial user quantity
+ */
 public class UserGenerator {
+
     /**
      * Method that will perform the first generation of data within the b-tree
      *
@@ -41,9 +45,4 @@ public class UserGenerator {
         System.out.println(result); //TODO: Delete the line finished the demonstration
     }
 
-    public static void main(String[] args) {
-        BTree<Integer> bTree = new BTree<>(3);
-        generateUsers(bTree, 10);
-        bTree.printBTree();
-    }
 }

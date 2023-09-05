@@ -1,5 +1,8 @@
 package com.example.programacion4proyectofinal.Utils.UserData;
 
+/**
+ * Enum class with a last name of a passanger
+ */
 public enum LastName {
     GARCIA, RODRIGUEZ, MARTINEZ, GONZALEZ, LOPEZ, HERNANDEZ, PEREZ, SANCHEZ, ROMERO, FERNANDEZ,
     DIAZ, RAMIREZ, TORRES, VARGAS, CRUZ, ORTEGA, MORALES, CASTILLO, RUIZ, JIMENEZ,

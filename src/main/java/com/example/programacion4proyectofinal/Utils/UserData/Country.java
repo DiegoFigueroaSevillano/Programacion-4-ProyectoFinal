@@ -1,5 +1,8 @@
 package com.example.programacion4proyectofinal.Utils.UserData;
 
+/**
+ * Enum class with the country of a passenger
+ */
 public enum Country {
     ARGENTINA,
     BOLIVIA,
