@@ -11,9 +11,9 @@ import com.example.programacion4proyectofinal.Utils.UserGenerator.UserGenerator;
 public class UserGeneratorTest {
     public static void main(String[] args) {
         DataGenerator dataGenerator = new DataGenerator();
-        BTree<Integer> bTree = new BTree<>(3);
+        BTree<Integer> bTree = new BTree<>(100);
 
-        UserGenerator.generateUsers(bTree, 30);
+        UserGenerator.generateUsers(bTree, 1000000);
     }
 
 }
