@@ -1,8 +1,12 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
+import com.example.programacion4proyectofinal.Controller.HomeController;
+import com.example.programacion4proyectofinal.Controller.RegisterController;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.FlightView;
 import com.example.programacion4proyectofinal.View.Pages.Home;
+import com.example.programacion4proyectofinal.View.Pages.Register;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,11 +30,12 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton , flightButton;
+    private Button homeButton, passengersButton ,passengerRegisterButton, flightButton;
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
     private GenerateFont generateFont;
+    private Group root;
 
     /**
      * Constructs a Header menu.
@@ -38,8 +43,9 @@ public class Header {
      * @param stage         The primary stage of the application.
      * @param currentOption The currently selected option (e.g., "home", "passengers").
      */
-    public Header(Stage stage, String currentOption) {
+    public Header(Group root , Stage stage, String currentOption) {
         this.stage = stage;
+        this.root = root;
         this.currentOption = currentOption;
         this.generateFont = new GenerateFont();
         createHeader();
@@ -65,13 +71,13 @@ public class Header {
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
+        createPassengersRegisterButton();
         createFlightButton();
-
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton, flightButton);
+        menu.getChildren().addAll(homeButton, passengersButton,passengerRegisterButton,flightButton);
     }
 
     /**
@@ -84,9 +90,9 @@ public class Header {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (!currentOption.equals("home")) {
-                    Group root = new Group();
-                    Home home = new Home(root, stage);
-                    Scene homeScene = home.getHomeScene();
+                    root = new Group();
+                    HomeController home = new HomeController(root, stage);
+                    Scene homeScene = home.getHomeView().getHomeScene();
                     stage.setScene(homeScene);
                 }
             }
@@ -100,6 +106,31 @@ public class Header {
         passengersButton = new Button("PASSENGERS");
         generatorMenuOptions(passengersButton, "passengers");
     }
+
+    /**
+     * Creates the "REGISTER" button.
+     */
+    private void createPassengersRegisterButton() {
+        passengerRegisterButton = new Button("REGISTER");
+        generatorMenuOptions(passengerRegisterButton, "register");
+        passengerRegisterButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (!currentOption.equals("register")) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            root = new Group();
+                            RegisterController register = new RegisterController(root, stage);
+                            Scene registerScene = register.getRegisterView().getRegisterScene();
+                            stage.setScene(registerScene);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 
     /**
      * Generates the menu options for buttons.

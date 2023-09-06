@@ -31,6 +31,7 @@ public class FlightView {
     private ChangePropertiesStage changePropertiesStage;
     private BackgroundGenerator backgroundGenerator;
     private FlightList flightList;
+    private GenerateFont generateFont;
 
     /**
      * Constructor for the FlightView class.
@@ -46,7 +47,8 @@ public class FlightView {
         this.changePropertiesStage.changeToMaximizeSizeStage(950, 900, this.stage);
         this.stage.setTitle("FLIGHT - AEROLAB");
         this.homeScene = new Scene(root);
-        this.header = new Header(stage, "flights");
+        this.header = new Header(root,stage,"flights");
+        this.generateFont = new GenerateFont();
         createHome(homeScene);
         root.getChildren().add(home);
     }
@@ -91,8 +93,6 @@ public class FlightView {
         ticketForm.setPrefHeight(950);
         ticketForm.setMaxWidth(1100);
         ticketForm.setMaxHeight(950);
-        ticketForm.setStyle("-fx-background-color: transparent;");
-
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background-color: transparent;");
         StackPane contentPane = new StackPane();
@@ -142,20 +142,18 @@ public class FlightView {
         Label arrivalTimeValue = new Label(flight.getArrivalTime());
         Label departureTimeValue = new Label(flight.getDepartureTime());
 
-        String labelStyle = "-fx-font-family: 'Arial'; -fx-font-size: 16px; -fx-text-fill: #333;";
-        String valueStyle = "-fx-font-family: 'Arial'; -fx-font-size: 14px; -fx-text-fill: #555;";
 
-        departureLabel.setStyle(labelStyle);
-        arrivalLabel.setStyle(labelStyle);
-        priceLabel.setStyle(labelStyle);
-        arrivalTimeLabel.setStyle(labelStyle);
-        departureTimeLabel.setStyle(labelStyle);
+        departureLabel.setFont(generateFont.latoRegular(16));
+        arrivalLabel.setFont(generateFont.latoRegular(16));
+        priceLabel.setFont(generateFont.latoRegular(16));
+        arrivalTimeLabel.setFont(generateFont.latoRegular(16));
+        departureTimeLabel.setFont(generateFont.latoRegular(16));
 
-        departureValue.setStyle(valueStyle);
-        arrivalValue.setStyle(valueStyle);
-        priceValue.setStyle(valueStyle);
-        arrivalTimeValue.setStyle(valueStyle);
-        departureTimeValue.setStyle(valueStyle);
+        departureValue.setFont(generateFont.latoRegular(14));
+        arrivalValue.setFont(generateFont.latoRegular(14));
+        priceValue.setFont(generateFont.latoRegular(14));;
+        arrivalTimeValue.setFont(generateFont.latoRegular(14));
+        departureTimeValue.setFont(generateFont.latoRegular(14));
 
         GridPane.setHalignment(departureLabel, HPos.CENTER);
         GridPane.setValignment(departureLabel, VPos.CENTER);
@@ -179,8 +177,8 @@ public class FlightView {
         GridPane.setHalignment(departureTimeValue, HPos.CENTER);
         GridPane.setValignment(departureTimeValue, VPos.CENTER);
 
-        gridPane.addRow(0, departureLabel, arrivalLabel, priceLabel, arrivalTimeLabel, departureTimeLabel);
-        gridPane.addRow(1, departureValue, arrivalValue, priceValue, arrivalTimeValue, departureTimeValue);
+        gridPane.addRow(0, departureLabel,  departureTimeLabel, arrivalTimeLabel,arrivalLabel,priceLabel);
+        gridPane.addRow(1, departureValue,  departureTimeValue,arrivalTimeValue,arrivalValue, priceValue );
 
         RowConstraints rowConstraints = new RowConstraints();
         rowConstraints.setVgrow(Priority.ALWAYS);
@@ -193,6 +191,7 @@ public class FlightView {
         button.setGraphic(gridPane);
         return button;
     }
+
 
     /**
      * Get the FlightView's scene.
