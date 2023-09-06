@@ -28,17 +28,15 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
  */
 public class Register {
     private final Scene registerScene;
-    private VBox register, ticketForm, name, container,ci;
-    private HBox passengerType;
+    private VBox register, ticketForm;
+    private HBox passengerType , sectionNames , sectionCountryCi;
     private Stage stage;
     private Header header;
     private StackPane ticketSection;
     private ChangePropertiesStage changePropertiesStage;
     private BackgroundGenerator backgroundGenerator;
     private Button createButton;
-    private Label label ;
-    private TextField textField ;
-
+    private PassengerInformation passengerName,passengerLastName,passengerCi,passengerCountry;
     private GenerateFont generateFont;
 
     /**
@@ -58,16 +56,16 @@ public class Register {
         this.registerScene = new Scene(root);
         this.header = new Header(root,stage, "register");
 
-        createHome(registerScene);
+        creationRegister(registerScene);
         root.getChildren().add(register);
     }
 
     /**
-     * Creates and configures the home page UI.
+     * Creates and configures the register page UI.
      *
      * @param scene The scene in which the home page will be displayed.
      */
-    private void createHome(Scene scene) {
+    private void creationRegister(Scene scene) {
         createTicketSection(scene);
         register = new VBox(0);
         register.prefHeightProperty().bind(stage.heightProperty());
@@ -99,7 +97,7 @@ public class Register {
     private void createTicketForm() {
         createPlacesSection();
         createNameSection();
-        createCiSection();
+        createCountryAndCiSection();
         createCreateButton();
 
         ticketForm = new VBox(40);
@@ -109,7 +107,7 @@ public class Register {
         ticketForm.setMaxHeight(700);
         ticketForm.setPadding(new Insets(10));
         ticketForm.setBackground(backgroundGenerator.createBackground(SKY_BLUE));
-        ticketForm.getChildren().addAll(name, ci,passengerType,createButton);
+        ticketForm.getChildren().addAll(sectionNames, sectionCountryCi,passengerType,createButton);
     }
 
     /**
@@ -118,7 +116,7 @@ public class Register {
     private void createPlacesSection() {
         ObservableList<String> placesList = FXCollections.observableArrayList(PassengerType.PASSENGER_TYPE);
 
-        PlacesList fromList = new PlacesList(placesList, "REGISTER:" , 740 ,740);
+        PlacesList fromList = new PlacesList(placesList, "TYPE PASSENGER:" , 740 ,740);
         passengerType = new HBox(40);
         passengerType.setPrefWidth(900);
         passengerType.setPrefHeight(120);
@@ -129,19 +127,29 @@ public class Register {
     }
 
     /**
-     * Creates the name section
+     * Creates the names section
      */
     private void createNameSection() {
-        createContainer("NAME: :");
-        name = getContainer();
+         passengerName=new PassengerInformation("NAME:" , 350,120);
+         passengerLastName = new PassengerInformation("LAST NAME:" ,350,120);
+        sectionNames =new HBox(40);
+        sectionNames.setPrefHeight(120);
+        sectionNames.setPrefWidth(900);
+        sectionNames.getChildren().addAll(passengerName.getContainer(), passengerLastName.getContainer());
+        sectionNames.setAlignment(Pos.CENTER);
     }
 
     /**
      * Creates the ci section
      */
-    private void createCiSection() {
-        createContainer("CI :");
-        ci = getContainer();
+    private void createCountryAndCiSection() {
+         passengerCi=new PassengerInformation("IDENTIFY CARD:" , 350,120);
+         passengerCountry = new PassengerInformation("COUNTRY:" ,350,120);
+        sectionCountryCi =new HBox(40);
+        sectionCountryCi.setPrefHeight(120);
+        sectionCountryCi.setPrefWidth(900);
+        sectionCountryCi.getChildren().addAll(passengerCi.getContainer(), passengerCountry.getContainer());
+        sectionCountryCi.setAlignment(Pos.CENTER);
     }
     /**
      * Creates and configures the create button UI.
@@ -160,61 +168,10 @@ public class Register {
     /**
      * Gets the Register scene.
      *
-     * @return The home scene.
+     * @return The register scene.
      */
     public Scene getRegisterScene() {
         return registerScene;
     }
 
-    /**
-     * Creates a container with a label and text field.
-     *
-     * @param name The name to be displayed in the label.
-     */
-    private void createContainer(String name) {
-        createLabel(name);
-        createTextField();
-        container = new VBox(0);
-        container.setPrefWidth(740);
-        container.setPrefHeight(120);
-        container.setAlignment(Pos.CENTER);
-        container.getChildren().addAll(label, textField);
-    }
-
-    /**
-     * Creates a label within a container.
-     *
-     * @param name The text to be displayed in the label.
-     */
-    private void createLabel(String name) {
-        label = new Label(name);
-        label.setPrefWidth(740);
-        label.setPrefHeight(40);
-        label.setAlignment(Pos.CENTER_LEFT);
-        label.setFont(generateFont.latoRegular(24));
-        label.setTextFill(Color.valueOf(WHITE));
-
-    }
-
-    /**
-     * Creates a text field within a container.
-     */
-    private void createTextField() {
-        textField = new TextField();
-        textField.setPrefWidth(740);
-        textField.setMaxWidth(740);
-        textField.setPrefHeight(80);
-        textField.setFont(generateFont.latoRegular(24));
-        BackgroundGenerator backgroundGenerator = new BackgroundGenerator();
-        textField.setBackground(backgroundGenerator.createBackground(WHITE));
-    }
-
-    /**
-     * Retrieves the container VBox containing registration form elements.
-     *
-     * @return The container VBox for registration form elements.
-     */
-    public VBox getContainer() {
-        return container;
-    }
 }
