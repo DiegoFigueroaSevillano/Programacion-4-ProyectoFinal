@@ -5,8 +5,7 @@ import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.GeneratorBorders;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -18,11 +17,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.SKY_BLUE;
 import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
@@ -43,8 +41,9 @@ public class Passengers {
     private GeneratorBorders generatorBorders;
     private ScrollPane containerPassengers;
     private VBox passengersList;
+    private ObservableList<HBox> passengersComponents;
 
-    public Passengers(Group root, Stage stage, ArrayList<HBox> passengers) {
+    public Passengers(Group root, Stage stage, ObservableList<HBox> passengers) {
         this.backgroundGenerator = new BackgroundGenerator();
         this.generateFont = new GenerateFont();
         this.generatorBorders = new GeneratorBorders();
@@ -55,11 +54,12 @@ public class Passengers {
         this.stage.setTitle("PASSENGERS - AEROLAB");
         this.passengersScene = new Scene(root);
         this.headerController = new HeaderController(root, stage, "passengers");
-        createGeneralContainer(this.passengersScene, passengers);
+        this.passengersComponents = passengers;
+        createGeneralContainer(this.passengersScene);
         this.root.getChildren().add(generalContainer);
     }
 
-    private void createGeneralContainer(Scene scene, ArrayList<HBox> passengers) {
+    private void createGeneralContainer(Scene scene) {
         createSearchContainer();
 
         generalContainer = new VBox();
@@ -68,7 +68,7 @@ public class Passengers {
         generalContainer.setAlignment(Pos.CENTER);
         generalContainer.layoutXProperty().bind(scene.widthProperty().subtract(generalContainer.widthProperty()).divide(2));
         generalContainer.layoutYProperty().bind(scene.heightProperty().subtract(generalContainer.heightProperty()).divide(2));
-        createPassengersContainer(passengers);
+        createPassengersContainer();
         generalContainer.getChildren().addAll(headerController.getHeader().getHeader(), searchContainer, containerPassengers);
     }
 
@@ -98,7 +98,7 @@ public class Passengers {
         searchContainer.getChildren().addAll(searchField, searchButton);
     }
 
-    private void createPassengersContainer(ArrayList<HBox> passengers) {
+    private void createPassengersContainer() {
         containerPassengers = new ScrollPane();
         containerPassengers.prefWidthProperty().bind(generalContainer.widthProperty());
         containerPassengers.prefHeightProperty().bind(generalContainer.heightProperty().subtract(200));
@@ -114,25 +114,39 @@ public class Passengers {
             vScrollBar.setStyle("-fx-control-inner-background: #" + SKY_BLUE + ";");
         }
 
-        createPassengersList(passengers);
+        createPassengersList();
 
         containerPassengers.setContent(passengersList);
     }
 
-    private void createPassengersList(ArrayList<HBox> passengers) {
+    private void createPassengersList() {
         passengersList = new VBox(10);
         passengersList.prefWidthProperty().bind(containerPassengers.widthProperty().subtract(200));
         passengersList.prefHeightProperty().bind(containerPassengers.heightProperty().subtract(60));
         passengersList.setBackground(backgroundGenerator.createBackground(WHITE));
-        for (HBox passenger : passengers) {
-            VBox.setVgrow(passenger, Priority.ALWAYS);
-            passengersList.getChildren().add(passenger);
-        }
+        deleteAComponent();
         passengersList.setPadding(new Insets(40));
         passengersList.setFillWidth(true);
     }
 
+    public void deleteAComponent() {
+        passengersList.getChildren().clear();
+        passengersList.getChildren().clear();
+        for (HBox passenger : passengersComponents) {
+            VBox.setVgrow(passenger, Priority.ALWAYS);
+            passengersList.getChildren().add(passenger);
+        }
+    }
+
     public Scene getPassengersScene() {
         return passengersScene;
+    }
+
+    public VBox getPassengersList() {
+        return passengersList;
+    }
+
+    public void setPassengersComponents(ObservableList<HBox> passengersComponents) {
+        this.passengersComponents = passengersComponents;
     }
 }
