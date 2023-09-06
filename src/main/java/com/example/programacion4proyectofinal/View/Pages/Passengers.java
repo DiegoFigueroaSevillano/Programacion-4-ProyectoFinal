@@ -13,6 +13,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -60,7 +61,6 @@ public class Passengers {
 
     private void createGeneralContainer(Scene scene, ArrayList<HBox> passengers) {
         createSearchContainer();
-        createPassengersContainer(passengers);
 
         generalContainer = new VBox();
         generalContainer.prefHeightProperty().bind(stage.heightProperty());
@@ -68,6 +68,7 @@ public class Passengers {
         generalContainer.setAlignment(Pos.CENTER);
         generalContainer.layoutXProperty().bind(scene.widthProperty().subtract(generalContainer.widthProperty()).divide(2));
         generalContainer.layoutYProperty().bind(scene.heightProperty().subtract(generalContainer.heightProperty()).divide(2));
+        createPassengersContainer(passengers);
         generalContainer.getChildren().addAll(headerController.getHeader().getHeader(), searchContainer, containerPassengers);
     }
 
@@ -98,21 +99,30 @@ public class Passengers {
     }
 
     private void createPassengersContainer(ArrayList<HBox> passengers) {
-        createPassengersList(passengers);
-
         containerPassengers = new ScrollPane();
-        containerPassengers.prefWidthProperty().bind(stage.widthProperty().subtract(250));
-        containerPassengers.prefHeightProperty().bind(stage.heightProperty().subtract(200));
-        containerPassengers.setPadding(new Insets(40));
-        containerPassengers.setContent(passengersList);
+        containerPassengers.prefWidthProperty().bind(generalContainer.widthProperty());
+        containerPassengers.prefHeightProperty().bind(generalContainer.heightProperty().subtract(200));
+        containerPassengers.setPadding(new Insets(20));
         containerPassengers.setBackground(backgroundGenerator.createBackground(WHITE));
         containerPassengers.setFitToWidth(true);
+        containerPassengers.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        containerPassengers.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        containerPassengers.setPannable(true);
+
+        ScrollBar vScrollBar = (ScrollBar) containerPassengers.lookup(".scroll-bar:vertical");
+        if (vScrollBar != null) {
+            vScrollBar.setStyle("-fx-control-inner-background: #" + SKY_BLUE + ";");
+        }
+
+        createPassengersList(passengers);
+
+        containerPassengers.setContent(passengersList);
     }
 
     private void createPassengersList(ArrayList<HBox> passengers) {
         passengersList = new VBox(10);
-        passengersList.prefWidthProperty().bind(stage.widthProperty().subtract(200));
-        passengersList.prefHeightProperty().bind(stage.heightProperty().subtract(200));
+        passengersList.prefWidthProperty().bind(containerPassengers.widthProperty().subtract(200));
+        passengersList.prefHeightProperty().bind(containerPassengers.heightProperty().subtract(60));
         passengersList.setBackground(backgroundGenerator.createBackground(WHITE));
         for (HBox passenger : passengers) {
             VBox.setVgrow(passenger, Priority.ALWAYS);
