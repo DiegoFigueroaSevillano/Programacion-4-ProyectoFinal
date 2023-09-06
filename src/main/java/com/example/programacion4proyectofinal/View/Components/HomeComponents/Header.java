@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.View.Pages.FlightView;
 import com.example.programacion4proyectofinal.View.Pages.Home;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,7 +26,7 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton;
+    private Button homeButton, passengersButton , flightButton;
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
@@ -49,7 +50,6 @@ public class Header {
      */
     private void createHeader() {
         createMenu();
-
         header = new HBox(0);
         header.setMinWidth(700);
         header.setPrefHeight(HEIGHT);
@@ -65,12 +65,13 @@ public class Header {
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
+        createFlightButton();
 
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton);
+        menu.getChildren().addAll(homeButton, passengersButton, flightButton);
     }
 
     /**
@@ -128,5 +129,21 @@ public class Header {
      */
     public HBox getHeader() {
         return header;
+    }
+
+    private void createFlightButton() {
+        flightButton = new Button("FLIGHTS");
+        generatorMenuOptions(flightButton, "flights");
+        flightButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (!currentOption.equals("flights")) {
+                    Group root = new Group();
+                    FlightView flight = new FlightView(root, stage);
+                    Scene flightScene = flight.getFlightScene();
+                    stage.setScene(flightScene);
+                }
+            }
+        });
     }
 }
