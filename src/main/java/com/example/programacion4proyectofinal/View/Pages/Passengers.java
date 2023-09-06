@@ -5,6 +5,8 @@ import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.GeneratorBorders;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -18,6 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 import static com.example.programacion4proyectofinal.Utils.Colors.SKY_BLUE;
 import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
@@ -37,9 +41,9 @@ public class Passengers {
     private GenerateFont generateFont;
     private GeneratorBorders generatorBorders;
     private ScrollPane containerPassengers;
+    private VBox passengersList;
 
-
-    public Passengers(Group root, Stage stage) {
+    public Passengers(Group root, Stage stage, ArrayList<HBox> passengers) {
         this.backgroundGenerator = new BackgroundGenerator();
         this.generateFont = new GenerateFont();
         this.generatorBorders = new GeneratorBorders();
@@ -50,13 +54,13 @@ public class Passengers {
         this.stage.setTitle("PASSENGERS - AEROLAB");
         this.passengersScene = new Scene(root);
         this.headerController = new HeaderController(root, stage, "passengers");
-        createGeneralContainer(this.passengersScene);
+        createGeneralContainer(this.passengersScene, passengers);
         this.root.getChildren().add(generalContainer);
     }
 
-    private void createGeneralContainer(Scene scene) {
+    private void createGeneralContainer(Scene scene, ArrayList<HBox> passengers) {
         createSearchContainer();
-        createPassengersContainer();
+        createPassengersContainer(passengers);
 
         generalContainer = new VBox();
         generalContainer.prefHeightProperty().bind(stage.heightProperty());
@@ -93,12 +97,29 @@ public class Passengers {
         searchContainer.getChildren().addAll(searchField, searchButton);
     }
 
-    private void createPassengersContainer() {
+    private void createPassengersContainer(ArrayList<HBox> passengers) {
+        createPassengersList(passengers);
+
         containerPassengers = new ScrollPane();
-        containerPassengers.setPrefWidth(900);
+        containerPassengers.prefWidthProperty().bind(stage.widthProperty().subtract(250));
         containerPassengers.prefHeightProperty().bind(stage.heightProperty().subtract(200));
-        containerPassengers.setBackground(backgroundGenerator.createBackgroundRadius(10, SKY_BLUE));
         containerPassengers.setPadding(new Insets(40));
+        containerPassengers.setContent(passengersList);
+        containerPassengers.setBackground(backgroundGenerator.createBackground(WHITE));
+        containerPassengers.setFitToWidth(true);
+    }
+
+    private void createPassengersList(ArrayList<HBox> passengers) {
+        passengersList = new VBox(10);
+        passengersList.prefWidthProperty().bind(stage.widthProperty().subtract(200));
+        passengersList.prefHeightProperty().bind(stage.heightProperty().subtract(200));
+        passengersList.setBackground(backgroundGenerator.createBackground(WHITE));
+        for (HBox passenger : passengers) {
+            VBox.setVgrow(passenger, Priority.ALWAYS);
+            passengersList.getChildren().add(passenger);
+        }
+        passengersList.setPadding(new Insets(40));
+        passengersList.setFillWidth(true);
     }
 
     public Scene getPassengersScene() {
