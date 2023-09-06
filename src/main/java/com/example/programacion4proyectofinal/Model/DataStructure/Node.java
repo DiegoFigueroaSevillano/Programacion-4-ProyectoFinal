@@ -97,14 +97,14 @@ public class Node<T extends Comparable<T>> {
      * Decrements the number of keys in the node.
      */
     public void decrementKeysNumber() {
-        keysNumber -= 1;
+        keysNumber--;
     }
 
     /**
      * Increments the number of keys in the node.
      */
     public void incrementKeysNumber() {
-        keysNumber += 1;
+        keysNumber++;
     }
 
     /**
@@ -143,6 +143,11 @@ public class Node<T extends Comparable<T>> {
         return keys;
     }
 
+    /**
+     * Returns the key at a given index in the node.
+     * @param index the index to get the key from, must be between 0 and size - 1
+     * @return the key at the given index
+     */
     public T getKey(final int index) {
         return keys[index];
     }
@@ -156,6 +161,32 @@ public class Node<T extends Comparable<T>> {
         return children;
     }
 
+    /**
+     * Returns the child at a given index in the node.
+     * @param index the index to get the child from, must be between 0 and size
+     * @return the child at the given index
+     */
+    public Node<T> getChild(final int index) {
+        return children[index];
+    }
+
+    /**
+     * Sets the child at a given index in the node to a given value.
+     * @param index the index to set the child to, must be between 0 and size
+     * @param child the value to set the child to, must not be null
+     */
+    public void setChild(final int index, final Node<T> child) {
+        children[index] = child;
+        if (child != null) {
+            childrenIds[index] = child.getId();
+        }
+    }
+
+    /**
+     * Sets the key at a given index in the node to a given value.
+     * @param index the index to set the key to, must be between 0 and size - 1
+     * @param key the value to set the key to, must not be null
+     */
     public void setKey(final int index, final T key) {
         this.keys[index] = key;
     }
@@ -166,6 +197,24 @@ public class Node<T extends Comparable<T>> {
      */
     public boolean isLeaf() {
         return isLeaf;
+    }
+
+    /**
+     * Sets the array of children ids of the node.
+     * @param i The index of the array of children ids of the node.
+     * @param id The children id to put in the array of children ids of the node.
+     */
+    public void setIdChild(int i, String id) {
+        childrenIds[i] = id;
+    }
+
+    /**
+     * Gets the id of a child at a given index.
+     * @param index The index of the child.
+     * @return The id of the child.
+     */
+    public String getIdChild(int index) {
+        return childrenIds[index];
     }
 
     /**
@@ -184,5 +233,26 @@ public class Node<T extends Comparable<T>> {
      */
     public int getDegree() {
         return degree;
+    }
+
+    /**
+     * This method finds the position of a specific key within the node.
+     * @param node The node to search for the key.
+     * @param targetKey The key to search for.
+     * @return The position index or -1 if not found.
+     */
+    public int findKeyPositionInNode(Node<T> node, T targetKey) {
+        int left = 0;
+        int right = node.getKeysNumber() - 1;
+        int middleIndex;
+        int comparison;
+        while (left <= right) {
+            middleIndex = left + (right - left) / 2;
+            comparison = targetKey.compareTo(node.getKey(middleIndex));
+            if (comparison == 0) return middleIndex;
+            else if (comparison < 0) right = middleIndex - 1;
+            else left = middleIndex + 1;
+        }
+        return left;
     }
 }

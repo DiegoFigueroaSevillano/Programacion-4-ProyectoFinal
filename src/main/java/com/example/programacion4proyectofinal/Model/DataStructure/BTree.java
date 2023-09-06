@@ -1,6 +1,16 @@
 package com.example.programacion4proyectofinal.Model.DataStructure;
 
 import com.example.programacion4proyectofinal.Model.FileHandler.IFileHandlerBTree;
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * The BTree class represents a B-Tree data structure.
@@ -28,7 +38,8 @@ public class BTree<T extends Comparable<T>> {
 
     /**
      * This is a second constructor of the BTree class that receives a fileHandler as a parameter.
-     * @param degree The minimum degree for the B-tree.
+     *
+     * @param degree      The minimum degree for the B-tree.
      * @param fileHandler The fileHandler to save the nodes of the BTree.
      */
     public BTree(int degree, IFileHandlerBTree<T> fileHandler) {
@@ -53,13 +64,26 @@ public class BTree<T extends Comparable<T>> {
      *
      * @param key The key to insert.
      */
-    public void insert(T key) {
+    private void insert(T key) {
         Node<T> currentNode = root;
         if (currentNode.isFull()) {
             handleFullRoot(key, currentNode);
         } else {
             insertNonFull(currentNode, key);
         }
+    }
+
+    /**
+     * Inserts a new key into a node which is not full.
+     *
+     * @param key The key to insert.
+     * @return True if the key was inserted, false otherwise.
+     */
+    public boolean insertKey(T key) {
+        Node<T> isExist = search(root, key);
+        if (isExist != null) return false;
+        insert(key);
+        return true;
     }
 
     /**
@@ -101,14 +125,16 @@ public class BTree<T extends Comparable<T>> {
      * @param key  The key to remove.
      */
     private void removeKeyFromLeafNode(Node<T> node, T key) {
-        int keyPosition = 0;
-        while (keyPosition < node.getKeysNumber() && !node.getKeys()[keyPosition].equals(key)) {
-            keyPosition++;
+        int keyPosition = node.findKeyPositionInNode(node, key);
+        if (keyPosition != -1) {
+            for (int i = keyPosition; i < node.getKeysNumber() - 1; i++) {
+                if (i != 2 * degree - 2) {
+                    node.setKey(i, node.getKey(i + 1));
+                }
+            }
+            node.decrementKeysNumber();
+            if (fileHandlerEnabled) saveDataNode(node);
         }
-        for (int keyIndex = keyPosition; keyIndex < node.getKeysNumber(); keyIndex++) {
-            if (keyIndex != 2 * degree - 2) node.getKeys()[keyIndex] = node.getKeys()[keyIndex + 1];
-        }
-        node.decrementKeysNumber();
     }
 
     /**
@@ -119,21 +145,33 @@ public class BTree<T extends Comparable<T>> {
      * @param keyToRemove The key to remove.
      */
     private void handleInternalNodeCase(Node<T> currentNode, int keyPosition, T keyToRemove) {
-        Node<T> predecessorNode = currentNode.getChildren()[keyPosition];
+        Node<T> predecessorNode = currentNode.getChild(keyPosition);
+
+        if (fileHandlerEnabled && predecessorNode == null) {
+            predecessorNode = loadNodeFromFiles(keyPosition, currentNode);
+        }
 
         if (predecessorNode.getKeysNumber() >= degree) {
             T predecessorKey = getPredecessorKey(predecessorNode);
             remove(predecessorNode, predecessorKey);
-            currentNode.getKeys()[keyPosition] = predecessorKey;
-        } else {
-            Node<T> nextNode = currentNode.getChildren()[keyPosition + 1];
+            currentNode.setKey(keyPosition, predecessorKey);
 
-            if (nextNode.getKeysNumber() >= degree) {
-                T nextKey = getNextKey(nextNode);
-                remove(nextNode, nextKey);
-                currentNode.getKeys()[keyPosition] = nextKey;
+            if (fileHandlerEnabled) saveDataNode(currentNode, predecessorNode);
+        } else {
+            Node<T> successorNode = currentNode.getChild(keyPosition + 1);
+
+            if (fileHandlerEnabled && successorNode == null) {
+                successorNode = loadNodeFromFiles(keyPosition + 1, currentNode);
+            }
+
+            if (successorNode.getKeysNumber() >= degree) {
+                T nextKey = getNextKey(successorNode);
+                remove(successorNode, nextKey);
+                currentNode.setKey(keyPosition, nextKey);
+
+                if (fileHandlerEnabled) saveDataNode(currentNode, successorNode);
             } else {
-                mergeNodes(currentNode, keyPosition, predecessorNode, nextNode);
+                mergeNodes(currentNode, keyPosition, predecessorNode, successorNode);
                 remove(predecessorNode, keyToRemove);
             }
         }
@@ -146,19 +184,15 @@ public class BTree<T extends Comparable<T>> {
      * @param keyToRemove The key to be removed.
      */
     private void handleMissingKeyCase(Node<T> currentNode, T keyToRemove) {
-        int keyPosition;
-        Node<T> targetNode;
-        int currentNodeKeysNumber = currentNode.getKeysNumber();
+        int keyPosition = currentNode.findKeyPositionInNode(currentNode, keyToRemove);
+        if (currentNode.isLeaf()) return;
 
-        for (keyPosition = 0; keyPosition < currentNodeKeysNumber; keyPosition++) {
-            if (currentNode.getKeys()[keyPosition].compareTo(keyToRemove) > 0) break;
-        }
+        Node<T> targetNode = currentNode.getChild(keyPosition);
 
-        targetNode = currentNode.getChildren()[keyPosition];
+        if (fileHandlerEnabled && targetNode == null) targetNode = loadNodeFromFiles(keyPosition, currentNode);
         if (targetNode.getKeysNumber() >= degree) remove(targetNode, keyToRemove);
         else {
-            borrowOrMergeNodes(currentNode, keyPosition, targetNode);
-            remove(targetNode, keyToRemove);
+            borrowOrMergeNodes(currentNode, keyPosition, targetNode, keyToRemove);
         }
     }
 
@@ -169,21 +203,29 @@ public class BTree<T extends Comparable<T>> {
      * @param keyPosition The position of the key in the parent node.
      * @param targetNode  The node that needs to borrow a key or be merged.
      */
-    private void borrowOrMergeNodes(Node<T> currentNode, int keyPosition, Node<T> targetNode) {
+    private void borrowOrMergeNodes(Node<T> currentNode, int keyPosition, Node<T> targetNode, T keyToRemove) {
         Node<T> neighborNode;
         T dividerKey;
 
-        if (keyPosition != currentNode.getKeysNumber() && currentNode.getChildren()[keyPosition + 1].getKeysNumber() >= degree) {
-            dividerKey = currentNode.getKeys()[keyPosition];
-            neighborNode = currentNode.getChildren()[keyPosition + 1];
+        if (redistributionFromRightSiblingIsAvailable(currentNode, keyPosition)) {
+            dividerKey = currentNode.getKey(keyPosition);
+            neighborNode = currentNode.getChild(keyPosition + 1);
+            if (fileHandlerEnabled && neighborNode == null) {
+                neighborNode = loadNodeFromFiles(keyPosition + 1, currentNode);
+            }
             borrowKeyFromNextNode(currentNode, keyPosition, targetNode, neighborNode, dividerKey);
-        } else if (keyPosition != 0 && currentNode.getChildren()[keyPosition - 1].getKeysNumber() >= degree) {
-            dividerKey = currentNode.getKeys()[keyPosition - 1];
-            neighborNode = currentNode.getChildren()[keyPosition - 1];
+        } else if (redistributionFromLeftSiblingIsAvailable(currentNode, keyPosition)) {
+            dividerKey = currentNode.getKey(keyPosition - 1);
+            neighborNode = currentNode.getChild(keyPosition - 1);
+            if (fileHandlerEnabled && neighborNode == null) {
+                neighborNode = loadNodeFromFiles(keyPosition - 1, currentNode);
+            }
             borrowKeyFromPrevNode(currentNode, keyPosition, targetNode, neighborNode, dividerKey);
         } else {
-            mergeNodes(currentNode, keyPosition);
+            mergeNodes(currentNode, keyPosition, keyToRemove);
+            return;
         }
+        remove(targetNode, keyToRemove);
     }
 
     /**
@@ -193,15 +235,13 @@ public class BTree<T extends Comparable<T>> {
      * @return The next key in the node.
      */
     private T getNextKey(Node<T> node) {
-        Node<T> current = node;
-        int currentKeysCount = current.getKeysNumber();
-        if (current.isLeaf()) return current.getKeys()[0];
-        current = current.getChildren()[0];
-        while (!current.isLeaf()) {
-            currentKeysCount = current.getKeysNumber();
-            current = current.getChildren()[currentKeysCount];
+        Node<T> aux;
+        while (!node.isLeaf()) {
+            aux = node.getChild(0);
+            if (fileHandlerEnabled && aux == null) aux = loadNodeFromFiles(0, node);
+            node = aux;
         }
-        return current.getKeys()[currentKeysCount - 1];
+        return node.getKey(0);
     }
 
     /**
@@ -209,31 +249,45 @@ public class BTree<T extends Comparable<T>> {
      *
      * @param parentNode      The parent node of the nodes to be merged.
      * @param positionToMerge The position of the key that divides the nodes to be merged in the parent node.
-     * @param leftNode        The predecessor node that will absorb the nextNode.
-     * @param rightNode       The node to be absorbed into the predecessor node.
+     * @param predecessorNode The predecessor node that will absorb the nextNode.
+     * @param successorNode   The node to be absorbed into the predecessor node.
      */
-    private void mergeNodes(Node<T> parentNode, int positionToMerge, Node<T> leftNode, Node<T> rightNode) {
-        int leftNodeKeysCount = leftNode.getKeysNumber();
-        leftNode.getKeys()[leftNodeKeysCount] = parentNode.getKeys()[positionToMerge];
-        leftNode.incrementKeysNumber();
+    private void mergeNodes(Node<T> parentNode, int positionToMerge, Node<T> predecessorNode, Node<T> successorNode) {
+        int leftNodeKeysCount = predecessorNode.getKeysNumber();
+        predecessorNode.setKey(leftNodeKeysCount, parentNode.getKey(positionToMerge));
+        predecessorNode.incrementKeysNumber();
 
-        for (int nextKeyIndex = 0; nextKeyIndex < rightNode.getKeysNumber(); nextKeyIndex++) {
-            leftNode.getKeys()[leftNodeKeysCount + 1 + nextKeyIndex] = rightNode.getKeys()[nextKeyIndex];
-            leftNode.incrementKeysNumber();
+        for (int i = 0, j = predecessorNode.getKeysNumber(); i < successorNode.getKeysNumber(); i++) {
+            predecessorNode.setKey(j++, successorNode.getKey(i));
+            predecessorNode.incrementKeysNumber();
         }
 
         int mergePositionForChildren = leftNodeKeysCount + 1;
-        for (int nextChildIndex = 0; nextChildIndex <= rightNode.getKeysNumber(); nextChildIndex++) {
-            leftNode.getChildren()[mergePositionForChildren + nextChildIndex] = rightNode.getChildren()[nextChildIndex];
+        for (int i = 0; i < successorNode.getKeysNumber() + 1; i++) {
+            predecessorNode.setChild(mergePositionForChildren, successorNode.getChild(i));
+            predecessorNode.setChildrenId(mergePositionForChildren, successorNode.getIdChild(i));
+            mergePositionForChildren++;
         }
 
+        parentNode.setChild(positionToMerge, predecessorNode);
+
         int parentNodeKeysCount = parentNode.getKeysNumber();
-        for (int parentIndex = positionToMerge; parentIndex < parentNodeKeysCount - 1; parentIndex++) {
-            parentNode.getKeys()[parentIndex] = parentNode.getKeys()[parentIndex + 1];
-            parentNode.getChildren()[parentIndex + 1] = parentNode.getChildren()[parentIndex + 2];
+        for (int parentIndex = positionToMerge; parentIndex < parentNodeKeysCount; parentIndex++) {
+            parentNode.setKey(parentIndex, parentNode.getKey(parentIndex + 1));
         }
+
+        for (int parentIndex = positionToMerge + 1; parentIndex < parentNodeKeysCount + 1; parentIndex++) {
+            parentNode.setChild(parentIndex, parentNode.getChild(parentIndex + 1));
+            parentNode.setChildrenId(parentIndex, parentNode.getChildrenIds()[parentIndex + 1]);
+        }
+
         parentNode.decrementKeysNumber();
-        if (parentNode.getKeysNumber() == 0 && parentNode.equals(root)) root = parentNode.getChildren()[0];
+        if (parentNode.getKeysNumber() == 0) {
+            decreaseBTree(parentNode, predecessorNode, successorNode);
+        } else if (fileHandlerEnabled) {
+            fileHandler.deleteNode(successorNode);
+            saveDataNode(parentNode, predecessorNode);
+        }
     }
 
     /**
@@ -243,17 +297,14 @@ public class BTree<T extends Comparable<T>> {
      * @return The predecessor key.
      */
     private T getPredecessorKey(Node<T> predecessorNode) {
-        T predecessorKey;
-        int keysInNode;
-        while (true) {
-            keysInNode = predecessorNode.getKeysNumber();
-            if (predecessorNode.isLeaf()) {
-                predecessorKey = predecessorNode.getKeys()[keysInNode - 1];
-                break;
-            }
-            predecessorNode = predecessorNode.getChildren()[keysInNode];
+        Node<T> nodeAux;
+        while (!predecessorNode.isLeaf()) {
+            nodeAux = predecessorNode.getChild(predecessorNode.getKeysNumber());
+            if (fileHandlerEnabled && nodeAux == null)
+                nodeAux = loadNodeFromFiles(predecessorNode.getKeysNumber(), predecessorNode);
+            predecessorNode = nodeAux;
         }
-        return predecessorKey;
+        return predecessorNode.getKey(predecessorNode.getKeysNumber() - 1);
     }
 
     /**
@@ -262,23 +313,27 @@ public class BTree<T extends Comparable<T>> {
      * @param currentNode   The parent node of the nodes involved in the operation.
      * @param position      The position of the key to be replaced in the parent node.
      * @param temporaryNode The node that will borrow the key.
-     * @param nextSibling   The node from which a key will be borrowed.
-     * @param dividerKey    The key that divides the temporaryNode and nextSibling in the parent node.
+     * @param rightSibling  The node from which a key will be borrowed.
+     * @param dividerKey    The key that divides the temporaryNode and rightSibling in the parent node.
      */
-    private void borrowKeyFromNextNode(Node<T> currentNode, int position, Node<T> temporaryNode, Node<T> nextSibling, T dividerKey) {
-        currentNode.getKeys()[position] = nextSibling.getKeys()[0];
-        temporaryNode.getKeys()[temporaryNode.getKeysNumber()] = dividerKey;
+    private void borrowKeyFromNextNode(Node<T> currentNode, int position, Node<T> temporaryNode, Node<T> rightSibling, T dividerKey) {
+        currentNode.setKey(position, rightSibling.getKey(0));
+        temporaryNode.setKey(temporaryNode.getKeysNumber(), dividerKey);
         temporaryNode.incrementKeysNumber();
-        temporaryNode.getChildren()[temporaryNode.getKeysNumber()] = nextSibling.getChildren()[0];
+        temporaryNode.setChild(temporaryNode.getKeysNumber(), rightSibling.getChild(0));
+        temporaryNode.setChildrenId(temporaryNode.getKeysNumber(), rightSibling.getIdChild(0));
 
-        int numberOfKeysInNextSibling = nextSibling.getKeysNumber();
+        int numberOfKeysInNextSibling = rightSibling.getKeysNumber();
         for (int nextKeyIndex = 1; nextKeyIndex < numberOfKeysInNextSibling; nextKeyIndex++) {
-            nextSibling.getKeys()[nextKeyIndex - 1] = nextSibling.getKeys()[nextKeyIndex];
+            rightSibling.setKey(nextKeyIndex - 1, rightSibling.getKey(nextKeyIndex));
         }
-        for (int nextChildrenIndex = 1; nextChildrenIndex <= numberOfKeysInNextSibling; nextChildrenIndex++) {
-            nextSibling.getChildren()[nextChildrenIndex - 1] = nextSibling.getChildren()[nextChildrenIndex];
+        for (int i = 1; i <= numberOfKeysInNextSibling; i++) {
+            rightSibling.setChild(i - 1, rightSibling.getChild(i));
+            rightSibling.setChildrenId(i - 1, rightSibling.getIdChild(i));
         }
-        nextSibling.decrementKeysNumber();
+
+        rightSibling.decrementKeysNumber();
+        if (fileHandlerEnabled) saveDataNode(currentNode, temporaryNode, rightSibling);
     }
 
     /**
@@ -288,66 +343,85 @@ public class BTree<T extends Comparable<T>> {
      * @param node            The parent node containing the children to be merged.
      * @param positionToMerge The positionToMerge of the divider key in the parent node.
      */
-    private void mergeNodes(Node<T> node, int positionToMerge) {
-        Node<T> leftChild;
-        Node<T> rightChild;
-        T dividerKey;
+    private void mergeNodes(Node<T> node, int positionToMerge, T keyToRemove) {
+        if (positionToMerge == node.getKeysNumber()) positionToMerge--;
 
-        if (positionToMerge != node.getKeysNumber()) {
-            dividerKey = node.getKeys()[positionToMerge];
-            leftChild = node.getChildren()[positionToMerge];
-            rightChild = node.getChildren()[positionToMerge + 1];
-        } else {
-            dividerKey = node.getKeys()[positionToMerge - 1];
-            rightChild = node.getChildren()[positionToMerge];
-            leftChild = node.getChildren()[positionToMerge - 1];
-            positionToMerge--;
+        T dividerKey = node.getKey(positionToMerge);
+        Node<T> leftChild = node.getChild(positionToMerge);
+        Node<T> rightChild = node.getChild(positionToMerge + 1);
+
+        for (int i = positionToMerge + 1; i < node.getKeysNumber(); i++) {
+            node.setKey(i - 1, node.getKey(i));
         }
-        for (int parentKeyIndex = positionToMerge; parentKeyIndex < node.getKeysNumber() - 1; parentKeyIndex++) {
-            node.getKeys()[parentKeyIndex] = node.getKeys()[parentKeyIndex + 1];
+
+        for (int i = positionToMerge + 2; i <= node.getKeysNumber(); i++) {
+            node.setChild(i - 1, node.getChild(i));
+            node.setChildrenId(i - 1, node.getChildrenIds()[i]);
         }
-        for (int parentChildIndex = positionToMerge + 1; parentChildIndex < node.getKeysNumber(); parentChildIndex++) {
-            node.getChildren()[parentChildIndex] = node.getChildren()[parentChildIndex + 1];
-        }
+
         node.decrementKeysNumber();
         leftChild.getKeys()[leftChild.getKeysNumber()] = dividerKey;
-        leftChild.setKeysNumber(leftChild.getKeysNumber() + 1);
-        for (int rightKeyIndex = 0, j = leftChild.getKeysNumber(); rightKeyIndex < rightChild.getKeysNumber() + 1; rightKeyIndex++, j++) {
-            if (rightKeyIndex < rightChild.getKeysNumber())
-                leftChild.getKeys()[j] = rightChild.getKeys()[rightKeyIndex];
-            leftChild.getChildren()[j] = rightChild.getChildren()[rightKeyIndex];
+        leftChild.incrementKeysNumber();
+        mergeKeysAndChildren(node, leftChild, rightChild);
+        remove(leftChild, keyToRemove);
+    }
+
+    /**
+     * This method merges the keys and children of two nodes into one node.
+     *
+     * @param node       The parent node of the nodes to be merged.
+     * @param leftChild  The left child node.
+     * @param rightChild The right child node.
+     */
+    private void mergeKeysAndChildren(Node<T> node, Node<T> leftChild, Node<T> rightChild) {
+        for (int i = 0, j = leftChild.getKeysNumber(); i < rightChild.getKeysNumber() + 1; i++, j++) {
+            if (i < rightChild.getKeysNumber()) {
+                leftChild.setKey(j, rightChild.getKey(i));
+            }
+            leftChild.setChild(j, rightChild.getChild(i));
+            leftChild.setIdChild(j, rightChild.getIdChild(i));
         }
         leftChild.setKeysNumber(leftChild.getKeysNumber() + rightChild.getKeysNumber());
 
-        if (node.getKeysNumber() == 0) {
-            if (node == root) root = node.getChildren()[0];
-            node = node.getChildren()[0];
+        if (node.getKeysNumber() == 0 && node == root) {
+            decreaseBTree(node, leftChild, rightChild);
+        } else if (fileHandlerEnabled) {
+            fileHandler.deleteNode(rightChild);
+            saveDataNode(leftChild, node);
         }
     }
 
     /**
      * Borrows a key from the previous sibling node.
      *
-     * @param currentNode  The parent node of the nodes involved in the operation.
-     * @param position     The position of the key to be replaced in the parent node.
-     * @param targetNode   The node that will borrow the key.
-     * @param neighborNode The node from which a key will be borrowed.
-     * @param dividerKey   The key that divides the targetNode and neighborNode in the parent node.
+     * @param currentNode The parent node of the nodes involved in the operation.
+     * @param position    The position of the key to be replaced in the parent node.
+     * @param targetNode  The node that will borrow the key.
+     * @param leftSibling The node from which a key will be borrowed.
+     * @param dividerKey  The key that divides the targetNode and leftSibling in the parent node.
      */
-    private void borrowKeyFromPrevNode(Node<T> currentNode, int position, Node<T> targetNode, Node<T> neighborNode, T dividerKey) {
-        currentNode.getKeys()[position - 1] = neighborNode.getKeys()[neighborNode.getKeysNumber() - 1];
-        Node<T> lastChildOfNeighbor = neighborNode.getChildren()[neighborNode.getKeysNumber()];
-        neighborNode.decrementKeysNumber();
+    private void borrowKeyFromPrevNode(Node<T> currentNode, int position, Node<T> targetNode, Node<T> leftSibling, T dividerKey) {
+        currentNode.setKey(position - 1, leftSibling.getKey(leftSibling.getKeysNumber() - 1));
+        Node<T> childToMove = leftSibling.getChild(leftSibling.getKeysNumber());
 
-        for (int targetKeyIndex = targetNode.getKeysNumber(); targetKeyIndex > 0; targetKeyIndex--) {
-            targetNode.getKeys()[targetKeyIndex] = targetNode.getKeys()[targetKeyIndex - 1];
+        if (fileHandlerEnabled && childToMove == null)
+            childToMove = loadNodeFromFiles(leftSibling.getKeysNumber(), leftSibling);
+
+        leftSibling.decrementKeysNumber();
+
+        for (int i = targetNode.getKeysNumber() - 1; i >= 0; i--) {
+            targetNode.setKey(i + 1, targetNode.getKey(i));
         }
-        targetNode.getKeys()[0] = dividerKey;
-        for (int targetChildrenIndex = targetNode.getKeysNumber() + 1; targetChildrenIndex > 0; targetChildrenIndex--) {
-            targetNode.getChildren()[targetChildrenIndex] = targetNode.getChildren()[targetChildrenIndex - 1];
+        targetNode.setKey(0, dividerKey);
+        for (int i = targetNode.getKeysNumber(); i >= 0; i--) {
+            targetNode.setChild(i + 1, targetNode.getChild(i));
+            targetNode.setChildrenId(i + 1, targetNode.getIdChild(i));
         }
-        targetNode.getChildren()[0] = lastChildOfNeighbor;
+        targetNode.setChild(0, childToMove);
+
+        if (childToMove != null) targetNode.setChildrenId(0, childToMove.getId());
         targetNode.incrementKeysNumber();
+        if (fileHandlerEnabled) saveDataNode(currentNode, targetNode, leftSibling);
     }
 
     /**
@@ -385,8 +459,7 @@ public class BTree<T extends Comparable<T>> {
             return null;
         } else {
             if (fileHandlerEnabled && node.getChildren()[keyIndex] == null) {
-                node.getChildren()[keyIndex] = fileHandler.readNodeById(node.getChildrenIds()[keyIndex]);
-                node.setChildrenId(keyIndex, node.getChildren()[keyIndex].getId());
+                node.getChildren()[keyIndex] = loadNodeFromFiles(keyIndex, node);
             }
             return search(node.getChildren()[keyIndex], key);
         }
@@ -402,12 +475,11 @@ public class BTree<T extends Comparable<T>> {
         Node<T> newNode = new Node<>(degree);
         String temp = newNode.getId();
         newNode.setId(currentNode.getId());
-        root = newNode;
+        this.root = newNode;
         currentNode.setId(temp);
         newNode.setLeaf(false);
         newNode.setKeysNumber(0);
-        newNode.getChildren()[0] = currentNode;
-        newNode.setChildrenId(0, currentNode.getId());
+        newNode.setChild(0, currentNode);
         split(newNode, 0, currentNode);
         insertNonFull(newNode, key);
     }
@@ -430,31 +502,14 @@ public class BTree<T extends Comparable<T>> {
      * @param keyToInsert The key to be inserted into the leaf node.
      */
     private void insertIntoLeafNode(Node<T> node, T keyToInsert) {
-        int keyIndex;
-        for (keyIndex = node.getKeysNumber() - 1; keyIndex >= 0 && keyToInsert.compareTo(node.getKeys()[keyIndex]) < 0; keyIndex--) {
-            node.getKeys()[keyIndex + 1] = node.getKeys()[keyIndex];
+        int keyIndex = node.getKeysNumber() - 1;
+        while (keyIndex >= 0 && keyToInsert.compareTo(node.getKey(keyIndex)) < 0) {
+            node.setKey(keyIndex + 1, node.getKey(keyIndex));
+            keyIndex--;
         }
-        node.getKeys()[keyIndex + 1] = keyToInsert;
+        node.setKey(keyIndex + 1, keyToInsert);
         node.incrementKeysNumber();
         if (fileHandlerEnabled) saveDataNode(node);
-    }
-
-    /**
-     * Finds the appropriate position for inserting a new key into an array of keys.
-     *
-     * @param keys        The array of keys.
-     * @param keyCount    The number of keys currently in the array.
-     * @param keyToInsert The key to be inserted.
-     * @return The position where the new key should be inserted.
-     */
-    private int findInsertPosition(T[] keys, int keyCount, T keyToInsert) {
-        int position;
-        for (position = keyCount - 1; position >= 0; position--) {
-            if (keyToInsert.compareTo(keys[position]) >= 0) {
-                break;
-            }
-        }
-        return position + 1;
     }
 
     /**
@@ -465,7 +520,7 @@ public class BTree<T extends Comparable<T>> {
      */
     private void shiftKeysRight(Node<T> node, int fromPos) {
         for (int shitKeyIndex = node.getKeysNumber() - 1; shitKeyIndex >= fromPos; shitKeyIndex--) {
-            node.getKeys()[shitKeyIndex + 1] = node.getKeys()[shitKeyIndex];
+            node.setKey(shitKeyIndex + 1, node.getKey(shitKeyIndex));
         }
     }
 
@@ -476,17 +531,14 @@ public class BTree<T extends Comparable<T>> {
      * @param key  The key to be inserted.
      */
     private void insertIntoInternalNode(Node<T> node, T key) {
-        T[] keys = node.getKeys();
-        int positionFound = findInsertPosition(keys, node.getKeysNumber(), key);
-        Node<T> tmp = node.getChildren()[positionFound];
+        int positionFound = node.findKeyPositionInNode(node, key);
+        Node<T> tmp = node.getChild(positionFound);
         if (fileHandlerEnabled && tmp == null) {
-            tmp = fileHandler.readNodeById(node.getChildrenIds()[positionFound]);
-            node.getChildren()[positionFound] = tmp;
-            node.setChildrenId(positionFound, tmp.getId());
+            tmp = loadNodeFromFiles(positionFound, node);
         }
         if (tmp.isFull()) {
             split(node, positionFound, tmp);
-            if (key.compareTo(node.getKeys()[positionFound]) > 0) {
+            if (key.compareTo(node.getKey(positionFound)) > 0) {
                 positionFound++;
             }
         }
@@ -504,16 +556,15 @@ public class BTree<T extends Comparable<T>> {
         Node<T> newNode = createNewNodeFromSplit(nodeToSplit);
 
         shiftChildrenRight(parent, positionToSplit);
-        parent.getChildren()[positionToSplit + 1] = newNode;
-        parent.setChildrenId(positionToSplit + 1, newNode.getId());
+        parent.setChild(positionToSplit + 1, newNode);
 
         shiftKeysRight(parent, positionToSplit);
-        parent.getKeys()[positionToSplit] = nodeToSplit.getKeys()[degree - 1];
+        parent.setKey(positionToSplit, nodeToSplit.getKey(degree - 1));
 
         parent.setKeysNumber(parent.getKeysNumber() + 1);
 
         if (fileHandlerEnabled) {
-            fileHandlerOperations(parent, nodeToSplit, newNode);
+            saveDataNode(parent, nodeToSplit, newNode);
         }
     }
 
@@ -529,13 +580,12 @@ public class BTree<T extends Comparable<T>> {
         newNode.setKeysNumber(degree - 1);
 
         for (int keyIndex = 0; keyIndex < degree - 1; keyIndex++) {
-            newNode.getKeys()[keyIndex] = nodeToSplit.getKeys()[keyIndex + degree];
+            newNode.setKey(keyIndex, nodeToSplit.getKey(keyIndex + degree));
         }
 
         if (!nodeToSplit.isLeaf()) {
             for (int childIndex = 0; childIndex < degree; childIndex++) {
-                newNode.getChildren()[childIndex] = nodeToSplit.getChildren()[childIndex + degree];
-                newNode.setChildrenId(childIndex, nodeToSplit.getChildren()[childIndex + degree].getId());
+                newNode.setChild(childIndex, nodeToSplit.getChild(childIndex + degree));
             }
         }
 
@@ -551,7 +601,7 @@ public class BTree<T extends Comparable<T>> {
      */
     private void shiftChildrenRight(Node<T> node, int fromPosition) {
         for (int childIndex = node.getKeysNumber(); childIndex >= fromPosition + 1; childIndex--) {
-            node.getChildren()[childIndex + 1] = node.getChildren()[childIndex];
+            node.setChild(childIndex + 1, node.getChild(childIndex));
         }
     }
 
@@ -609,27 +659,71 @@ public class BTree<T extends Comparable<T>> {
     }
 
     /**
-     * This method sets the fileHandler of the BTree when that is split.
-     * @param parent The parent node of the node to be split.
-     * @param child The node to be split.
-     * @param newChild The new node containing keys from the node being split.
+     * Checks if a redistribution from the left sibling is possible.
+     *
+     * @param node     The parent node of the node to be split.
+     * @param position The position of the node to be split.
+     * @return True if a redistribution from the left sibling is possible, false otherwise.
      */
-    private void fileHandlerOperations(Node<T> parent, Node<T> child, Node<T> newChild) {
-        if (child.getKeysNumber() == 0) {
-            fileHandler.deleteNode(child);
-            fileHandler.deleteNode(newChild);
-            fileHandler.saveNode(parent);
-        } else if (newChild.getKeysNumber() == 0) {
-            fileHandler.deleteNode(child);
-            fileHandler.deleteNode(newChild);
-            fileHandler.saveNode(parent);
-        } else {
-            saveDataNode(parent, child, newChild);
+    private boolean redistributionFromLeftSiblingIsAvailable(Node<T> node, int position) {
+        if (position == 0) return false;
+        Node<T> leftSibling = node.getChild(position - 1);
+        if (fileHandlerEnabled && leftSibling == null) {
+            leftSibling = loadNodeFromFiles(position - 1, node);
+        }
+        return leftSibling.getKeysNumber() >= degree;
+    }
+
+    /**
+     * Checks if a redistribution from the right sibling is possible.
+     *
+     * @param node     The parent node of the node to be split.
+     * @param position The position of the node to be split.
+     * @return True if a redistribution from the right sibling is possible, false otherwise.
+     */
+    private boolean redistributionFromRightSiblingIsAvailable(Node<T> node, int position) {
+        if (position == node.getKeysNumber()) return false;
+        Node<T> rightSibling = node.getChild(position + 1);
+        if (fileHandlerEnabled && rightSibling == null) {
+            rightSibling = loadNodeFromFiles(position + 1, node);
+        }
+        return rightSibling.getKeysNumber() >= degree;
+    }
+
+    /**
+     * This method decreases the BTree when the root node is empty.
+     *
+     * @param parent     The parent node of the node to be split.
+     * @param leftChild  The node to be split.
+     * @param rightChild The new node containing keys from the node being split.
+     */
+    private void decreaseBTree(Node<T> parent, Node<T> leftChild, Node<T> rightChild) {
+        root = parent.getChild(0);
+        if (fileHandlerEnabled) {
+            fileHandler.deleteNode(leftChild);
+            fileHandler.deleteNode(rightChild);
+            fileHandler.deleteNode(parent);
+            root.setId("root");
+            saveDataNode(root);
         }
     }
 
     /**
+     * This method loads the node from the fileHandler.
+     *
+     * @param index The index of the child.
+     * @param node  The node to be loaded.
+     * @return The node loaded.
+     */
+    private Node<T> loadNodeFromFiles(int index, Node<T> node) {
+        Node<T> newNode = fileHandler.readNodeById(node.getIdChild(index));
+        node.setChild(index, newNode);
+        return newNode;
+    }
+
+    /**
      * This method saves the nodes in the fileHandler.
+     *
      * @param nodes The nodes to be saved.
      */
     @SafeVarargs

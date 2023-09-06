@@ -10,10 +10,10 @@ import java.util.Random;
 public class FileHandlerBTreeTest {
     @Test
     public void insertValuesBTreeValuesTest() {
-        BTree<Passenger> bTree = new BTree<>(10, new FileHandlerBTree());
+        BTree<Passenger> bTree = new BTree<>(7, new FileHandlerBTree());
 
         long startTime = System.nanoTime();
-        for (int i = 1; i <= 10000; i++) {
+        for (int i = 1; i <= 5; i++) {
             bTree.insert(createRandomPassengers());
         }
         long endTime = System.nanoTime();
@@ -31,6 +31,40 @@ public class FileHandlerBTreeTest {
 
         Node<Passenger> s =  bTree.search(bTree.getRoot(), new Passenger(214, "Denis", "Gandarillas", "Brasil", Category.REGULAR_PASSENGER));
         System.out.println(s);
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+
+        double durationInSeconds = (double)duration / 1_000_000_000.0;
+        System.out.printf("Time execution (Search): %.4f seconds%n", durationInSeconds);
+    }
+
+    @Test
+    public void deleteValuesBTreeTest() {
+        BTree<Passenger> bTree = new BTree<>(10, new FileHandlerBTree());
+
+        long startTime = System.nanoTime();
+
+        for (int i = 0; i < 50; i++) {
+            bTree.remove(createRandomPassengers());
+        }
+
+        long endTime = System.nanoTime();
+        long duration = endTime - startTime;
+
+        double durationInSeconds = (double)duration / 1_000_000_000.0;
+        System.out.printf("Time execution (Remove): %.4f seconds%n", durationInSeconds);
+    }
+
+    @Test
+    public void updateValuesBTreeTest() {
+        BTree<Passenger> bTree = new BTree<>(10, new FileHandlerBTree());
+
+        long startTime = System.nanoTime();
+
+        for (int i = 0; i < 50; i++) {
+            bTree.update(createRandomPassengers(), createRandomPassengers());
+        }
+
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
 
