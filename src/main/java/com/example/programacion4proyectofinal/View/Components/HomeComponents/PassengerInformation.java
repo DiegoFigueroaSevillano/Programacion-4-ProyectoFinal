@@ -105,7 +105,7 @@ public class PassengerInformation {
         textField.setPrefWidth(width);
         textField.setPrefHeight(height);
         textField.setBackground(backgroundGenerator.createBackground("WHITE"));
-        textField.setStyle("-fx-font-size: 24px;");
+        textField.setFont(generateFont.latoRegular(24));
 
         if (title.equals("IDENTIFY CARD:")) {
             validateNumbers(textField);
