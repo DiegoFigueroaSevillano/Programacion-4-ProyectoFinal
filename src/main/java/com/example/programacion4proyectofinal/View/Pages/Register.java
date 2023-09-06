@@ -130,8 +130,8 @@ public class Register {
      * Creates the names section
      */
     private void createNameSection() {
-         passengerName=new PassengerInformation("NAME:" , 350,120);
-         passengerLastName = new PassengerInformation("LAST NAME:" ,350,120);
+        passengerName=new PassengerInformation("NAME:" , 350,120);
+        passengerLastName = new PassengerInformation("LAST NAME:" ,350,120);
         sectionNames =new HBox(40);
         sectionNames.setPrefHeight(120);
         sectionNames.setPrefWidth(900);
@@ -143,8 +143,8 @@ public class Register {
      * Creates the ci section
      */
     private void createCountryAndCiSection() {
-         passengerCi=new PassengerInformation("IDENTIFY CARD:" , 350,120);
-         passengerCountry = new PassengerInformation("COUNTRY:" ,350,120);
+        passengerCi=new PassengerInformation("IDENTIFY CARD:" , 350,120);
+        passengerCountry = new PassengerInformation("COUNTRY:" ,350,120);
         sectionCountryCi =new HBox(40);
         sectionCountryCi.setPrefHeight(120);
         sectionCountryCi.setPrefWidth(900);
