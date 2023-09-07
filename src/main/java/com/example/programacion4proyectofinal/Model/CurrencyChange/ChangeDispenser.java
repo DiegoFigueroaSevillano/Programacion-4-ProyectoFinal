@@ -32,7 +32,7 @@ public class ChangeDispenser {
 
     public CoinStock[] getTheListOfCoinsInStock(){
         CoinStock coin;
-        CoinStock[] result = new CoinStock[9];
+        CoinStock[] result = new CoinStock[8];
         int index = 0;
         while (changeHeap.peek() != null){
             coin = changeHeap.remove();
@@ -56,7 +56,6 @@ public class ChangeDispenser {
         changeHeap.add(new CoinStock(Coin.FIVE_BS));
         changeHeap.add(new CoinStock(Coin.TWO_BS));
         changeHeap.add(new CoinStock(Coin.ONE_BS));
-        changeHeap.add(new CoinStock(Coin.FIFTY_CTS));
     }
 
     /**
@@ -101,6 +100,20 @@ public class ChangeDispenser {
     private void swapTheLists(){
         changeHeap = auxChangeHeap;
         auxChangeHeap = new MaxHeap<>(9);
+    }
+
+    /**
+     * Method that sums the coins
+     *
+     * @param coinStock the list of coins with her quantity
+     * @return the total money
+     */
+    public int sumTheArray(CoinStock[] coinStock){
+        int money = 0;
+        for (CoinStock stock : coinStock) {
+            money += stock.getCoin().getCoinValue() * stock.getQuantity();
+        }
+        return money;
     }
 
     /**

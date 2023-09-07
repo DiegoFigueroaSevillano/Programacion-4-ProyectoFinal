@@ -1,19 +1,16 @@
-package com.example.programacion4proyectofinal;
+package com.example.programacion4proyectofinal.StagesAndLogicTest;
 
-import com.example.programacion4proyectofinal.Controller.HomeController;
+import com.example.programacion4proyectofinal.Controller.ChangeDispenserController;
 import com.example.programacion4proyectofinal.Controller.LogInController;
-import com.example.programacion4proyectofinal.Controller.RegisterController;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.View.Pages.ChangeDispenserPage;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- * This is the main class that launches the application.
- */
-public class HelloApplication extends Application {
+public class ChangeDispenserViewTest extends Application {
 
     /**
      * The main method that launches the JavaFX application.
@@ -34,14 +31,14 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws Exception {
         Group root = new Group();
 
-        LogInController logIn = new LogInController(root, stage);
+        ChangeDispenserController logIn = new ChangeDispenserController(root, stage, 300);
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
 
-        Scene currentScene = logIn.getLogInView().getLogInScene();
+        Scene currentScene = logIn.getChangeDispenserView().getChangeDispenserScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
-        changePropertiesStage.changeSizeStage(800, 700, stage);
+        changePropertiesStage.changeSizeStage(1800, 1000, stage);
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);
