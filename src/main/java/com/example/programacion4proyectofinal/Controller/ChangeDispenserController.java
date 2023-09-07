@@ -13,9 +13,10 @@ import javafx.stage.Stage;
  * Controller class for the Change Dispenser view.
  */
 public class ChangeDispenserController {
-    ChangeDispenserPage changeDispenserView;
-    ChangeDispenser changeDispenserModel;
-    boolean isPressed;
+    private ChangeDispenserPage changeDispenserView;
+    private ChangeDispenser changeDispenserModel;
+    private boolean isPressed;
+    private int cost;
 
     /**
      * Constructor for the change dispenser controller.
@@ -23,10 +24,11 @@ public class ChangeDispenserController {
      * @param group  The root Group node.
      * @param stage The primary Stage.
      */
-    public ChangeDispenserController(Group group, Stage stage){
+    public ChangeDispenserController(Group group, Stage stage, int cost){
         this.changeDispenserView = new ChangeDispenserPage(group, stage);
         this.changeDispenserModel = new ChangeDispenser();
         this.isPressed = false;
+        this.cost = cost;
         addActionToActionButton();
     }
 
@@ -64,7 +66,7 @@ public class ChangeDispenserController {
      * Reset the values of the labels
      */
     public void returnChange(){
-        CoinStock[] coinStock = changeDispenserModel.getTheChange(changeDispenserModel.sumTheArray(saveTheMoney()), 300);  //TODO: LA VISTA AL MOMENTO DE COMPARA EL TICKET DEBE MANDAR A ESTA EL COSTO DEL BOLETO
+        CoinStock[] coinStock = changeDispenserModel.getTheChange(changeDispenserModel.sumTheArray(saveTheMoney()), cost);  //TODO: LA VISTA AL MOMENTO DE COMPARA EL TICKET DEBE MANDAR A ESTA EL COSTO DEL BOLETO
         resetLabels();
         chargeTheChange(coinStock);
     }
@@ -109,11 +111,21 @@ public class ChangeDispenserController {
             @Override
             public void handle(ActionEvent event) {
                 if (!isPressed){
-                    returnChange();
-                    changeDispenserView.getActionButton().setText("RELOAD");
-                    isPressed = true;
+                    if (changeDispenserModel.sumTheArray(saveTheMoney()) < cost){
+                        changeDispenserView.getErrorMessage().setText("THE AMOUNT OF MONEY ENTERED DOES NOT SATISFY THE TICKET PRICE");
+                    } else if (changeDispenserModel.sumTheArray(changeDispenserModel.getTheListOfCoinsInStock())
+                            < (changeDispenserModel.sumTheArray(saveTheMoney()) - cost)) {
+                        changeDispenserView.getErrorMessage().setText("NOT ENOUGH CHANGE");
+                    }else {
+                        returnChange();
+                        changeDispenserView.getActionTittle().setText("CURRENCY CHANGE");
+                        changeDispenserView.getActionButton().setText("RELOAD");
+                        changeDispenserView.getErrorMessage().setText(" ");
+                        isPressed = true;
+                    }
                 }else {
                     resetLabels();
+                    changeDispenserView.getActionTittle().setText("RECEIVED MONEY");
                     changeDispenserView.getActionButton().setText("RECEIVE PAYMENT");
                     isPressed = false;
                 }

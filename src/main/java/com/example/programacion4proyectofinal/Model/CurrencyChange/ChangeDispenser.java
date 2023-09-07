@@ -32,7 +32,7 @@ public class ChangeDispenser {
 
     public CoinStock[] getTheListOfCoinsInStock(){
         CoinStock coin;
-        CoinStock[] result = new CoinStock[9];
+        CoinStock[] result = new CoinStock[8];
         int index = 0;
         while (changeHeap.peek() != null){
             coin = changeHeap.remove();

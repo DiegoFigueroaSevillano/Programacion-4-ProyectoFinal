@@ -126,8 +126,8 @@ public class BillSection {
 
         this.firstButton = new Button();
         this.firstButton.setBackground(backgroundGenerator.createBackgroundImage(this.firstImagePath));
-        this.firstButton.prefWidthProperty().bind(this.firstSection.widthProperty().multiply(0.56));
-        this.firstButton.prefHeightProperty().bind(this.firstSection.heightProperty());
+        this.firstButton.prefWidthProperty().bind(this.firstSection.widthProperty().multiply(0.52));
+        this.firstButton.prefHeightProperty().bind(this.firstSection.heightProperty().subtract(10));
         firstButtonAction();
 
         this.firstLabel = new Label();
@@ -235,8 +235,8 @@ public class BillSection {
 
         this.secondButton = new Button();
         this.secondButton.setBackground(backgroundGenerator.createBackgroundImage(this.secondImagePath));
-        this.secondButton.prefWidthProperty().bind(this.secondSection.widthProperty().multiply(0.56));
-        this.secondButton.prefHeightProperty().bind(this.secondSection.heightProperty());
+        this.secondButton.prefWidthProperty().bind(this.secondSection.widthProperty().multiply(0.52));
+        this.secondButton.prefHeightProperty().bind(this.secondSection.heightProperty().subtract(10));
         secondButtonAction();
 
         this.secondLabel = new Label();
@@ -264,8 +264,8 @@ public class BillSection {
 
         this.thirdButton = new Button();
         this.thirdButton.setBackground(backgroundGenerator.createBackgroundImage(this.thirdImagePath));
-        this.thirdButton.prefWidthProperty().bind(this.thirdSection.widthProperty().multiply(0.56));
-        this.thirdButton.prefHeightProperty().bind(this.thirdSection.heightProperty());
+        this.thirdButton.prefWidthProperty().bind(this.thirdSection.widthProperty().multiply(0.52));
+        this.thirdButton.prefHeightProperty().bind(this.thirdSection.heightProperty().subtract(10));
         thirdButtonAction();
 
         this.thirdLabel = new Label();
@@ -293,8 +293,8 @@ public class BillSection {
 
         this.fourthButton = new Button();
         this.fourthButton.setBackground(backgroundGenerator.createBackgroundImage(this.fourthImagePath));
-        this.fourthButton.prefWidthProperty().bind(this.fourthSection.widthProperty().multiply(0.56));
-        this.fourthButton.prefHeightProperty().bind(this.fourthSection.heightProperty());
+        this.fourthButton.prefWidthProperty().bind(this.fourthSection.widthProperty().multiply(0.52));
+        this.fourthButton.prefHeightProperty().bind(this.fourthSection.heightProperty().subtract(10));
         fourthButtonAction();
 
         this.fourthLabel = new Label();
@@ -308,7 +308,5 @@ public class BillSection {
 
         this.fourthSection.getChildren().addAll(this.fourthButton, this.fourthLabel);
     }
-
-
 
 }
