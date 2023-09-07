@@ -6,7 +6,6 @@ import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Utils.ParserJson;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Search {
 
@@ -24,14 +23,23 @@ public class Search {
     private Passenger searchById(String path, int id) {
         Passenger passenger = null;
         Node node = parserJson.convertJsonToNode(path);
-        if (node != null && (path != null)) {
+        if (node != null && path != null) {
+            System.out.println(path);
+            System.out.println(id < node.getKeys().get(0).getId());
+            System.out.println(id > node.getKeys().get(node.getKeys().size() - 1).getId());
             passenger = searchInTheNode(node.getKeys(), id);
             if (passenger == null && !node.getChildren().isEmpty()) {
-                for (int index = 0; index < node.getChildren().size(); index++) {
-                    if (node.getChildren().get(index) != null && !node.getChildren().get(index).equals("null")) {
-                        passenger = searchById(node.getChildren().get(index), id);
-                        if (passenger != null) {
-                            break;
+                if (id < node.getKeys().get(0).getId()) {
+                    passenger = searchById(node.getChildren().get(0), id);
+                } else if (id > node.getKeys().get(node.getKeys().size() - 1).getId()) {
+                    passenger = searchById(node.getChildren().get(node.getKeys().size()), id);
+                } else {
+                    for (int index = 0; index < node.getKeys().size(); index++) {
+                        if (node.getKeys().get(index).getId() < id && node.getKeys().get(index + 1).getId() > id) {
+                            passenger = searchById(node.getChildren().get(index + 1), id);
+                            if (passenger != null) {
+                                break;
+                            }
                         }
                     }
                 }
@@ -70,13 +78,8 @@ public class Search {
             searchNameInNode(name, result, passengers);
 
             if (!passengers.isEmpty()) {
-                for (int index = 0; index < passengers.size(); index++) {
-                    if (index == passengers.size() - 1) {
-                        searchByName(children.get(index), name, result);
-                        searchByName(children.get(index + 1), name, result);
-                    } else {
-                        searchByName(children.get(index), name, result);
-                    }
+                for (int index = 0; index <= passengers.size(); index++) {
+                    searchByName(children.get(index), name, result);
                 }
             }
         }
@@ -91,5 +94,21 @@ public class Search {
                 result.add(passengers.get(index));
             }
         }
+    }
+
+    public ArrayList<Passenger> obtainAllPassengers() {
+        return obtainAllPassengers(PATH_ROOT);
+    }
+
+    private ArrayList<Passenger> obtainAllPassengers(String path) {
+        ArrayList<Passenger> result = new ArrayList<>();
+        Node node = parserJson.convertJsonToNode(path);
+        if (node != null && !node.getKeys().isEmpty()) {
+            for (int index = 0; index < node.getChildren().size(); index++) {
+                result.addAll(obtainAllPassengers(node.getChildren().get(index)));
+            }
+            result.addAll(node.getKeys());
+        }
+        return result;
     }
 }

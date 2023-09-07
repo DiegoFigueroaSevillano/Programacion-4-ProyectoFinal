@@ -1,6 +1,5 @@
 package com.example.programacion4proyectofinal;
 
-import com.example.programacion4proyectofinal.Model.Objects.Node;
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Model.Search;
 
@@ -13,7 +12,9 @@ public class SearchTestMain {
 
     public static void main(String[] args) {
         Search search = new Search();
-        Passenger passenger = search.searchById(1);
+        long startById = System.currentTimeMillis();
+        Passenger passenger = search.searchById(9996564);
+        long endById = System.currentTimeMillis();
         System.out.println("===============================================");
         if (passenger == null) {
             System.out.println("NODE IS NULL");
@@ -22,7 +23,9 @@ public class SearchTestMain {
         }
         System.out.println("===============================================");
 
-        ArrayList<Passenger> result = search.searchByName("Axel");
+        long startByName = System.currentTimeMillis();
+        ArrayList<Passenger> result = search.searchByName("PACHECO");
+        long endByName = System.currentTimeMillis();
 
         System.out.println("===============================================");
         if (!result.isEmpty()) {
@@ -33,6 +36,22 @@ public class SearchTestMain {
         } else {
             System.out.println("USER NOT FOUND!!!\n===============================================");
         }
+
+        System.out.println("===============================================");
+
+        long startAll = System.currentTimeMillis();
+        ArrayList<Passenger> allPassengers = search.obtainAllPassengers();
+        long endAll = System.currentTimeMillis();
+
+        System.out.println(allPassengers.size() + " PASSENGERS");
+
+        System.out.println("===============================================");
+
+        System.out.println("===============================================");
+        System.out.println("BY ID TIME: " + ((endById - startById) / 1000) + " seg");
+        System.out.println("BY NAME TIME: " + ((endByName - startByName) / 1000) + " seg");
+        System.out.println("ALL PASSENGERS TIME: " + ((endAll - startAll) / 1000) + " seg");
+        System.out.println("===============================================");
     }
 
 }

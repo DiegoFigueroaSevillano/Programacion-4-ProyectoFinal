@@ -15,7 +15,7 @@ public class ParserJson {
         Node node = null;
 
         if (filename != null && !filename.equals("null")) {
-            String path = "src/main/resources/com/example/programacion4proyectofinal/Users/" + filename + ".json";
+            String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/Users/" + filename + ".json";
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 JsonNode jsonNode = objectMapper.readTree(new File(path));
