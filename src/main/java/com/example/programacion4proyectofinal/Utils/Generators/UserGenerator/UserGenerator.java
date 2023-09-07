@@ -18,14 +18,13 @@ public class UserGenerator {
      * @param bTree the respective b-tree
      * @param quantityOfUsers the number of users to initialize
      */
-    public static void generateUsers(BTree<Integer> bTree, int quantityOfUsers){
+    public static void generateUsers(BTree<Integer> bTree, int quantityOfUsers, HashMap<Integer, Passenger> hashMap){
         String name;
         String lastName;
         int CI;
         String country;
         Category category;
         DataGenerator generator = new DataGenerator();
-        HashMap<Integer, Passenger> hashMap = new HashMap<>();
 
         for (int i = 0; i < quantityOfUsers; i++){
             name = generator.generateName();

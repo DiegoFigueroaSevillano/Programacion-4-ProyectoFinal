@@ -1,9 +1,11 @@
 package com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase;
 
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -55,6 +57,23 @@ public class UserFlightDataGenerator {
         Status[] values = Status.values();
         int randomIndex = ThreadLocalRandom.current().nextInt(values.length);
         return values[randomIndex];
+    }
+
+    /**
+     * This method takes a random ci for the hashmap
+     *
+     * @param map the hashmap with de data
+     * @param size the quantity of passengers
+     * @return the array of passengers in totally
+     */
+    public static int[] getRandomKeys(HashMap<Integer, Passenger> map, int size) {
+        List<Integer> keys = new ArrayList<>(map.keySet());
+        Collections.shuffle(keys);
+        int[] passengersList = new int[size];
+        for (int i = 0; i < Math.min(size, keys.size()); i++) {
+            passengersList[i] = keys.get(i);
+        }
+        return passengersList;
     }
 
 }
