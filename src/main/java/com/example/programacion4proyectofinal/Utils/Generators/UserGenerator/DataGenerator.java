@@ -60,6 +60,11 @@ public class DataGenerator {
         return CI;
     }
 
+    /**
+     * This method generate a random category
+     *
+     * @return a random category
+     */
     public Category generateCategory(){
         Category[] categories = Category.values();
         int randomIndex = ThreadLocalRandom.current().nextInt(categories.length);

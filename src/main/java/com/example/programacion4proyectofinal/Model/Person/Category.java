@@ -10,16 +10,21 @@ public enum Category {
 
     private int value;
 
+    /**
+     * Constructor class for the category enum
+     *
+     * @param value the value of the category
+     */
     private Category(int value) {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
-
-
+    /**
+     * Compare to method
+     *
+     * @param other the other value to compare
+     * @return the comparator value
+     */
     public int compare(Category other) {
         return other.value - this.value;
     }

@@ -2,23 +2,29 @@ package com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDa
 
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInfo;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
-
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
+
+/**
+ * This method was created for the management of the flight indo database
+ */
 public class UserFlightInfoOperations {
 
+    /**
+     * This method obtain all the user for one flight
+     *
+     * @param flightID the flight id
+     * @return all the user for it id
+     */
     public static List<UserFlightInfo> getUserFlightInfosByFlightID(int flightID) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -39,6 +45,11 @@ public class UserFlightInfoOperations {
         return result;
     }
 
+    /**
+     * This method insert new value into their respective json
+     *
+     * @param userFlightInfo a new value
+     */
     public static void insert(UserFlightInfo userFlightInfo) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -59,6 +70,12 @@ public class UserFlightInfoOperations {
         objectMapper.writeValue(file, arrayNode);
     }
 
+    /**
+     * This method delete a value for the database
+     *
+     * @param userCI the user to be eliminated
+     * @param flightID the flight ID
+     */
     public static void delete(int userCI, int flightID) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
