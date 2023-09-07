@@ -5,6 +5,7 @@ import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.PlacesListDB;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
+import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

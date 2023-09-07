@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.View.Components.HomeComponents;
+package com.example.programacion4proyectofinal.View.Components.GeneralComponents;
 
 import com.example.programacion4proyectofinal.Controller.HomeController;
 import com.example.programacion4proyectofinal.Controller.RegisterController;
@@ -29,7 +29,8 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton, passengerRegisterButton;
+    private Button homeButton, passengersButton, changeDispenserButton;
+    private Button passengerRegisterButton;
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
@@ -71,12 +72,13 @@ public class Header {
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
+        createChangeDispenserButton();
         createPassengersRegisterButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton,passengerRegisterButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton);
     }
 
     /**
@@ -104,6 +106,14 @@ public class Header {
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
         generatorMenuOptions(passengersButton, "passengers");
+    }
+
+    /**
+     * Creates the "PASSENGERS" button.
+     */
+    private void createChangeDispenserButton() {
+        changeDispenserButton = new Button("CHANGE DISPENSER");
+        generatorMenuOptions(changeDispenserButton, "changeDispenser");
     }
 
     /**
