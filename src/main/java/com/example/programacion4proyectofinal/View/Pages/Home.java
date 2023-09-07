@@ -54,7 +54,7 @@ public class Home {
         this.changePropertiesStage.changeToMaximizeSizeStage(950, 900, this.stage);
         this.stage.setTitle("HOME - AEROLAB");
         this.homeScene = new Scene(root);
-        this.header = new Header(stage, "home");
+        this.header = new Header(root,stage, "home");
         this.generateFont = new GenerateFont();
         createHome(homeScene);
         root.getChildren().add(home);
@@ -118,8 +118,8 @@ public class Home {
     private void createPlacesSection() {
         ObservableList<String> placesList = FXCollections.observableArrayList(PlacesListDB.PLACES_LIST);
 
-        PlacesList fromList = new PlacesList(placesList, "FROM:");
-        PlacesList toList = new PlacesList(placesList, "TO:");
+        PlacesList fromList = new PlacesList(placesList, "FROM:",350,120);
+        PlacesList toList = new PlacesList(placesList, "TO:",350,120);
 
         places = new HBox(40);
         places.setPrefWidth(900);
