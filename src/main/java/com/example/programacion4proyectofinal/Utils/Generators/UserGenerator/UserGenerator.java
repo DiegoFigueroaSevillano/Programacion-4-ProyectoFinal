@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Utils.UserGenerator;
+package com.example.programacion4proyectofinal.Utils.Generators.UserGenerator;
 
 import com.example.programacion4proyectofinal.Model.DataStructure.BTree;
 import com.example.programacion4proyectofinal.Model.FileHandler.FileHandlerBTree;
@@ -32,7 +32,8 @@ public class UserGenerator {
             lastName = generator.generateLasName();
             CI = generator.generateCI();
             country = generator.generateCountry();
-            Passenger passenger = new Passenger(CI, name, lastName, country, Category.VIP);
+            category = generator.generateCategory();
+            Passenger passenger = new Passenger(CI, name, lastName, country, category);
             if (bTree.insertKey(CI)){
                 hashMap.put(CI, passenger);
             }

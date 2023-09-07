@@ -7,6 +7,7 @@ module com.example.programacion4proyectofinal {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.datatype.jsr310;
 
     opens com.example.programacion4proyectofinal.Model.FileHandler to com.fasterxml.jackson.databind, com.fasterxml.jackson.core, com.fasterxml.jackson.annotation;
     exports com.example.programacion4proyectofinal.Model.FileHandler;
@@ -23,4 +24,7 @@ module com.example.programacion4proyectofinal {
     opens com.example.programacion4proyectofinal.Model.FileHandler.Deserializer to com.fasterxml.jackson.annotation, com.fasterxml.jackson.core, com.fasterxml.jackson.databind;
     exports com.example.programacion4proyectofinal.Model.FileHandler.Writer;
     opens com.example.programacion4proyectofinal.Model.FileHandler.Writer to com.fasterxml.jackson.annotation, com.fasterxml.jackson.core, com.fasterxml.jackson.databind;
+    exports com.example.programacion4proyectofinal.Model.UserFlightInfo to com.fasterxml.jackson.databind;
+    exports com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase to com.fasterxml.jackson.databind;
+
 }

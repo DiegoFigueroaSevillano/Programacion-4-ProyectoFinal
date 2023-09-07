@@ -6,7 +6,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 
 /**
  * This class generates and configures a radio button with a title.
