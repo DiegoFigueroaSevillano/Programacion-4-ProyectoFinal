@@ -49,7 +49,7 @@ public class ChangeDispenserPage {
         this.stage = stage;
         this.stage.setTitle("CHANGE DISPENSER - AEROLAB");
         this.changeDispenserScene = new Scene(root);
-        this.header = new Header(stage, "home");
+        this.header = new Header(root, stage, "changeDispenser");
         this.stage.setMinWidth(1800);
         this.stage.setMinWidth(1000);
         createChangeDispenser(this.changeDispenserScene);
@@ -137,6 +137,11 @@ public class ChangeDispenserPage {
 
     }
 
+    /**
+     * This method is used to create a tittle of the action into her pane
+     *
+     * @param pane their respective container
+     */
     private void createTittleLabels(Pane pane){
         this.actionTittle = new Label();
         this.actionTittle.prefWidthProperty().bind(pane.widthProperty());
@@ -147,13 +152,18 @@ public class ChangeDispenserPage {
         this.actionTittle.setText("RECEIVED MONEY");
     }
 
+    /**
+     * This method is used to create an error message validator
+     *
+     * @param pane the respective container
+     */
     private void createErrorLabel(Pane pane){
         this.errorMessage = new Label();
         this.errorMessage.prefWidthProperty().bind(pane.widthProperty());
         this.errorMessage.prefHeightProperty().bind(pane.heightProperty().multiply(0.15));
         this.errorMessage.layoutXProperty().bind(this.changeDispenserSection.widthProperty().subtract(this.fill.widthProperty()).divide(2));
         this.errorMessage.layoutYProperty().bind(pane.heightProperty().multiply(1.15));
-        this.errorMessage.setStyle("-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-family: 'Arial'");
+        this.errorMessage.setStyle("-fx-font-weight: bold; -fx-text-fill: #FFFF00; -fx-font-size: 15px; -fx-font-family: 'Arial'");
         this.errorMessage.setAlignment(Pos.CENTER);
     }
 
@@ -190,7 +200,6 @@ public class ChangeDispenserPage {
 
         this.changeDispenserForm.setBackground(backgroundGenerator.createBackground(SKY_BLUE));
 
-        //INSERTAR LEFT Y RIGHT
         createComponent(this.changeDispenserForm);
         changeDispenserForm.getChildren().addAll(this.leftSection.getContainer(), this.rightSection.getContainer());
 

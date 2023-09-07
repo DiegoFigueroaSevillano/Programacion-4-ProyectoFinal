@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
 import com.example.programacion4proyectofinal.Utils.*;
+import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
