@@ -43,7 +43,7 @@ public class Passenger extends Person implements Comparable<Passenger> {
      */
     @Override
     public String toString() {
-        return getFullName() + " id: " + getId();
+        return getFullName() + " | id: " + getId();
     }
 
     /**
