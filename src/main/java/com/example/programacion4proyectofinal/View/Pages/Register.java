@@ -4,6 +4,7 @@ import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerato
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.PassengerType;
+import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
