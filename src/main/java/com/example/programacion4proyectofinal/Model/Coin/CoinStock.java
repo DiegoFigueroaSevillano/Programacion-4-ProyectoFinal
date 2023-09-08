@@ -14,7 +14,7 @@ public class CoinStock implements Comparable<CoinStock> {
      */
     public CoinStock(Coin coin) {
         this.coin = coin;
-        this.quantity = 10;
+        this.quantity = 100;
     }
 
     /**

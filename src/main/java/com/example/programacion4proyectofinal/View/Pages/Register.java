@@ -1,20 +1,20 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
-import com.example.programacion4proyectofinal.Utils.*;
-import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
+import com.example.programacion4proyectofinal.Controller.HeaderController;
+import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.PassengerType;
+import com.example.programacion4proyectofinal.View.Components.HomeComponents.PassengerInformation;
+import com.example.programacion4proyectofinal.View.Components.HomeComponents.PlacesList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -31,7 +31,7 @@ public class Register {
     private VBox register, ticketForm;
     private HBox passengerType , sectionNames , sectionCountryCi;
     private Stage stage;
-    private Header header;
+    private HeaderController header;
     private StackPane ticketSection;
     private ChangePropertiesStage changePropertiesStage;
     private BackgroundGenerator backgroundGenerator;
@@ -54,7 +54,7 @@ public class Register {
         this.stage.setTitle("REGISTER - AEROLAB");
 
         this.registerScene = new Scene(root);
-        this.header = new Header(root,stage, "register");
+        this.header = new HeaderController(root, stage, "register");
 
         creationRegister(registerScene);
         root.getChildren().add(register);
@@ -73,7 +73,7 @@ public class Register {
         register.setAlignment(Pos.CENTER);
         register.layoutXProperty().bind(scene.widthProperty().subtract(register.widthProperty()).divide(2));
         register.layoutYProperty().bind(scene.heightProperty().subtract(register.heightProperty()).divide(2));
-        register.getChildren().addAll(header.getHeader(), ticketSection);
+        register.getChildren().addAll(header.getHeader().getHeader(), ticketSection);
     }
 
     /**

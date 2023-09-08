@@ -3,8 +3,6 @@ package com.example.programacion4proyectofinal.View.Components.General;
 import com.example.programacion4proyectofinal.Controller.HomeController;
 import com.example.programacion4proyectofinal.Controller.RegisterController;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
-import com.example.programacion4proyectofinal.View.Pages.Home;
-import com.example.programacion4proyectofinal.View.Pages.Register;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,7 +27,8 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton, passengerRegisterButton;
+    private Button homeButton, passengersButton, changeDispenserButton;
+    private Button passengerRegisterButton;
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
@@ -71,12 +70,13 @@ public class Header {
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
+        createChangeDispenserButton();
         createPassengersRegisterButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton,passengerRegisterButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton);
     }
 
     /**
@@ -85,17 +85,6 @@ public class Header {
     private void createHomeButton() {
         homeButton = new Button("HOME");
         generatorMenuOptions(homeButton, "home");
-        homeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("home")) {
-                    root = new Group();
-                    HomeController home = new HomeController(root, stage);
-                    Scene homeScene = home.getHomeView().getHomeScene();
-                    stage.setScene(homeScene);
-                }
-            }
-        });
     }
 
     /**
@@ -107,27 +96,19 @@ public class Header {
     }
 
     /**
+     * Creates the "PASSENGERS" button.
+     */
+    private void createChangeDispenserButton() {
+        changeDispenserButton = new Button("CHANGE DISPENSER");
+        generatorMenuOptions(changeDispenserButton, "changeDispenser");
+    }
+
+    /**
      * Creates the "REGISTER" button.
      */
     private void createPassengersRegisterButton() {
         passengerRegisterButton = new Button("REGISTER");
         generatorMenuOptions(passengerRegisterButton, "register");
-        passengerRegisterButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("register")) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            root = new Group();
-                            RegisterController register = new RegisterController(root, stage);
-                            Scene registerScene = register.getRegisterView().getRegisterScene();
-                            stage.setScene(registerScene);
-                        }
-                    });
-                }
-            }
-        });
     }
 
 
@@ -169,4 +150,11 @@ public class Header {
         return passengersButton;
     }
 
+    public Button getPassengerRegisterButton() {
+        return passengerRegisterButton;
+    }
+
+    public Button getChangeDispenserButton() {
+        return changeDispenserButton;
+    }
 }

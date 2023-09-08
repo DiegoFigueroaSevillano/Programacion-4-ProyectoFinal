@@ -5,7 +5,6 @@ import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.PlacesListDB;
-import com.example.programacion4proyectofinal.View.Components.General.Header;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
