@@ -1,15 +1,15 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
-import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_24PX;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Styles.FONT_SIZE_24PX;
 
 /**
  * This class generates and configures a section for selecting places from a ComboBox.

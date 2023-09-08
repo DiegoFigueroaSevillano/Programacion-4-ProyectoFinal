@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Utils;
+package com.example.programacion4proyectofinal.Utils.ViewUtils;
 
 import javafx.stage.Stage;
 

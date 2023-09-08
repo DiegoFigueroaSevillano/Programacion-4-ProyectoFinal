@@ -1,10 +1,13 @@
-package com.example.programacion4proyectofinal.Utils.UserGenerator;
+package com.example.programacion4proyectofinal.Utils.Generators.UserGenerator;
 
+import com.example.programacion4proyectofinal.Model.Person.Category;
+import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 import com.example.programacion4proyectofinal.Utils.UserData.Country;
 import com.example.programacion4proyectofinal.Utils.UserData.LastName;
 import com.example.programacion4proyectofinal.Utils.UserData.Name;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This method is used to create a random passager values
@@ -55,5 +58,16 @@ public class DataGenerator {
     public int generateCI(){
         int CI = random.nextInt(9000000) + 1000000;
         return CI;
+    }
+
+    /**
+     * This method generate a random category
+     *
+     * @return a random category
+     */
+    public Category generateCategory(){
+        Category[] categories = Category.values();
+        int randomIndex = ThreadLocalRandom.current().nextInt(categories.length);
+        return categories[randomIndex];
     }
 }

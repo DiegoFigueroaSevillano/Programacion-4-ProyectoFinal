@@ -54,11 +54,11 @@ public class Passenger extends Person implements Comparable<Passenger> {
      */
     @Override
     public int compareTo(Passenger o) {
-        if (this.getId() < o.getId()) {
-            return -1;
-        } else if (this.getId() > o.getId()) {
-            return 1;
+        int categoryComparison = this.category.compare(o.category);
+        if (categoryComparison == 0) {
+            return o.getId() - this.getId();
+        } else {
+            return categoryComparison;
         }
-        return this.getFullName().compareTo(o.getFullName());
     }
 }
