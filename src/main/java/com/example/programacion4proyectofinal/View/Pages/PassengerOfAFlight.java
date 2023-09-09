@@ -1,30 +1,21 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
-import com.example.programacion4proyectofinal.Model.Person.Passenger;
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
-import com.example.programacion4proyectofinal.Utils.Colors;
-import com.example.programacion4proyectofinal.View.Components.HomeComponents.Header;
-import com.example.programacion4proyectofinal.View.Components.ListComponents.ClientInfoButton;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
+import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class PassengerOfAFlight {
     private final Scene changeDispenserScene;
-    private HBox changeDispenserForm;
     private Pane changeDispenserSection;
     private VBox changeDispenserPanel;
     private Header header;
     private BackgroundGenerator backgroundGenerator;
-    private ChangePropertiesStage changePropertiesStage;
-    private Button actionButton;
     private Stage stage;
     private ScrollPane scrollPane;
     private VBox itemsContainer;
@@ -38,11 +29,10 @@ public class PassengerOfAFlight {
      */
     public PassengerOfAFlight(Group root, Stage stage){
         this.backgroundGenerator = new BackgroundGenerator();
-        this.changePropertiesStage = new ChangePropertiesStage();
         this.stage = stage;
         this.stage.setTitle("CHANGE DISPENSER - AEROLAB");
         this.changeDispenserScene = new Scene(root);
-        this.header = new Header(stage, "home");
+        this.header = new Header(root, stage, "flight");
         createChangeDispenser(this.changeDispenserScene);
         root.getChildren().add(changeDispenserPanel);
     }
@@ -106,9 +96,10 @@ public class PassengerOfAFlight {
         this.scrollPane.prefHeightProperty().bind(pane.heightProperty().multiply(0.8));
         this.scrollPane.prefWidthProperty().bind(pane.widthProperty().multiply(0.8));
 
-        insertButton();
+       //insertButton();
     }
 
+    /*
     public void insertButton(){
         for (int i = 0; i < 10; i++){
             Passenger passenger = new Passenger("Diego" , 12312);
@@ -116,4 +107,6 @@ public class PassengerOfAFlight {
             this.itemsContainer.getChildren().add(button.getButtonContainer());
         }
     }
+
+     */
 }
