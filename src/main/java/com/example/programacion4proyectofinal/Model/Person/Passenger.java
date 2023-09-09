@@ -4,6 +4,7 @@ package com.example.programacion4proyectofinal.Model.Person;
  * The Passenger class represents a passenger who is associated with a flight ticket.
  * It inherits attributes and methods from the Person class.
  */
+
 public class Passenger extends Person implements Comparable<Passenger> {
     private Category category;
 

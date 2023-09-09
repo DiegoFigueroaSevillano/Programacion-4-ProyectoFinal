@@ -28,5 +28,7 @@ module com.example.programacion4proyectofinal {
     opens com.example.programacion4proyectofinal.Model.FileHandler.Writer to com.fasterxml.jackson.annotation, com.fasterxml.jackson.core, com.fasterxml.jackson.databind;
     exports com.example.programacion4proyectofinal.Model.UserFlightInfo to com.fasterxml.jackson.databind;
     exports com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase to com.fasterxml.jackson.databind;
+    exports com.example.programacion4proyectofinal.Model.Flight to com.fasterxml.jackson.databind;
+    exports com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase to com.fasterxml.jackson.databind;
 
 }
