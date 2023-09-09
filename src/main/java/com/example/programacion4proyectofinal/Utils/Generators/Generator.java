@@ -45,4 +45,8 @@ public class Generator {
 
         UserFlightJsonGenerator.generateJson(40, flight, users);
     }
+
+    public static void main(String[] args) {
+        generateAll(5, 50, 5, 50);
+    }
 }

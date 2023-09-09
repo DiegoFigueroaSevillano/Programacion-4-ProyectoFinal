@@ -3,6 +3,7 @@ package com.example.programacion4proyectofinal.Model.UserFlightInfo;
 import com.example.programacion4proyectofinal.Model.DataStructure.BTree;
 import com.example.programacion4proyectofinal.Model.FileHandler.FileHandlerBTree;
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
+import com.example.programacion4proyectofinal.Model.Search;
 import com.example.programacion4proyectofinal.Utils.Generators.UserGenerator.DataGenerator;
 
 import java.time.LocalDateTime;
@@ -25,9 +26,10 @@ public class UserFlightInfo implements Comparable<UserFlightInfo> {
      * @param localDateTime the time were the passenger buy the ticket
      */
     public UserFlightInfo(int userCI, int flightID, Status status, LocalDateTime localDateTime) {
-        BTree<Passenger> bTree = new BTree<>(100, new FileHandlerBTree()); //TODO: CAMBIAR POR EL DEGREE REAL
+        BTree<Passenger> bTree = new BTree<>(5, new FileHandlerBTree());
+        Search search = new Search();
         DataGenerator dataGenerator = new DataGenerator();
-        this.passenger = new Passenger(userCI, "A", "A", "A", dataGenerator.generateCategory());//TODO: METODO PARA OBTENER EL PASAJERO DEL BTREE
+        this.passenger = search.searchById(userCI);
         this.flightID = flightID;
         this.status = status;
         this.localDateTime = localDateTime;

@@ -17,8 +17,7 @@ import java.util.Iterator;
 
 public class FlightJsonOperations {
 
-    public final static String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/" +
-            "Flight/UserFlightInfo/Flight.json";
+    public final static String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/Flight/Flight.json";
 
     /**
      * This method obtain one flight to the database
