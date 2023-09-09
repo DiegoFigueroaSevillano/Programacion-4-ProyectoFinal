@@ -1,8 +1,8 @@
 package com.example.programacion4proyectofinal.View.Components.ChangeDispenserComponents;
 
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.Colors;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,7 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 
 /**
  *  * This class represents a section with money values and images

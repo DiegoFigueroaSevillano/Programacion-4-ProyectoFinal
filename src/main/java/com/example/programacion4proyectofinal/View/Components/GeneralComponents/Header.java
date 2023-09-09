@@ -2,9 +2,7 @@ package com.example.programacion4proyectofinal.View.Components.GeneralComponents
 
 import com.example.programacion4proyectofinal.Controller.HomeController;
 import com.example.programacion4proyectofinal.Controller.RegisterController;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
-import com.example.programacion4proyectofinal.View.Pages.Home;
-import com.example.programacion4proyectofinal.View.Pages.Register;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 
 /**
  * This class generates and configures the header menu for the application.

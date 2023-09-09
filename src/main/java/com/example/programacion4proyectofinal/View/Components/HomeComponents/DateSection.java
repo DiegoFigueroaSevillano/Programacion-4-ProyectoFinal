@@ -1,6 +1,6 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -10,8 +10,8 @@ import javafx.util.Callback;
 
 import java.time.LocalDate;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
-import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_24PX;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Styles.FONT_SIZE_24PX;
 
 /**
  * This class represents a section with a date picker for selecting dates.
