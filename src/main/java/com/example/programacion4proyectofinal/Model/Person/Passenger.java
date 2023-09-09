@@ -1,10 +1,5 @@
 package com.example.programacion4proyectofinal.Model.Person;
 
-import com.example.programacion4proyectofinal.FlightReservation;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  * The Passenger class represents a passenger who is associated with a flight ticket.
  * It inherits attributes and methods from the Person class.
@@ -12,11 +7,6 @@ import java.util.Iterator;
 
 public class Passenger extends Person implements Comparable<Passenger> {
     private Category category;
-    ArrayList<FlightReservation> flightArrayList = new ArrayList<FlightReservation>();
-
-    public ArrayList<FlightReservation> getFlightArrayList() {
-        return flightArrayList;
-    }
 
     /**
      * Constructs a new Passenger object with the given name and ID.
@@ -72,22 +62,4 @@ public class Passenger extends Person implements Comparable<Passenger> {
             return categoryComparison;
         }
     }
-
-    public void addFlight(FlightReservation flight){
-        flightArrayList.add(flight);
-    }
-
-    public void showFlights(){
-        Iterator<FlightReservation> iterator = flightArrayList.iterator();
-        while (iterator.hasNext())
-            System.out.println(iterator.next());
-    }
-
-
-
-
-
-
-
-
 }

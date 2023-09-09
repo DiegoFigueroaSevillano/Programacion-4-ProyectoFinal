@@ -1,105 +1,91 @@
 package com.example.programacion4proyectofinal.Model.Flight;
 
-import com.example.programacion4proyectofinal.Model.Person.Passenger;
+import com.example.programacion4proyectofinal.Model.Flight.Data.Airline;
+import com.example.programacion4proyectofinal.Model.Flight.Data.City;
+import java.time.LocalDateTime;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
+/**
+ * This class represent a flight
+ */
 public class Flight {
-    Integer idFlight;
-    String origin;
-    String destination;
-    String airline;
-    Date departureDate;
-    Date departureTime;
-    Date arrivalDate;
-    Date arrivalTime;
-    ArrayList<Seat> seatsFlight = new ArrayList();
+    int idFlight;
+    City origin;
+    City destination;
+    Airline airline;
+    LocalDateTime departureDate;
+    LocalDateTime arrivalDate;
 
-
-    public Flight(Integer idFlight, String origin, String destination, String airline, Date departureDate, Date departureTime, Date arrivalDate, Date arrivalTime) {
+    /**
+     * Constructor method that initialize the flight class
+     *
+     * @param idFlight the id of the flight
+     * @param origin the origin of the flight
+     * @param destination the destination fo the flight
+     * @param airline the airline of the flight
+     * @param departureDate the departure date of the flight
+     * @param arrivalDate the arrival date of the flight
+     */
+    public Flight(int idFlight, City origin, City destination, Airline airline, LocalDateTime departureDate, LocalDateTime arrivalDate) {
         this.idFlight = idFlight;
         this.origin = origin;
         this.destination = destination;
         this.airline = airline;
         this.departureDate = departureDate;
-        this.departureTime = departureTime;
         this.arrivalDate = arrivalDate;
-        this.arrivalTime = arrivalTime;
-    }
-    private void addSeat(Integer idSeat){
-       Seat seat = new Seat(234,2,4,"regular", "Adolfo ","Gonzales");
-       seatsFlight.add(seat);
     }
 
-    private boolean deleteSeat(Integer idSeat){
-        ArrayList<Seat> auxSeatList = new ArrayList<>();
-        for(int i=0;i<seatsFlight.size();i++ ) {
-            if (!seatsFlight.get(i).namePassenger.isEmpty() && seatsFlight.get(i).idSeat == idSeat) {
-                seatsFlight.get(i).namePassenger = null;
-                return true;
-            }
-        }
-        return false;
-}
-
-    private boolean addPassenger(Integer idSeat, String namePassenger){
-        ArrayList<Seat> auxSeatList = new ArrayList<>();
-        for(int i=0;i<seatsFlight.size();i++ ) {
-            if (seatsFlight.get(i).namePassenger.isEmpty() && seatsFlight.get(i).idSeat == idSeat) {
-                seatsFlight.get(i).namePassenger = namePassenger;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private ArrayList getSeats(){
-       ArrayList<Seat> auxSeatList = new ArrayList<>();
-       for(int i=0;i<seatsFlight.size();i++ ){
-           if( seatsFlight.get(i).namePassenger.isEmpty()){
-               seatsFlight.get(i);
-           }
-       }
-       return seatsFlight;
-    }
-
-    public Integer getIdFlight() {
+    /**
+     * This method return us the flight id
+     *
+     * @return flight id
+     */
+    public int getIdFlight() {
         return idFlight;
     }
 
-    public String getOrigin() {
+    /**
+     * This method return us the origin of the flight
+     *
+     * @return the origin of the flight
+     */
+    public City getOrigin() {
         return origin;
     }
 
-    public String getDestination() {
+    /**
+     * this method return us the destination of the flight
+     *
+     * @return the destination of the flight
+     */
+    public City getDestination() {
         return destination;
     }
 
-    public String getAirline() {
+    /**
+     * This method return us the airline of the flight
+     *
+     * @return the airline of the flight
+     */
+    public Airline getAirline() {
         return airline;
     }
 
-    public Date getDepartureDate() {
+    /**
+     * This method return us the departure date of the flight
+     *
+     * @return the departure date of the flight
+     */
+    public LocalDateTime getDepartureDate() {
         return departureDate;
     }
 
-    public Date getDepartureTime() {
-        return departureTime;
-    }
-
-    public Date getArrivalDate() {
+    /**
+     * This method return us the arrival date of the flight
+     *
+     * @return the arrival date of the flight
+     */
+    public LocalDateTime getArrivalDate() {
         return arrivalDate;
-    }
-
-    public Date getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public ArrayList<Seat> getSeatsFlight() {
-        return seatsFlight;
     }
 }
