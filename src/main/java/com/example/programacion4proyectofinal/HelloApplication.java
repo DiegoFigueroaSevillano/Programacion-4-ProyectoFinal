@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal;
 
 import com.example.programacion4proyectofinal.Controller.LogInController;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.View.Pages.PassengerOfAFlight;
 import javafx.application.Application;

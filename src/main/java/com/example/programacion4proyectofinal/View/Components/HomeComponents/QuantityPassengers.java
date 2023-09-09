@@ -7,7 +7,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 
 /**
  * This class generates and configures a section for selecting the quantity of passengers.

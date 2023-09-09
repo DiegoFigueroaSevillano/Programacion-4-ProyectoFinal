@@ -1,15 +1,15 @@
 package com.example.programacion4proyectofinal.View.Components.HomeComponents;
 
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
-import static com.example.programacion4proyectofinal.Utils.Styles.FONT_SIZE_24PX;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Styles.FONT_SIZE_24PX;
 
 /**
  * This class generates and configures a section for selecting places from a ComboBox.
@@ -23,6 +23,8 @@ public class PlacesList {
     private Label name;
     private BackgroundGenerator backgroundGenerator;
     private GenerateFont generateFont;
+     private int width;
+     private int height;
 
     /**
      * Constructs a PlacesList section.
@@ -30,10 +32,12 @@ public class PlacesList {
      * @param places The list of places to populate the ComboBox with.
      * @param title The title for the section.
      */
-    public PlacesList(ObservableList<String> places, String title) {
+    public PlacesList(ObservableList<String> places, String title, int width , int height) {
         this.backgroundGenerator = new BackgroundGenerator();
         this.title = title;
         this.places = places;
+        this.height=height;
+        this.width=width;
         this.generateFont = new GenerateFont();
         createContainer();
     }
@@ -46,8 +50,8 @@ public class PlacesList {
         createPlacesList();
 
         container = new VBox(0);
-        container.setPrefWidth(350);
-        container.setPrefHeight(120);
+        container.setPrefWidth(width);
+        container.setPrefHeight(height);
         container.getChildren().addAll(name, placesList);
     }
 
@@ -68,8 +72,8 @@ public class PlacesList {
     private void createPlacesList() {
         placesList = new ComboBox<>();
         placesList.setItems(places);
-        placesList.setPrefWidth(350);
-        placesList.setPrefHeight(80);
+        placesList.setPrefWidth(width);
+        placesList.setPrefHeight(height);
         placesList.setBackground(backgroundGenerator.createBackground(WHITE));
         placesList.setStyle(FONT_SIZE_24PX);
     }
