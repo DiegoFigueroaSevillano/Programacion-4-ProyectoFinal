@@ -9,6 +9,9 @@ module com.example.programacion4proyectofinal {
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.datatype.jsr310;
 
+    opens com.example.programacion4proyectofinal.View.Components.UserProfileComponents to javafx.fxml;
+
+
     opens com.example.programacion4proyectofinal.Model.FileHandler to com.fasterxml.jackson.databind, com.fasterxml.jackson.core, com.fasterxml.jackson.annotation;
     exports com.example.programacion4proyectofinal.Model.FileHandler;
 
