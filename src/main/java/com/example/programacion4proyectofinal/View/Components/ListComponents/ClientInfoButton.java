@@ -1,6 +1,5 @@
 package com.example.programacion4proyectofinal.View.Components.ListComponents;
 
-import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInfo;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
 import javafx.geometry.Insets;
@@ -9,10 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class was created for create a button with specific values
+ */
 public class ClientInfoButton {
     private Button buttonContainer;
     private HBox valueContainer;
@@ -24,9 +24,17 @@ public class ClientInfoButton {
     private Button payButton;
     private Button deleteButton;
     private BackgroundGenerator backgroundGenerator;
+    private UserFlightInfo user;
 
 
+    /**
+     * Constructor method to the client info button
+     *
+     * @param userFlightInfo the user flight information
+     * @param pane the pane
+     */
     public ClientInfoButton(UserFlightInfo userFlightInfo, ScrollPane pane) {
+        this.user = userFlightInfo;
         this.fullNameText = userFlightInfo.getPassenger().getFullName();
         this.ciText = userFlightInfo.getPassenger().getId();
         this.priorityText = userFlightInfo.getPassenger().getCategory().toString();
@@ -36,18 +44,46 @@ public class ClientInfoButton {
         createButtonContainer(this.pane);
     }
 
+    /**
+     * This method return us the pay button
+     *
+     * @return pay button
+     */
     public Button getPayButton() {
         return payButton;
     }
 
+    /**
+     * This method return us the user
+     *
+     * @return the user
+     */
+    public UserFlightInfo getUser() {
+        return user;
+    }
+
+    /**
+     * This method return us the delete button
+     *
+     * @return delete button
+     */
     public Button getDeleteButton() {
         return deleteButton;
     }
 
+    /**
+     * This method return us de button container
+     *
+     * @return button container
+     */
     public Button getButtonContainer() {
         return buttonContainer;
     }
 
+    /**
+     * This method create the button with all values
+     * @param pane the pane
+     */
     private void createButtonContainer(ScrollPane pane){
         this.buttonContainer = new Button();
         this.buttonContainer.prefWidthProperty().bind(pane.widthProperty());
@@ -57,6 +93,9 @@ public class ClientInfoButton {
         this.buttonContainer.setGraphic(this.valueContainer);
     }
 
+    /**
+     * This method create the ultra container
+     */
     private void createValueContainer(){
         this.valueContainer = new HBox(5);
         this.valueContainer.setPadding(new Insets(10));
@@ -71,6 +110,11 @@ public class ClientInfoButton {
         this.valueContainer.getChildren().addAll(fullNameLabel, ciLabel, statusAndCategory, payButton, deleteButton);
     }
 
+    /**
+     * This method creates the full name container
+     *
+     * @param container the container
+     */
     private void createFullNameLabel(HBox container){
         this.fullNameLabel = new Label();
         this.fullNameLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
@@ -80,6 +124,11 @@ public class ClientInfoButton {
         setTextResponsiveLabel(this.fullNameLabel, 15);
     }
 
+    /**
+     * This method creates the CI label
+     *
+     * @param container the container
+     */
     private void createCILabel(HBox container){
         this.ciLabel = new Label();
         this.ciLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
@@ -89,6 +138,11 @@ public class ClientInfoButton {
         setTextResponsiveLabel(this.ciLabel, 5);
     }
 
+    /**
+     * This method creates the priority label
+     *
+     * @param container the container
+     */
     private void createPriorityLabel(VBox container){
         this.priorityLabel = new Label();
         this.priorityLabel.prefHeightProperty().bind(container.heightProperty().divide(2));
@@ -98,6 +152,11 @@ public class ClientInfoButton {
         setTextResponsiveLabel(this.priorityLabel, 15);
     }
 
+    /**
+     * This method create the status label
+     *
+     * @param container the container
+     */
     private void createStatusLabel(VBox container){
         this.statusLabel = new Label();
         this.statusLabel.prefHeightProperty().bind(container.heightProperty().divide(2));
@@ -107,6 +166,11 @@ public class ClientInfoButton {
         setTextResponsiveLabel(this.statusLabel, 15);
     }
 
+    /**
+     * This method create the container for status and category data
+     *
+     * @param container the container
+     */
     private void createStatusAndCategoryContainer(HBox container){
         this.statusAndCategory = new VBox(0);
         this.statusAndCategory.prefWidthProperty().bind(container.widthProperty().multiply(0.2));
@@ -120,6 +184,11 @@ public class ClientInfoButton {
 
     }
 
+    /**
+     * This method create a delete button
+     *
+     * @param container the container
+     */
     private void createDeleteButton(HBox container){
         this.deleteButton = new Button("DELETE");
         this.deleteButton.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
@@ -129,6 +198,11 @@ public class ClientInfoButton {
         setTextResponsiveLabel(this.deleteButton);
     }
 
+    /**
+     * This method create the pay button
+     *
+     * @param container the container
+     */
     private void createPayButton(HBox container){
         this.payButton = new Button("PAY");
         this.payButton.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
@@ -138,6 +212,12 @@ public class ClientInfoButton {
         setTextResponsiveLabel(this.payButton);
     }
 
+    /**
+     * This method set the responsive text into a label
+     *
+     * @param label the label
+     * @param divisor the divisor
+     */
     private void setTextResponsiveLabel(Label label, int divisor){
         label.widthProperty().addListener((obs, oldVal, newVal) -> {
             double newFontSize = newVal.doubleValue() / divisor;
@@ -145,6 +225,11 @@ public class ClientInfoButton {
         });
     }
 
+    /**
+     * This method set the responsive letter in a button
+     *
+     * @param button the button
+     */
     private void setTextResponsiveLabel(Button button){
         button.widthProperty().addListener((obs, oldVal, newVal) -> {
             double newFontSize = newVal.doubleValue() / 15;

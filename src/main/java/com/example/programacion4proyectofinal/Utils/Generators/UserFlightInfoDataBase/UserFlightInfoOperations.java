@@ -45,6 +45,10 @@ public class UserFlightInfoOperations {
         return result;
     }
 
+    public static void changeTheStatus(){
+
+    }
+
     /**
      * This method insert new value into their respective json
      *
@@ -97,5 +101,53 @@ public class UserFlightInfoOperations {
         }
     }
 
+    /**
+     * This method delete all users whit a CI in the data base
+     *
+     * @param userCI the user to be eliminated
+     */
+    public static void deleteAll(int userCI) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
+                "Flight/UserFlightInfo/UserFlightInfo.json");
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+        boolean isRemoved = false;
+        Iterator<JsonNode> iterator = arrayNode.elements();
+        while (iterator.hasNext()) {
+            JsonNode node = iterator.next();
+            if (node.get("userCI").asInt() == userCI) {
+                iterator.remove();
+                isRemoved = true;
+            }
+        }
+        if (isRemoved) {
+            objectMapper.writeValue(file, arrayNode);
+        }
+    }
 
+    /**
+     * This method change the status of a passenger in their respective flight
+     *
+     * @param userCI the user CI
+     * @param flightID the flight ID
+     * @param newStatus the new status
+     */
+    public static void changeStatus(int userCI, int flightID, Status newStatus) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
+                "Flight/UserFlightInfo/UserFlightInfo.json");
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+        boolean isChanged = false;
+        for (JsonNode node : arrayNode) {
+            if (node.get("userCI").asInt() == userCI && node.get("flightID").asInt() == flightID) {
+                ((ObjectNode) node).put("status", newStatus.toString());
+                isChanged = true;
+            }
+        }
+        if (isChanged) {
+            objectMapper.writeValue(file, arrayNode);
+        }
+    }
 }

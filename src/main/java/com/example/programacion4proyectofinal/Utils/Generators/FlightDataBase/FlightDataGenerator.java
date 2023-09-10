@@ -45,6 +45,11 @@ public class FlightDataGenerator {
         return randomIndex;
     }
 
+    public static int createRandomCost(){
+        int randomIndex = ThreadLocalRandom.current().nextInt(500, 1001);
+        return randomIndex;
+    }
+
     /**
      * This method generate a random City
      *

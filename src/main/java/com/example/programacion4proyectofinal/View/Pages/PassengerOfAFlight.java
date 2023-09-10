@@ -16,8 +16,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This class was created for show the passengers of a flight
+ */
 public class PassengerOfAFlight {
-    private final Scene changeDispenserScene;
     private Pane changeDispenserSection;
     private VBox changeDispenserPanel;
     private Header header;
@@ -29,10 +31,11 @@ public class PassengerOfAFlight {
     private Label originLabel;
     private Label destinyLabel;
     private Label airlineLabel;
+    private final Scene passengerOfAFlightScene;
 
 
     /**
-     * Constructs the Change Dispenser page.
+     * Constructs the page
      *
      * @param root  The root group for UI components.
      * @param stage The primary stage of the application.
@@ -41,30 +44,64 @@ public class PassengerOfAFlight {
         this.backgroundGenerator = new BackgroundGenerator();
         this.stage = stage;
         this.stage.setTitle("CHANGE DISPENSER - AEROLAB");
-        this.changeDispenserScene = new Scene(root);
+        this.passengerOfAFlightScene = new Scene(root);
         this.header = new Header(root, stage, "flight");
-        createChangeDispenser(this.changeDispenserScene);
+        createChangeDispenser(this.passengerOfAFlightScene);
         root.getChildren().add(changeDispenserPanel);
     }
 
+    /**
+     * This method return us the scene
+     *
+     * @return the scene
+     */
+    public Scene getPassengerOfAFlightScene() {
+        return passengerOfAFlightScene;
+    }
+
+    /**
+     * This method return us the scroll pane
+     *
+     * @return scroll pane
+     */
+    public ScrollPane getScrollPane() {
+        return scrollPane;
+    }
+
+    /**
+     * This method return us the items container
+     *
+     * @return items container
+     */
     public VBox getItemsContainer() {
         return itemsContainer;
     }
 
+    /**
+     * This method return us the origin label
+     *
+     * @return origin label
+     */
     public Label getOriginLabel() {
         return originLabel;
     }
 
+    /**
+     * this method return us the destiny label
+     *
+     * @return destiny label
+     */
     public Label getDestinyLabel() {
         return destinyLabel;
     }
 
+    /**
+     * This method return us the airline label
+     *
+     * @return the airline label
+     */
     public Label getAirlineLabel() {
         return airlineLabel;
-    }
-
-    public Scene getChangeDispenserScene() {
-        return changeDispenserScene;
     }
 
     /**
@@ -121,14 +158,22 @@ public class PassengerOfAFlight {
 
     }
 
+    /**
+     * This method create the item container
+     *
+     * @param pane the scroll pane
+     */
     private void createItemContainer(ScrollPane pane){
         this.itemsContainer = new VBox(10);
         this.itemsContainer.prefHeightProperty().bind(pane.heightProperty());
         this.itemsContainer.prefWidthProperty().bind(pane.widthProperty());
-
-       insertButton();
     }
 
+    /**
+     * This method create a flight info container
+     *
+     * @param pane the pane
+     */
     private void createFlightInfoContainer(Pane pane){
         this.flightInfoContainer = new HBox(5);
         this.flightInfoContainer.setAlignment(Pos.CENTER);
@@ -149,6 +194,11 @@ public class PassengerOfAFlight {
         this.flightInfoContainer.getChildren().addAll(airlineLabel, originLabel, destinyLabel);
     }
 
+    /**
+     * This method creates the airline label
+     *
+     * @param container their container
+     */
     private void createAirlineLabel(HBox container){
         this.airlineLabel = new Label();
         this.airlineLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
@@ -156,9 +206,14 @@ public class PassengerOfAFlight {
         this.airlineLabel.setText("DIEGO-AEORSUR");
         this.airlineLabel.prefHeightProperty().bind(container.heightProperty());
         this.airlineLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.4));
-        setTextResponsiveLabel(this.airlineLabel, 10);
+        setTextResponsiveLabel(this.airlineLabel, 15);
     }
 
+    /**
+     * This method create the destiny label
+     *
+     * @param container their container
+     */
     private void createDestinyLabel(HBox container){
         this.destinyLabel = new Label();
         this.destinyLabel.setStyle("-fx-text-fill: white;");
@@ -169,6 +224,11 @@ public class PassengerOfAFlight {
         setTextResponsiveLabel(this.destinyLabel, 15);
     }
 
+    /**
+     * This method creates the origin container
+     *
+     * @param container their container
+     */
     private void createOriginLabel(HBox container){
         this.originLabel = new Label();
         this.originLabel.setStyle("-fx-text-fill: white;");
@@ -179,15 +239,12 @@ public class PassengerOfAFlight {
         setTextResponsiveLabel(this.originLabel, 15);
     }
 
-    public void insertButton(){
-        FlightPriorityQueue flightPriorityQueue = new FlightPriorityQueue(837);
-        while (flightPriorityQueue.getPriorityQueue().peek() != null){
-            UserFlightInfo userFlightInfo = flightPriorityQueue.getPriorityQueue().poll();
-            ClientInfoButton clientInfoButton = new ClientInfoButton(userFlightInfo, scrollPane);
-            this.itemsContainer.getChildren().add(clientInfoButton.getButtonContainer());
-        }
-    }
-
+    /**
+     * This method make a text label responsive
+     *
+     * @param label the label
+     * @param divisor the divisor
+     */
     private void setTextResponsiveLabel(Label label, int divisor){
         label.widthProperty().addListener((obs, oldVal, newVal) -> {
             double newFontSize = newVal.doubleValue() / divisor;
