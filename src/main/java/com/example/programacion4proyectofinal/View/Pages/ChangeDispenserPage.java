@@ -1,8 +1,9 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
 import com.example.programacion4proyectofinal.Controller.HeaderController;
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.View.Components.ChangeDispenserComponents.BillSection;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -13,8 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
 
 /**
  * This class represents the Change Dispenser page of the application.
@@ -198,7 +197,7 @@ public class ChangeDispenserPage {
 
 
 
-        this.changeDispenserForm.setBackground(backgroundGenerator.createBackground(SKY_BLUE));
+        this.changeDispenserForm.setBackground(backgroundGenerator.createBackground(Colors.SKY_BLUE));
 
         createComponent(this.changeDispenserForm);
         changeDispenserForm.getChildren().addAll(this.leftSection.getContainer(), this.rightSection.getContainer());

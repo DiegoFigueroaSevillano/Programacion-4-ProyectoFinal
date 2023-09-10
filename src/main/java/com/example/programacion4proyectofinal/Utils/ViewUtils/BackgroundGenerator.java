@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Utils;
+package com.example.programacion4proyectofinal.Utils.ViewUtils;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;

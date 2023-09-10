@@ -1,8 +1,8 @@
 package com.example.programacion4proyectofinal.Controller;
 
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.Passengers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 
 public class PassengersController {
 

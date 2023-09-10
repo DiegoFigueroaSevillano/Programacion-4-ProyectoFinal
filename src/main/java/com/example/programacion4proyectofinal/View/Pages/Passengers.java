@@ -1,10 +1,10 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
 import com.example.programacion4proyectofinal.Controller.HeaderController;
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.GeneratorBorders;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,8 +22,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.SKY_BLUE;
-import static com.example.programacion4proyectofinal.Utils.Colors.WHITE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 
 public class Passengers {
 

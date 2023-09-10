@@ -1,4 +1,4 @@
-package com.example.programacion4proyectofinal.Utils;
+package com.example.programacion4proyectofinal.Utils.ViewUtils;
 
 /**
  * This class defines a set of color constants that can be used in the application's user interface.

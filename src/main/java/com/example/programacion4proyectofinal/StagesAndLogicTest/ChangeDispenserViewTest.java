@@ -1,9 +1,7 @@
 package com.example.programacion4proyectofinal.StagesAndLogicTest;
 
 import com.example.programacion4proyectofinal.Controller.ChangeDispenserController;
-import com.example.programacion4proyectofinal.Controller.LogInController;
-import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
-import com.example.programacion4proyectofinal.View.Pages.ChangeDispenserPage;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

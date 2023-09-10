@@ -1,6 +1,6 @@
-package com.example.programacion4proyectofinal.Utils;
+package com.example.programacion4proyectofinal.Utils.ViewUtils;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.SKY_BLUE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
 
 /**
  * This class provides a collection of predefined styles for use in UI components.

@@ -1,12 +1,13 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
 import com.example.programacion4proyectofinal.Controller.HeaderController;
-import com.example.programacion4proyectofinal.Utils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
-import com.example.programacion4proyectofinal.Utils.PassengerType;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.PassengerInformation;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.PlacesList;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.PassengerType;
+import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -21,7 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 
 /**
  * Class representing a passenger registration form.

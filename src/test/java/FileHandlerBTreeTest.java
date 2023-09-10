@@ -14,7 +14,7 @@ public class FileHandlerBTreeTest {
 
         long startTime = System.nanoTime();
         for (int i = 1; i <= 5; i++) {
-            bTree.insert(createRandomPassengers());
+            bTree.insertKey(createRandomPassengers());
         }
         long endTime = System.nanoTime();
         long duration = endTime - startTime;
