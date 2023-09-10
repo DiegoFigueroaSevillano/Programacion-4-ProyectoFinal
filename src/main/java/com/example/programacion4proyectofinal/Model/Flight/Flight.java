@@ -99,4 +99,12 @@ public class Flight {
     public LocalDateTime getArrivalDate() {
         return arrivalDate;
     }
+
+    public String getDepartureDataTime() {
+        return departureDate.getDayOfMonth() + "/" + departureDate.getMonthValue() + "/" + departureDate.getYear();
+    }
+
+    public String getArrivalDataTime() {
+        return arrivalDate.getDayOfMonth() + "/" + arrivalDate.getMonthValue() + "/" + arrivalDate.getYear();
+    }
 }

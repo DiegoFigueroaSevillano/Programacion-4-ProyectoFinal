@@ -1,7 +1,9 @@
 package com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase;
 
+import com.example.programacion4proyectofinal.Model.Flight.Flight;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInfo;
+import com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase.FlightJsonOperations;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -47,6 +49,23 @@ public class UserFlightInfoOperations {
 
     public static void changeTheStatus(){
 
+    }
+
+    public static List<Flight> getAllFlightOfTheUser(int userID) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
+                "Flight/UserFlightInfo/UserFlightInfo.json");
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+
+        List<Flight> result = new ArrayList<>();
+        for (JsonNode node : arrayNode) {
+            if (node.get("userCI").asInt() == userID) {
+                Flight flight = FlightJsonOperations.get(node.get("flightID").asInt());
+                result.add(flight);
+            }
+        }
+        return result;
     }
 
     /**

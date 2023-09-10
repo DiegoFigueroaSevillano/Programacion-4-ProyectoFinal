@@ -2,19 +2,27 @@ package com.example.programacion4proyectofinal.Controller;
 
 import com.example.programacion4proyectofinal.Model.DataStructure.FlightPriorityQueue;
 import com.example.programacion4proyectofinal.Model.Flight.Flight;
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInfo;
 import com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase.FlightJsonOperations;
 import com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase.UserFlightInfoOperations;
 import com.example.programacion4proyectofinal.View.Components.ListComponents.ClientInfoButton;
+import com.example.programacion4proyectofinal.View.Components.UserProfileComponents.UserProfile;
 import com.example.programacion4proyectofinal.View.Pages.PassengerOfAFlight;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This method was created for control the passenger flight view
@@ -127,11 +135,31 @@ public class PassengerOfAFlightController {
      * @param button the client info button
      */
     public void principalButtonAction(ClientInfoButton button){
-        button.getButtonContainer().setOnAction(new EventHandler<ActionEvent>() {
+        button.getButtonContainer().setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent event) {
-                int userCI = button.getUser().getPassenger().getId();
-                //TE LLEVA A LA PESTAÑA DE USUARIO QUE AUN NO SE TERMINO DE COMPLETAR
+                Passenger user = button.getUser().getPassenger();
+                List<Flight> flights;
+                try {
+                    flights = UserFlightInfoOperations.getAllFlightOfTheUser(user.getId());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/example/programacion4proyectofinal/Views/user-profile.fxml")));
+                    Parent root = loader.load();
+                    UserProfile userProfile = loader.getController();
+                    userProfile.setLabels(user);
+                    userProfile.loadInformationFlights(flights);
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setMinWidth(1100);
+                    stage.setMinHeight(900);
+                    stage.setTitle("User Profile");
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

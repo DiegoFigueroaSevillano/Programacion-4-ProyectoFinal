@@ -38,13 +38,13 @@ public class FlightPane {
         this.isMenuOpen = false;
     }
 
-    public Pane createContentInformationFlight(String enumeration, String city, String date, int minWidth, VBox mainContainer) { // TODO: Insert into params the price and amount of passengers
+    public Pane createContentInformationFlight(String enumeration, String city, String date, int minWidth, VBox mainContainer, String price) { // TODO: Insert into params the price and amount of passengers
         pane = new Pane();
         pane.setMinWidth(minWidth);
         pane.setMinHeight(70);
 
         HBox contentPane = createFirstContentFlight(mainContainer);
-        createFirstLabel(enumeration, city, date, "$ 1.000.000", "2");
+        createFirstLabel(enumeration, city, date, price, "2");
 
         HBox.setHgrow(enumLabel, Priority.NEVER);
         HBox.setHgrow(cityLabel, Priority.ALWAYS);
