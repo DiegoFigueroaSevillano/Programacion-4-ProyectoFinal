@@ -7,6 +7,7 @@ import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInfo;
 import com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase.FlightJsonOperations;
 import com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase.UserFlightInfoOperations;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.View.Components.ListComponents.ClientInfoButton;
 import com.example.programacion4proyectofinal.View.Pages.PassengerOfAFlight;
 import javafx.event.ActionEvent;
@@ -152,10 +153,13 @@ public class PassengerOfAFlightController {
                     userProfileController.loadInformationFlights(flights);
                     userProfileController.setIdFlight(flightID);
                     userProfileController.setStage(stage);
-                    stage.setScene(new Scene(root));
-                    stage.setMinWidth(1100);
-                    stage.setMinHeight(900);
-                    stage.setTitle("User Profile");
+                    Stage newStage = new Stage();
+                    newStage.setScene(new Scene(root));
+                    newStage.setMinWidth(1100);
+                    newStage.setMinHeight(700);
+                    newStage.setTitle("User Profile");
+                    newStage.show();
+                    stage.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

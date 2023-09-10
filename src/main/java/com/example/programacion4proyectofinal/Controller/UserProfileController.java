@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -153,7 +154,11 @@ public class UserProfileController implements Initializable {
      * This method set the go back button
      */
     private void setGoBackButton() {
-        goBackButton.setOnAction(event -> passengerFlightControllerView());
+        goBackButton.setOnAction(event -> {
+            passengerFlightControllerView();
+            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            stage.close();
+        });
     }
 
     /**
@@ -169,7 +174,7 @@ public class UserProfileController implements Initializable {
         Scene currentScene = passenger.getView().getPassengerOfAFlightScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
-        changePropertiesStage.changeSizeStage(800, 700, stage);
+        changePropertiesStage.changeSizeStage(1100, 800, stage);
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);
@@ -196,6 +201,8 @@ public class UserProfileController implements Initializable {
                     }
                 }
             });
+            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            stage.close();
         });
     }
 
