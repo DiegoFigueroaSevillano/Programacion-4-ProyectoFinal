@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal;
 
 import com.example.programacion4proyectofinal.Controller.LogInController;
+import com.example.programacion4proyectofinal.Controller.PassengersController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Model.Search;
 import javafx.application.Application;
@@ -26,15 +27,18 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         Search search = new Search();
         Thread obtainPassengers = new Thread(() -> {
-            try {
-                passengersList = search.obtainAllPassengers();
-            } catch (InterruptedException | ExecutionException exception) {
-                throw new RuntimeException(exception);
-            }
+            System.out.println("SEARCHING PASSENGERS...");
+            PassengersController passengersController = getPassengersControllerInstance();
+            System.out.println("SEARCHING FINISHING...");
+        });
+        Thread mainThread = new Thread(() -> {
+            System.out.println("OPEN UI...");
+            launch(args);
+            System.out.println("GOOD BYE :D");
         });
 
         obtainPassengers.start();
-        launch(args);
+        mainThread.start();
     }
 
     /**

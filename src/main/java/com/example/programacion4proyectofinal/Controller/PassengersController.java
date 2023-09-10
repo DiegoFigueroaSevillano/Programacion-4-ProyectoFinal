@@ -1,6 +1,7 @@
 package com.example.programacion4proyectofinal.Controller;
 
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
+import com.example.programacion4proyectofinal.Model.Search;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.Passengers;
@@ -32,31 +33,43 @@ import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 public class PassengersController {
 
     private Passengers passengers;
-    public static ArrayList<Passenger> passengersList;
-    public static ObservableList<HBox> passengersComponents;
-    public static HashMap<Integer, ArrayList<Passenger>> paginationMap;
-    private static int pagination = 1;
+    private ArrayList<Passenger> passengersList;
+    private ObservableList<HBox> passengersComponents;
+    private HashMap<Integer, ArrayList<Passenger>> paginationMap;
+    private int pagination = 1;
+    private Search search;
+    private static PassengersController passengersControllerInstance;
 
-    public PassengersController(Group root, Stage stage) {
-        if (paginationMap == null) {
-            paginationMap = createPagination();
+    public PassengersController() {
+        search = new Search();
+        try {
+            passengersList = search.obtainAllPassengers();
+            System.out.println(passengersList.size());
+            createPassengers();
+        } catch (ExecutionException | InterruptedException exception) {
+            throw new RuntimeException(exception);
         }
-        if (passengersComponents == null) {
-            passengersComponents = createPassengersComponents();
-        }
-        if (root != null && stage != null) {
-            this.passengers = new Passengers(root, stage, passengersComponents);
-        }
+    }
+
+    public void start(Group root, Stage stage) {
+        this.passengers = new Passengers(root, stage, passengersComponents);
         addActionToButtons();
         if (this.passengers.getPaginationField().getText().equals("1")) {
             pagination = 1;
         }
     }
 
+    private void createPassengers() throws ExecutionException, InterruptedException {
+        paginationMap = createPagination();
+        passengersComponents = createPassengersComponents();
+    }
+
     private ObservableList<HBox> createPassengersComponents() {
         ObservableList<HBox> passengersComponent = FXCollections.observableArrayList();
-        for (int index = 0; index < paginationMap.get(pagination).size(); index++) {
-            passengersComponent.add(generatePassenger(paginationMap.get(pagination).get(index), passengersComponent, index));
+        if (!paginationMap.isEmpty()) {
+            for (int index = 0; index < paginationMap.get(pagination).size(); index++) {
+                passengersComponent.add(generatePassenger(paginationMap.get(pagination).get(index), passengersComponent, index));
+            }
         }
         return passengersComponent;
     }
@@ -125,7 +138,7 @@ public class PassengersController {
         return button;
     }
 
-    private HashMap<Integer, ArrayList<Passenger>> createPagination() {
+    public HashMap<Integer, ArrayList<Passenger>> createPagination() {
         int totalThreads = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(totalThreads);
 
@@ -268,6 +281,30 @@ public class PassengersController {
                 updatePage();
             }
         });
+
+        passengers.getSearchButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                passengersList = search.searchByName(passengers.getSearchField().getText());
+                pagination = 1;
+                passengers.getPaginationField().setText("1");
+                try {
+                    createPassengers();
+                } catch (ExecutionException | InterruptedException exception) {
+                    throw new RuntimeException(exception);
+                }
+                passengers.getLeftTenPaginationButton().setDisable(true);
+                passengers.getLeftPaginationButton().setDisable(true);
+                if (paginationMap.size() > 1) {
+                    passengers.getRightPaginationButton().setDisable(false);
+                    passengers.getRightTenPaginationButton().setDisable(false);
+                } else {
+                    passengers.getRightPaginationButton().setDisable(true);
+                    passengers.getRightTenPaginationButton().setDisable(true);
+                }
+                updatePage();
+            }
+        });
     }
 
     private void updatePage() {
@@ -277,5 +314,12 @@ public class PassengersController {
 
     public Passengers getPassengers() {
         return passengers;
+    }
+
+    public static PassengersController getPassengersControllerInstance() {
+        if (passengersControllerInstance == null) {
+            passengersControllerInstance = new PassengersController();
+        }
+        return passengersControllerInstance;
     }
 }

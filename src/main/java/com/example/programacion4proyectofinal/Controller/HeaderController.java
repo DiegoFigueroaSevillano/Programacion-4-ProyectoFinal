@@ -1,8 +1,6 @@
 package com.example.programacion4proyectofinal.Controller;
 
 import com.example.programacion4proyectofinal.View.Components.General.Header;
-import com.example.programacion4proyectofinal.View.Pages.Home;
-import com.example.programacion4proyectofinal.View.Pages.Passengers;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -42,7 +40,8 @@ public class HeaderController {
             public void handle(ActionEvent actionEvent) {
                 if (!currentOption.equals("passengers")) {
                     Group root = new Group();
-                    PassengersController passengersController = new PassengersController(root, stage);
+                    PassengersController passengersController = PassengersController.getPassengersControllerInstance();
+                    passengersController.start(root, stage);
                     Scene passengersScene = passengersController.getPassengers().getPassengersScene();
                     stage.setScene(passengersScene);
                 }
@@ -62,6 +61,18 @@ public class HeaderController {
                             stage.setScene(registerScene);
                         }
                     });
+                }
+            }
+        });
+
+        header.getChangeDispenserButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (!currentOption.equals("changeDispenser")) {
+                    Group root = new Group();
+                    ChangeDispenserController changeDispenserController = new ChangeDispenserController(root, stage, 300);
+                    Scene passengersScene = changeDispenserController.getChangeDispenserView().getChangeDispenserScene();
+                    stage.setScene(passengersScene);
                 }
             }
         });

@@ -25,9 +25,10 @@ public class SearchTestMain {
         System.out.println("===============================================");
 
         long startByName = System.currentTimeMillis();
-        ArrayList<Passenger> result = search.searchByName("PACHECO");
+        ArrayList<Passenger> result = search.searchByName("DIEGO");
         long endByName = System.currentTimeMillis();
 
+        System.out.println("===============================================");
         System.out.println("===============================================");
         if (!result.isEmpty()) {
             for (int index = 0; index < result.size(); index++) {
@@ -37,8 +38,6 @@ public class SearchTestMain {
         } else {
             System.out.println("USER NOT FOUND!!!\n===============================================");
         }
-
-        System.out.println("===============================================");
 
         long startAll = System.currentTimeMillis();
         ArrayList<Passenger> allPassengers = null;

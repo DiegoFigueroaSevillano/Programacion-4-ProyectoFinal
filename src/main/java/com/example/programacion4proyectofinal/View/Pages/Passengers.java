@@ -205,4 +205,12 @@ public class Passengers {
     public TextField getPaginationField() {
         return paginationField;
     }
+
+    public TextField getSearchField() {
+        return searchField;
+    }
+
+    public Button getSearchButton() {
+        return searchButton;
+    }
 }

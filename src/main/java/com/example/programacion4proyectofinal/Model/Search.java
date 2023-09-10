@@ -50,7 +50,7 @@ public class Search {
     private Passenger searchInTheNode(ArrayList<Passenger> nodes, int id) {
         Passenger passenger = null;
         for (int index = 0; index < nodes.size(); index++) {
-            if (id == nodes.get(index).getId()){
+            if (id == nodes.get(index).getId()) {
                 String name = nodes.get(index).getName();
                 String lastName = nodes.get(index).getLastName();
                 String country = nodes.get(index).getCountry();
