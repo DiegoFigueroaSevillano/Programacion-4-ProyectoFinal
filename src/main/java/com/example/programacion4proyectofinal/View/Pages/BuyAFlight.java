@@ -253,7 +253,7 @@ public class BuyAFlight {
         this.infoContainer = new VBox();
         this.infoContainer.setAlignment(Pos.CENTER);
         this.infoContainer.prefHeightProperty().bind(pane.heightProperty().multiply(0.5));
-        this.infoContainer.prefWidthProperty().bind(pane.widthProperty().multiply(0.7));
+        this.infoContainer.prefWidthProperty().bind(pane.widthProperty().multiply(0.5));
         this.infoContainer.layoutXProperty().bind(pane.widthProperty().
                 subtract(this.infoContainer.widthProperty()).divide(2));
         this.infoContainer.layoutYProperty().bind(pane.heightProperty().
@@ -278,7 +278,7 @@ public class BuyAFlight {
         this.requestInfoContainer = new HBox();
         this.requestInfoContainer.setAlignment(Pos.CENTER);
         this.requestInfoContainer.prefHeightProperty().bind(pane.heightProperty().multiply(0.1));
-        this.requestInfoContainer.prefWidthProperty().bind(pane.widthProperty().multiply(0.5));
+        this.requestInfoContainer.prefWidthProperty().bind(pane.widthProperty().multiply(0.3));
         this.requestInfoContainer.layoutXProperty().bind(pane.widthProperty().
                 subtract(this.requestInfoContainer.widthProperty()).divide(2));
         this.requestInfoContainer.layoutYProperty().bind(pane.heightProperty().
@@ -296,11 +296,11 @@ public class BuyAFlight {
      * @param container the request container
      */
     private void createValuesToRequestContainer(HBox container){
-        this.introduceCILabel = new Label("INTRODUCE THE CI OF THE CLIENT");
+        this.introduceCILabel = new Label("CI OF THE CLIENT: ");
         this.introduceCILabel.setAlignment(Pos.CENTER);
         this.introduceCILabel.prefHeightProperty().bind(container.heightProperty());
         this.introduceCILabel.prefWidthProperty().bind(container.widthProperty().multiply(0.5));
-        setTextResponsiveLabel(this.introduceCILabel, 25);
+        setTextResponsiveLabel(this.introduceCILabel, 20);
         this.introduceCILabel.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
 
         this.ciTextField = new TextField();
@@ -332,7 +332,7 @@ public class BuyAFlight {
         auxLabel.setStyle("-fx-font-weight: bold;");
         auxLabel.prefWidthProperty().bind(this.userNameContainer.widthProperty().multiply(0.3));
         auxLabel.prefHeightProperty().bind(this.userNameContainer.heightProperty());
-        setTextResponsiveLabel(auxLabel, 7);
+        setTextResponsiveLabel(auxLabel, 11);
 
         this.userNameLabel = new Label();
         this.userNameLabel.setAlignment(Pos.CENTER_LEFT);
@@ -359,7 +359,7 @@ public class BuyAFlight {
         auxLabel.setStyle("-fx-font-weight: bold;");
         auxLabel.prefWidthProperty().bind(this.userCountryContainer.widthProperty().multiply(0.3));
         auxLabel.prefHeightProperty().bind(this.userCountryContainer.heightProperty());
-        setTextResponsiveLabel(auxLabel, 7);
+        setTextResponsiveLabel(auxLabel, 11);
 
         this.countryLabel = new Label();
         this.countryLabel.setAlignment(Pos.CENTER_LEFT);
@@ -386,7 +386,7 @@ public class BuyAFlight {
         auxLabel.setStyle("-fx-font-weight: bold;");
         auxLabel.prefWidthProperty().bind(this.userCategoryContainer.widthProperty().multiply(0.3));
         auxLabel.prefHeightProperty().bind(this.userCategoryContainer.heightProperty());
-        setTextResponsiveLabel(auxLabel, 7);
+        setTextResponsiveLabel(auxLabel, 11);
 
         this.cateogryLabel = new Label();
         this.cateogryLabel.setAlignment(Pos.CENTER_LEFT);
