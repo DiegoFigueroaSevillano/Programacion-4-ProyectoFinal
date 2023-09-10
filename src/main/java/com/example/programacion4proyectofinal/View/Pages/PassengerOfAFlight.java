@@ -43,7 +43,7 @@ public class PassengerOfAFlight {
     public PassengerOfAFlight(Group root, Stage stage){
         this.backgroundGenerator = new BackgroundGenerator();
         this.stage = stage;
-        this.stage.setTitle("CHANGE DISPENSER - AEROLAB");
+        this.stage.setTitle("PASSENGERS OF A FLIGHT");
         this.passengerOfAFlightScene = new Scene(root);
         this.header = new Header(root, stage, "flight");
         createChangeDispenser(this.passengerOfAFlightScene);

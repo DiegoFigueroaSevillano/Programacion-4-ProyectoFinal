@@ -135,7 +135,7 @@ public class ClientInfoButton {
         this.ciLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.ciLabel.setAlignment(Pos.CENTER);
         this.ciLabel.setText(String.valueOf(ciText));
-        setTextResponsiveLabel(this.ciLabel, 5);
+        setTextResponsiveLabel(this.ciLabel, 8);
     }
 
     /**
