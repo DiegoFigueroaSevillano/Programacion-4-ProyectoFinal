@@ -5,19 +5,40 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+/**
+ * This utility class provides methods for generating JavaFX components.
+ */
 public class ComponentsFX {
     private static ComponentsFX instance;
 
+    /**
+     * Creates a singleton instance of this class.
+     *
+     * @return A singleton instance of this class.
+     */
     public static ComponentsFX getInstance() {
         if (instance == null) instance = new ComponentsFX();
         return instance;
     }
 
+    /**
+     * Creates a label with the specified parameters.
+     * @param labelText The text to be displayed in the label.
+     * @param labelWidth The width of the label.
+     * @param labelHeight The height of the label.
+     * @param alignment The alignment of the label.
+     * @param positionX The X position of the label.
+     * @param positionY The Y position of the label.
+     * @param colorBack The background color of the label.
+     * @param fontSize The font size of the label.
+     * @param padding The padding of the label.
+     * @param fontFamily The font family of the label.
+     * @param fontWeight The font weight of the label.
+     * @return A JavaFX Label object with the specified parameters.
+     */
     public Label createLabel(String labelText, int labelWidth, int labelHeight, Pos alignment, int positionX,
                              int positionY, String colorBack, int fontSize, int padding, String fontFamily, String fontWeight) {
         Label label = new Label(labelText);
@@ -36,43 +57,10 @@ public class ComponentsFX {
         return label;
     }
 
-    public HBox createHBox(int width, int height, int spacing, Pos alignment, int positionX, int positionY) {
-        HBox hBox = new HBox();
-        hBox.setPrefWidth(width);
-        hBox.setPrefHeight(height);
-        hBox.setMinHeight(height);
-        hBox.setMinWidth(width);
-        hBox.setSpacing(spacing);
-        hBox.setAlignment(alignment);
-        hBox.setLayoutX(positionX);
-        hBox.setLayoutY(positionY);
-        return hBox;
-    }
-
-    public VBox createVBox(int width, int height, int spacing, Pos alignment, int positionX, int positionY) {
-        VBox vBox = new VBox();
-        vBox.setPrefWidth(width);
-        vBox.setPrefHeight(height);
-        vBox.setMinHeight(height);
-        vBox.setMinWidth(width);
-        vBox.setSpacing(spacing);
-        vBox.setAlignment(alignment);
-        vBox.setLayoutX(positionX);
-        vBox.setLayoutY(positionY);
-        return vBox;
-    }
-
-    public ScrollPane createScrollPane(int width, int height, int positionX, int positionY) {
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefWidth(width);
-        scrollPane.setPrefHeight(height);
-        scrollPane.setMinHeight(height);
-        scrollPane.setMinWidth(width);
-        scrollPane.setLayoutX(positionX);
-        scrollPane.setLayoutY(positionY);
-        return scrollPane;
-    }
-
+    /**
+     * Follows the size of a FlowPane to the size of a ScrollPane.
+     * @param scrollPane The ScrollPane to follow.
+     */
     public void followSizeFlowPane(ScrollPane scrollPane) {
         FlowPane flowPane = (FlowPane) scrollPane.getContent();
         scrollPane.viewportBoundsProperty().addListener((ov, oldBounds, bounds) -> {

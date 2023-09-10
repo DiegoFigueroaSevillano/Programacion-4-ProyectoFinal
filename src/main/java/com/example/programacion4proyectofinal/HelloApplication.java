@@ -34,7 +34,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws Exception {
         Group root = new Group();
 
-        PassengerOfAFlightController passenger = new PassengerOfAFlightController(root, stage, 37);
+        PassengerOfAFlightController passenger = new PassengerOfAFlightController(root, stage, 956);
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
 

@@ -16,8 +16,10 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
+/**
+ * This class represents a pane that displays information about a person. It contains a person's image, name, and year of birth or death.
+ */
 public class FlightPane {
-
     private Pane pane;
     private Label enumLabel;
     private Label enumLabelExpanded;
@@ -36,7 +38,12 @@ public class FlightPane {
     private int idPassenger;
     private UserProfileController userProfileController;
 
-
+    /**
+     * Creates a pane that displays information about a person, including their image, name, and year of birth.
+     * @param idFlight the id of the flight
+     * @param idPassenger the id of the passenger
+     * @param userProfileController the controller of the user profile
+     */
     public FlightPane(int idFlight, int idPassenger, UserProfileController userProfileController) {
         this.contentFlightHBox = new HBox(10);
         this.expandedBox = new VBox();
@@ -47,13 +54,25 @@ public class FlightPane {
         this.userProfileController = userProfileController;
     }
 
-    public Pane createContentInformationFlight(String enumeration, String city, String date, int minWidth, VBox mainContainer, String price, String secondDataLabel) {
+    /**
+     * Creates a pane that displays information about a person, including their image, name, and year of birth.
+     * @param enumeration the enumeration of the flight
+     * @param city the city of the flight
+     * @param date the date of the flight
+     * @param minWidth the min width of the pane
+     * @param mainContainer the main container of the pane
+     * @param price the price of the flight
+     * @param secondDataLabel the second data label of the flight
+     * @param airlineName the airline name of the flight
+     * @return a Pane object that contains the person's image, name, and year of birth
+     */
+    public Pane createContentInformationFlight(String enumeration, String city, String date, int minWidth, VBox mainContainer, String price, String secondDataLabel, String airlineName) {
         pane = new Pane();
         pane.setMinWidth(minWidth);
         pane.setMinHeight(70);
 
         HBox contentPane = createFirstContentFlight(mainContainer);
-        createFirstLabel(enumeration, city, date, price, "2", secondDataLabel);
+        createFirstLabel(enumeration, city, date, price, airlineName, secondDataLabel);
 
         HBox.setHgrow(enumLabel, Priority.NEVER);
         HBox.setHgrow(cityLabel, Priority.ALWAYS);
@@ -70,7 +89,16 @@ public class FlightPane {
         return pane;
     }
 
-    private void createFirstLabel(String enumeration, String city, String date, String price, String amountPassengers, String secondDataLabel) {
+    /**
+     * Creates a pane that displays information about a person, including their image, name, and year of birth.
+     * @param enumeration the enumeration of the flight
+     * @param city the city of the flight
+     * @param date the date of the flight
+     * @param price the price of the flight
+     * @param airlineName the airline name of the flight
+     * @param secondDataLabel the second data label of the flight
+     */
+    private void createFirstLabel(String enumeration, String city, String date, String price, String airlineName, String secondDataLabel) {
         enumLabel = createEnumartionLabel(enumeration, 20, 1, 0, 150);
         enumLabelExpanded = createEnumartionLabel(enumeration, 40, 20, 10, 220);
         cityLabel = createCityLabel(city);
@@ -79,10 +107,13 @@ public class FlightPane {
         priceLabel = createPriceLabel(price);
         dateLabelExpanded = createDateLabel(secondDataLabel);
         cityLabelExpanded = createCityLabel(city);
-        passengerAmount = createPassengerAmount(amountPassengers);
+        passengerAmount = createAirlineName(airlineName);
         createSecondInformation();
     }
 
+    /**
+     * Creates the second information of the pane
+     */
     private void createSecondInformation() {
         expandedBox.setSpacing(14);
         expandedBox.setPadding(new Insets(4, 0, 0, 0));
@@ -90,11 +121,18 @@ public class FlightPane {
         expandedBox.getChildren().addAll(cityLabelExpanded, dateLabelExpanded, passengerAmount);
     }
 
+    /**
+     * Deletes a flight
+     * @throws IOException if the file not exist
+     */
     private void deleteActionButton() throws IOException {
         UserFlightInfoOperations.delete(idPassenger, idFlight);
         userProfileController.refreshFlightInformation();
     }
 
+    /**
+     * Creates the click actions of the pane
+     */
     private void clickActions() {
         contentFlightHBox.setOnMouseEntered(event -> contentFlightHBox.setCursor(javafx.scene.Cursor.HAND));
         contentFlightHBox.setOnMouseExited(event -> contentFlightHBox.setCursor(javafx.scene.Cursor.DEFAULT));
@@ -136,7 +174,9 @@ public class FlightPane {
         });
     }
 
-
+    /**
+     * Toggles the content of the pane
+     */
     private void toggleContent() {
         if (isExpanded) {
             contentFlightHBox.setMinHeight(70);
@@ -150,7 +190,11 @@ public class FlightPane {
         isExpanded = !isExpanded;
     }
 
-
+    /**
+     * Creates the first content of the pane
+     * @param mainContainer the main container of the pane
+     * @return the first content of the pane
+     */
     private HBox createFirstContentFlight(VBox mainContainer) {
         contentFlightHBox.setStyle("-fx-border-color: #333;" +
                 "-fx-border-width: 1px;" +
@@ -164,6 +208,15 @@ public class FlightPane {
         return contentFlightHBox;
     }
 
+    /**
+     * Creates the enumeration label
+     * @param enumeration the enumeration of the flight
+     * @param fontSize the font size of the label
+     * @param topPadding the top padding of the label
+     * @param leftPadding the left padding of the label
+     * @param labelWidth the width of the label
+     * @return the enumeration label
+     */
     private Label createEnumartionLabel(String enumeration, int fontSize, int topPadding, int leftPadding, int labelWidth) {
         Label enumerationLabel = ComponentsFX.getInstance().createLabel(enumeration, labelWidth, 20,
                 Pos.CENTER, 0, 0, "#000000", fontSize,
@@ -172,6 +225,11 @@ public class FlightPane {
         return enumerationLabel;
     }
 
+    /**
+     * Creates the city label
+     * @param city the city of the flight
+     * @return the city label
+     */
     private Label createCityLabel(String city) {
         Label cityLabel = ComponentsFX.getInstance().createLabel(city, 300, 20,
                 Pos.CENTER_LEFT, 0, 0, "#000000", 18,
@@ -180,6 +238,11 @@ public class FlightPane {
         return cityLabel;
     }
 
+    /**
+     * Creates the price label
+     * @param price the price of the flight
+     * @return the price label
+     */
     private Label createPriceLabel(String price) {
         Label priceLabel = ComponentsFX.getInstance().createLabel(price, 340, 20,
                 Pos.CENTER, 0, 0, "#000000", 50,
@@ -188,6 +251,11 @@ public class FlightPane {
         return priceLabel;
     }
 
+    /**
+     * Creates the date label
+     * @param date the date of the flight
+     * @return the date label
+     */
     private Label createDateLabel(String date) {
         Label dateLabel = ComponentsFX.getInstance().createLabel(date, 270, 20,
                 Pos.CENTER_LEFT, 0, 0, "#000000", 17,
@@ -196,6 +264,10 @@ public class FlightPane {
         return dateLabel;
     }
 
+    /**
+     * Creates the semicolon label
+     * @return the semicolon label
+     */
     private Label createSemiColonLabel() {
         Label semiColonLabel = ComponentsFX.getInstance().createLabel(":", 10, 20,
                 Pos.CENTER, 0, 0, "#000000", 40,
@@ -204,14 +276,23 @@ public class FlightPane {
         return semiColonLabel;
     }
 
-    private Label createPassengerAmount(String amount) {
-        Label passengerAmount = ComponentsFX.getInstance().createLabel(amount + " passengers", 10, 20,
+    /**
+     * Creates the airline name label
+     * @param airline the name of the airline
+     * @return the airline name label
+     */
+    private Label createAirlineName(String airline) {
+        Label passengerAmount = ComponentsFX.getInstance().createLabel(airline, 450, 20,
                 Pos.CENTER_LEFT, 0, 0, "#000000", 20,
                 0, "Arial", "Bold");
-        passengerAmount.setPadding(new Insets(0, 20, 0, 0));
+        passengerAmount.setPadding(new Insets(0, 17, 0, 0));
         return passengerAmount;
     }
 
+    /**
+     * Returns the pane containing the person's image, name, and year of birth.
+     * @return the pane containing the person's image, name, and year of birth
+     */
     public Pane getPane() {
         return pane;
     }

@@ -27,6 +27,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * This method was created for control the user profile view
+ */
 public class UserProfileController implements Initializable {
     @FXML
     private Button deleteUserButton;
@@ -58,18 +61,33 @@ public class UserProfileController implements Initializable {
     private Stage stage;
 
 
+    /**
+     * Constructor method were we initialize the values
+     */
     public UserProfileController() {
         this.backgroundGenerator = new BackgroundGenerator();
     }
 
+    /**
+     * This method set the stage
+     * @param stage the stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * This method set the id of the flight
+     * @param idFlight the id of the flight
+     */
     public void setIdFlight(int idFlight) {
         this.idFlight = idFlight;
     }
 
+    /**
+     * This method set the labels of the user
+     * @param passenger the passenger
+     */
     public void setLabels(Passenger passenger) {
         this.passenger = passenger;
         CILabel.setText(passenger.getId() + "");
@@ -78,10 +96,14 @@ public class UserProfileController implements Initializable {
         fullnameLabel.setText(passenger.getFullName());
     }
 
+    /**
+     * This method load the information of the flights
+     * @param flights the flights
+     */
     public void loadInformationFlights(List<Flight> flights) {
         VBox mainContainer = new VBox();
         mainContainer.setSpacing(5);
-        mainContainer.setPadding(new Insets(2,0,0,0));
+        mainContainer.setPadding(new Insets(2, 0, 0, 0));
 
         for (Flight flight : flights) {
             String city = flight.getOrigin() + " - " + flight.getDestination();
@@ -89,7 +111,8 @@ public class UserProfileController implements Initializable {
             String secondDate = flight.getDepartureTime() + " - " + flight.getArrivalTime();
 
             FlightPane flightPane = new FlightPane(flight.getIdFlight(), passenger.getId(), this);
-            Pane pane = flightPane.createContentInformationFlight(flight.getIdFlight() + "", city, date, 680, mainContainer, flight.getCostOfTheFlight() + "", secondDate);
+            Pane pane = flightPane.createContentInformationFlight(flight.getIdFlight() + "", city, date,
+                    680, mainContainer, flight.getCostOfTheFlight() + "", secondDate, flight.getAirline() + "");
 
             mainContainer.getChildren().add(pane);
         }
@@ -101,26 +124,41 @@ public class UserProfileController implements Initializable {
         scrollPaneHistory.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
 
+    /**
+     * This method refresh the information of the flights
+     * @throws IOException if the file not exist
+     */
     public void refreshFlightInformation() throws IOException {
         List<Flight> updatedFlights = UserFlightInfoOperations.getAllFlightOfTheUser(passenger.getId());
         loadInformationFlights(updatedFlights);
     }
 
-
+    /**
+     * This method initialize the profile avatar image
+     */
     private void initProfileAvatarImage() {
         Image avatarImage = new Image("/com/example/programacion4proyectofinal/Views/Images/profile-avatar.png");
         profileAvatarCircle.setFill(new ImagePattern(avatarImage));
     }
 
+    /**
+     * This method initialize the background image
+     */
     private void initBackgroundImage() {
         Image img = new Image("/com/example/programacion4proyectofinal/Views/Images/background-profile.png");
         mainAnchorPane.setBackground(backgroundGenerator.createBackgroundImage(img.getUrl()));
     }
 
+    /**
+     * This method set the go back button
+     */
     private void setGoBackButton() {
         goBackButton.setOnAction(event -> passengerFlightControllerView());
     }
 
+    /**
+     * This method set the passenger flight controller view
+     */
     private void passengerFlightControllerView() {
         Group root = new Group();
 
@@ -138,6 +176,9 @@ public class UserProfileController implements Initializable {
         stage.show();
     }
 
+    /**
+     * This method set the delete user button
+     */
     private void setDeleteUserButton() {
         deleteUserButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -158,11 +199,25 @@ public class UserProfileController implements Initializable {
         });
     }
 
+    /**
+     * This method delete the user files
+     * @param passenger the passenger
+     */
     private void deleteUserFiles(Passenger passenger) {
         BTree<Passenger> passengerBTree = new BTree<>(10, new FileHandlerBTree());
         passengerBTree.remove(passenger);
     }
 
+    /**
+     * This method initialize the view
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initBackgroundImage();
