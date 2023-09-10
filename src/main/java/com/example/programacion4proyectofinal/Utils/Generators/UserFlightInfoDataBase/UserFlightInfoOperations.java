@@ -45,10 +45,6 @@ public class UserFlightInfoOperations {
         return result;
     }
 
-    public static void changeTheStatus(){
-
-    }
-
     /**
      * This method insert new value into their respective json
      *
