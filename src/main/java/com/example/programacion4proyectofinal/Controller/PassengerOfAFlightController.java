@@ -104,6 +104,7 @@ public class PassengerOfAFlightController {
                 Scene scene = changeDispenserController.getChangeDispenserView().getChangeDispenserScene();
                 stage.setScene(scene);
                 chargeThePeople();
+                event.consume();
             }
         });
     }
@@ -122,6 +123,7 @@ public class PassengerOfAFlightController {
                     UserFlightInfoOperations.delete(button.getUser().getPassenger().getId()
                             , button.getUser().getFlightID());
                     chargeThePeople();
+                    event.consume();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
