@@ -33,9 +33,9 @@ public class Passengers {
     private Group root;
     private Stage stage;
     private ChangePropertiesStage changePropertiesStage;
-    private HBox searchContainer;
-    private TextField searchField;
-    private Button searchButton;
+    private HBox searchContainer, paginationContainer;
+    private TextField searchField, paginationField;
+    private Button searchButton, leftTenPaginationButton, leftPaginationButton, rightPaginationButton, rightTenPaginationButton;
     private BackgroundGenerator backgroundGenerator;
     private GenerateFont generateFont;
     private GeneratorBorders generatorBorders;
@@ -61,6 +61,7 @@ public class Passengers {
 
     private void createGeneralContainer(Scene scene) {
         createSearchContainer();
+        createPagination();
 
         generalContainer = new VBox();
         generalContainer.prefHeightProperty().bind(stage.heightProperty());
@@ -69,7 +70,7 @@ public class Passengers {
         generalContainer.layoutXProperty().bind(scene.widthProperty().subtract(generalContainer.widthProperty()).divide(2));
         generalContainer.layoutYProperty().bind(scene.heightProperty().subtract(generalContainer.heightProperty()).divide(2));
         createPassengersContainer();
-        generalContainer.getChildren().addAll(headerController.getHeader().getHeader(), searchContainer, containerPassengers);
+        generalContainer.getChildren().addAll(headerController.getHeader().getHeader(), searchContainer, containerPassengers, paginationContainer);
     }
 
     private void createSearchContainer() {
@@ -101,7 +102,7 @@ public class Passengers {
     private void createPassengersContainer() {
         containerPassengers = new ScrollPane();
         containerPassengers.prefWidthProperty().bind(generalContainer.widthProperty());
-        containerPassengers.prefHeightProperty().bind(generalContainer.heightProperty().subtract(200));
+        containerPassengers.prefHeightProperty().bind(generalContainer.heightProperty().subtract(300));
         containerPassengers.setPadding(new Insets(20));
         containerPassengers.setBackground(backgroundGenerator.createBackground(WHITE));
         containerPassengers.setFitToWidth(true);
@@ -131,11 +132,46 @@ public class Passengers {
 
     public void deleteAComponent() {
         passengersList.getChildren().clear();
-        passengersList.getChildren().clear();
         for (HBox passenger : passengersComponents) {
             VBox.setVgrow(passenger, Priority.ALWAYS);
             passengersList.getChildren().add(passenger);
         }
+    }
+
+    private void createPagination() {
+
+        leftTenPaginationButton = generatePaginationButton("/com/example/programacion4proyectofinal/Icons/back.png");
+        leftPaginationButton = generatePaginationButton("/com/example/programacion4proyectofinal/Icons/left-arrow.png");
+        rightPaginationButton = generatePaginationButton("/com/example/programacion4proyectofinal/Icons/right-arrow.png");
+        rightTenPaginationButton = generatePaginationButton("/com/example/programacion4proyectofinal/Icons/next.png");
+
+        paginationField = new TextField();
+        paginationField.setBorder(generatorBorders.createBorderRadiusSolid(10, 2, SKY_BLUE));
+        paginationField.setBackground(backgroundGenerator.createBackgroundRadius(10, WHITE));
+        paginationField.setPrefWidth(100);
+        paginationField.setPrefHeight(60);
+        paginationField.setEditable(false);
+        paginationField.setText("1");
+        paginationField.setAlignment(Pos.CENTER);
+        paginationField.setFont(generateFont.latoLight(24));
+
+        paginationContainer = new HBox(10);
+        paginationContainer.prefWidthProperty().bind(stage.widthProperty());
+        paginationContainer.setPrefHeight(100);
+        paginationContainer.setAlignment(Pos.CENTER);
+        paginationContainer.getChildren().addAll(leftTenPaginationButton, leftPaginationButton, paginationField, rightPaginationButton, rightTenPaginationButton);
+    }
+
+    private Button generatePaginationButton(String image) {
+        Image paginationIconImage = new Image(getClass().getResourceAsStream(image));
+        ImageView paginationIcon = new ImageView(paginationIconImage);
+        Button paginationButton = new Button();
+        paginationButton.setGraphic(paginationIcon);
+        paginationButton.setPrefWidth(60);
+        paginationButton.setPrefHeight(60);
+        paginationButton.setBackground(backgroundGenerator.createBackgroundRadius(10, SKY_BLUE));
+        paginationButton.setCursor(Cursor.HAND);
+        return paginationButton;
     }
 
     public Scene getPassengersScene() {
@@ -148,5 +184,25 @@ public class Passengers {
 
     public void setPassengersComponents(ObservableList<HBox> passengersComponents) {
         this.passengersComponents = passengersComponents;
+    }
+
+    public Button getLeftPaginationButton() {
+        return leftPaginationButton;
+    }
+
+    public Button getLeftTenPaginationButton() {
+        return leftTenPaginationButton;
+    }
+
+    public Button getRightTenPaginationButton() {
+        return rightTenPaginationButton;
+    }
+
+    public Button getRightPaginationButton() {
+        return rightPaginationButton;
+    }
+
+    public TextField getPaginationField() {
+        return paginationField;
     }
 }

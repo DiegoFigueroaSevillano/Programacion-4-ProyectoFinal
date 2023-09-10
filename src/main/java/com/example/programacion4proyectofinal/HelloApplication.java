@@ -1,12 +1,17 @@
 package com.example.programacion4proyectofinal;
 
 import com.example.programacion4proyectofinal.Controller.LogInController;
+import com.example.programacion4proyectofinal.Model.Search;
 import com.example.programacion4proyectofinal.Utils.ChangePropertiesStage;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.util.concurrent.ExecutionException;
+
+import static com.example.programacion4proyectofinal.Controller.PassengersController.*;
 
 /**
  * This is the main class that launches the application.
@@ -19,6 +24,16 @@ public class HelloApplication extends Application {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
+        Search search = new Search();
+        Thread obtainPassengers = new Thread(() -> {
+            try {
+                passengersList = search.obtainAllPassengers();
+            } catch (InterruptedException | ExecutionException exception) {
+                throw new RuntimeException(exception);
+            }
+        });
+
+        obtainPassengers.start();
         launch(args);
     }
 

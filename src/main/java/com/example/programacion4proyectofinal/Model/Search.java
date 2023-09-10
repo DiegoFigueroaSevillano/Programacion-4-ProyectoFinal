@@ -5,6 +5,7 @@ import com.example.programacion4proyectofinal.Model.Person.Category;
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Utils.ParserJson;
 
+import java.util.concurrent.*;
 import java.util.ArrayList;
 
 public class Search {
@@ -24,9 +25,6 @@ public class Search {
         Passenger passenger = null;
         Node node = parserJson.convertJsonToNode(path);
         if (node != null && path != null) {
-            System.out.println(path);
-            System.out.println(id < node.getKeys().get(0).getId());
-            System.out.println(id > node.getKeys().get(node.getKeys().size() - 1).getId());
             passenger = searchInTheNode(node.getKeys(), id);
             if (passenger == null && !node.getChildren().isEmpty()) {
                 if (id < node.getKeys().get(0).getId()) {
@@ -96,19 +94,44 @@ public class Search {
         }
     }
 
-    public ArrayList<Passenger> obtainAllPassengers() {
-        return obtainAllPassengers(PATH_ROOT);
+    public ArrayList<Passenger> obtainAllPassengers() throws InterruptedException, ExecutionException {
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ArrayList<Callable<ArrayList<Passenger>>> tasks = new ArrayList<>();
+        ArrayList<Passenger> result = new ArrayList<>();
+        Node node = parserJson.convertJsonToNode(PATH_ROOT);
+
+        if (node != null && !node.getKeys().isEmpty()) {
+            for (String childPath : node.getChildren()) {
+                Callable<ArrayList<Passenger>> task = () -> obtainAllPassengers(childPath);
+                tasks.add(task);
+            }
+            result.addAll(node.getKeys());
+        }
+
+        try {
+            ArrayList<Future<ArrayList<Passenger>>> futures = (ArrayList<Future<ArrayList<Passenger>>>) executorService.invokeAll(tasks);
+
+            for (Future<ArrayList<Passenger>> future : futures) {
+                result.addAll(future.get());
+            }
+        } finally {
+            executorService.shutdown();
+        }
+
+        return result;
     }
 
     private ArrayList<Passenger> obtainAllPassengers(String path) {
         ArrayList<Passenger> result = new ArrayList<>();
         Node node = parserJson.convertJsonToNode(path);
+
         if (node != null && !node.getKeys().isEmpty()) {
-            for (int index = 0; index < node.getChildren().size(); index++) {
-                result.addAll(obtainAllPassengers(node.getChildren().get(index)));
+            for (String childPath : node.getChildren()) {
+                result.addAll(obtainAllPassengers(childPath));
             }
             result.addAll(node.getKeys());
         }
+
         return result;
     }
 }
