@@ -1,6 +1,5 @@
 package com.example.programacion4proyectofinal.Controller;
 
-import com.example.programacion4proyectofinal.View.Pages.Home;
 import com.example.programacion4proyectofinal.View.Pages.LogIn;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,10 +13,9 @@ import javafx.stage.Stage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.io.IOException;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.GREEN;
-import static com.example.programacion4proyectofinal.Utils.Colors.RED;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.GREEN;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.RED;
 
 /**
  * The LogInController class handles the logic behind the login view.

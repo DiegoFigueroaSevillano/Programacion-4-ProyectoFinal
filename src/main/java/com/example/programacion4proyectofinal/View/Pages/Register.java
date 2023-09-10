@@ -1,27 +1,26 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
-import com.example.programacion4proyectofinal.Utils.*;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.PassengerType;
+import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 
 /**
  * Class representing a passenger registration form.

@@ -1,11 +1,7 @@
-package com.example.programacion4proyectofinal.View.Components.HomeComponents;
-
+package com.example.programacion4proyectofinal.View.Components.GeneralComponents;
 import com.example.programacion4proyectofinal.Controller.HomeController;
 import com.example.programacion4proyectofinal.Controller.RegisterController;
-import com.example.programacion4proyectofinal.Utils.GenerateFont;
-import com.example.programacion4proyectofinal.View.Pages.FlightView;
-import com.example.programacion4proyectofinal.View.Pages.Home;
-import com.example.programacion4proyectofinal.View.Pages.Register;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import static com.example.programacion4proyectofinal.Utils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 
 /**
  * This class generates and configures the header menu for the application.
@@ -30,7 +26,8 @@ import static com.example.programacion4proyectofinal.Utils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton ,passengerRegisterButton, flightButton;
+    private Button homeButton, passengersButton, changeDispenserButton;
+    private Button passengerRegisterButton,flightButton;
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
@@ -56,6 +53,7 @@ public class Header {
      */
     private void createHeader() {
         createMenu();
+
         header = new HBox(0);
         header.setMinWidth(700);
         header.setPrefHeight(HEIGHT);
@@ -71,13 +69,14 @@ public class Header {
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
+        createChangeDispenserButton();
         createPassengersRegisterButton();
-        createFlightButton();
+        createFlightsButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton,passengerRegisterButton,flightButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton,flightButton);
     }
 
     /**
@@ -105,6 +104,21 @@ public class Header {
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
         generatorMenuOptions(passengersButton, "passengers");
+    }
+    /**
+     * Creates the "FLIGHT" button.
+     */
+    private void createFlightsButton() {
+        flightButton = new Button("FLIGHT");
+        generatorMenuOptions(flightButton, "fight");
+    }
+
+    /**
+     * Creates the "PASSENGERS" button.
+     */
+    private void createChangeDispenserButton() {
+        changeDispenserButton = new Button("CHANGE DISPENSER");
+        generatorMenuOptions(changeDispenserButton, "changeDispenser");
     }
 
     /**
@@ -162,19 +176,4 @@ public class Header {
         return header;
     }
 
-    private void createFlightButton() {
-        flightButton = new Button("FLIGHTS");
-        generatorMenuOptions(flightButton, "flights");
-        flightButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("flights")) {
-                    Group root = new Group();
-                    FlightView flight = new FlightView(root, stage);
-                    Scene flightScene = flight.getFlightScene();
-                    stage.setScene(flightScene);
-                }
-            }
-        });
-    }
 }

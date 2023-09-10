@@ -19,8 +19,7 @@ public class ChangeDispenserTest {
                 new CoinStock(Coin.TEN_BS, 0),
                 new CoinStock(Coin.FIVE_BS, 0),
                 new CoinStock(Coin.TWO_BS, 0),
-                new CoinStock(Coin.ONE_BS, 0),
-                new CoinStock(Coin.FIFTY_CTS, 0)
+                new CoinStock(Coin.ONE_BS, 0)
         };
 
 
@@ -49,9 +48,7 @@ public class ChangeDispenserTest {
                 new CoinStock(Coin.TEN_BS, 0),
                 new CoinStock(Coin.FIVE_BS, 1),
                 new CoinStock(Coin.TWO_BS, 1),
-                new CoinStock(Coin.ONE_BS, 1),
-                new CoinStock(Coin.FIFTY_CTS, 0)
-        };
+                new CoinStock(Coin.ONE_BS, 1)};
 
 
         Assert.assertEquals(changeExpected[0].getQuantity(), changeResult[0].getQuantity());
@@ -77,9 +74,7 @@ public class ChangeDispenserTest {
                 new CoinStock(Coin.TEN_BS, 1),
                 new CoinStock(Coin.FIVE_BS, 1),
                 new CoinStock(Coin.TWO_BS, 1),
-                new CoinStock(Coin.ONE_BS, 1),
-                new CoinStock(Coin.FIFTY_CTS, 10)
-        };
+                new CoinStock(Coin.ONE_BS, 1)};
 
         change.saveTheMoney(moneyList);
 
