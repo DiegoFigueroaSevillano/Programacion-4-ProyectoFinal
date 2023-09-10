@@ -158,7 +158,10 @@ public class ChangeDispenserController {
                         Scene scene = view.getView().getPassengerOfAFlightScene();
                         stage.setScene(scene);
                     }else{
-                        //QUE TE LLEVE A LA LISTA DE USUARIOS QUE FALTA IMPLEMENTAR
+                        group = new Group();
+                        HomeController home = new HomeController(group, stage);
+                        Scene scene = home.getHomeView().getHomeScene();
+                        stage.setScene(scene);
                     }
                 }
             }

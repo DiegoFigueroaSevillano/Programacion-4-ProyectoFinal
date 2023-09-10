@@ -1,5 +1,6 @@
 package com.example.programacion4proyectofinal.StagesAndLogicTest;
 
+import com.example.programacion4proyectofinal.Controller.BuyAFlightController;
 import com.example.programacion4proyectofinal.Controller.ChangeDispenserController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.View.Pages.BuyAFlight;
@@ -31,11 +32,11 @@ public class BuyAFlightViewTest extends Application {
 
         Group root = new Group();
 
-        BuyAFlight buyAFlight = new BuyAFlight(root, stage);
+        BuyAFlightController buyAFlightController = new BuyAFlightController(root, stage, 786);
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
 
-        Scene currentScene = buyAFlight.getScene();
+        Scene currentScene = buyAFlightController.getView().getScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
         changePropertiesStage.changeSizeStage(1800, 1000, stage);

@@ -15,6 +15,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * This class was created for the visualization of the buy flight
+ */
 public class BuyAFlight {
 
     private final Scene scene;
@@ -33,12 +36,19 @@ public class BuyAFlight {
     private Stage stage;
     private Header header;
     private BackgroundGenerator backgroundGenerator;
+    private Label errorLabel;
     private VBox infoContainer;
     private HBox requestInfoContainer;
     private HBox buttonContainer;
     private VBox panel;
     private Pane section;
 
+    /**
+     * Constructor method were we initilize all the components
+     *
+     * @param group the group
+     * @param stage the stage
+     */
     public BuyAFlight(Group group, Stage stage){
         this.backgroundGenerator = new BackgroundGenerator();
         this.stage = stage;
@@ -51,34 +61,90 @@ public class BuyAFlight {
         group.getChildren().add(panel);
     }
 
+    /**
+     * This method return us the scene
+     *
+     * @return the scene
+     */
     public Scene getScene() {
         return scene;
     }
 
+    /**
+     * This method return us the user name label
+     *
+     * @return the user name label
+     */
     public Label getUserNameLabel() {
         return userNameLabel;
     }
 
+    /**
+     * This method return us the country of the user
+     *
+     * @return the country of the user
+     */
     public Label getCountryLabel() {
         return countryLabel;
     }
 
+    /**
+     * This method return us the category of the user
+     *
+     * @return the category of the user
+     */
     public Label getCateogryLabel() {
         return cateogryLabel;
     }
 
+    /**
+     * This method return us the search button
+     *
+     * @return the search button
+     */
     public Button getSearchButton() {
         return searchButton;
     }
 
+    /**
+     * This method return us the pay button
+     *
+     * @return the pay button
+     */
     public Button getPayButton() {
         return payButton;
     }
 
+    /**
+     * This method return us the reserve button
+     *
+     * @return the reserve button
+     */
     public Button getReserveButton() {
         return reserveButton;
     }
 
+    /**
+     * This method return us the error label
+     *
+     * @return the error label
+     */
+    public Label getErrorLabel() {
+        return errorLabel;
+    }
+
+    /**
+     * This method return us ci text field
+     *
+     * @return the ci text field
+     */
+    public TextField getCiTextField() {
+        return ciTextField;
+    }
+
+    /**
+     * This method create all the view with her component in the scene
+     */
     private void createBuyFlight(){
         this.panel = new VBox();
         this.panel.setAlignment(Pos.CENTER);
@@ -88,6 +154,11 @@ public class BuyAFlight {
         this.panel.getChildren().addAll(header.getHeader(), this.section);
     }
 
+    /**
+     * This method create the buy a flight section of the view
+     *
+     * @param panel the container
+     */
     public void createBuyAFlightSection(VBox panel){
         this.section = new Pane();
         this.section.prefWidthProperty().bind(panel.widthProperty());
@@ -96,11 +167,18 @@ public class BuyAFlight {
         createInfoContainer(this.section);
         createRequestContainer(this.section);
         createButtonContainer(this.section);
+        createErrorLabel(this.section);
 
-        this.section.getChildren().addAll(this.infoContainer, this.requestInfoContainer, this.buttonContainer);
+        this.section.getChildren().addAll(this.infoContainer, this.requestInfoContainer, this.buttonContainer,
+                this.errorLabel);
 
     }
 
+    /**
+     * This method create the button container with her buttons
+     *
+     * @param pane the container
+     */
     private void createButtonContainer(Pane pane){
         this.buttonContainer = new HBox(10);
         this.buttonContainer.setAlignment(Pos.CENTER);
@@ -117,6 +195,30 @@ public class BuyAFlight {
         this.buttonContainer.getChildren().addAll(payButton, reserveButton);
     }
 
+    /**
+     * This method create a error label when the user put an incorrect CI
+     *
+     * @param pane the container
+     */
+    private void createErrorLabel(Pane pane){
+        this.errorLabel = new Label("THE USER DOES NOT EXIST");
+        this.errorLabel.setAlignment(Pos.CENTER);
+        this.errorLabel.prefHeightProperty().bind(pane.heightProperty().multiply(0.03));
+        this.errorLabel.prefWidthProperty().bind(pane.widthProperty().multiply(0.5));
+        this.errorLabel.layoutXProperty().bind(pane.widthProperty().
+                subtract(this.errorLabel.widthProperty()).divide(2));
+        this.errorLabel.layoutYProperty().bind(pane.heightProperty().
+                subtract(this.errorLabel.heightProperty()).multiply(0.2));
+        this.errorLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #ff0000;");
+        setTextResponsiveLabel(errorLabel, 65);
+        this.errorLabel.setVisible(false);
+    }
+
+    /**
+     * This method create the pay button
+     *
+     * @param container the container
+     */
     private void createPayButton(HBox container){
         this.payButton = new Button("PAY");
         this.payButton.prefHeightProperty().bind(container.heightProperty().multiply(0.7));
@@ -127,6 +229,11 @@ public class BuyAFlight {
         setTextResponsiveLabel(this.payButton, 12);
     }
 
+    /**
+     * This method create the reserve button
+     *
+     * @param container the container
+     */
     private void createReserveButton(HBox container){
         this.reserveButton = new Button("RESERVE");
         this.reserveButton.prefHeightProperty().bind(container.heightProperty().multiply(0.7));
@@ -137,6 +244,11 @@ public class BuyAFlight {
         setTextResponsiveLabel(this.reserveButton, 12);
     }
 
+    /**
+     * This method create all the information container with her components
+     *
+     * @param pane the container
+     */
     private void createInfoContainer(Pane pane){
         this.infoContainer = new VBox();
         this.infoContainer.setAlignment(Pos.CENTER);
@@ -157,6 +269,11 @@ public class BuyAFlight {
                 this.userCategoryContainer);
     }
 
+    /**
+     * This method create the request info container with her values
+     *
+     * @param pane the container
+     */
     private void createRequestContainer(Pane pane){
         this.requestInfoContainer = new HBox();
         this.requestInfoContainer.setAlignment(Pos.CENTER);
@@ -173,6 +290,11 @@ public class BuyAFlight {
         this.requestInfoContainer.getChildren().addAll(this.introduceCILabel, this.ciTextField, this.searchButton);
     }
 
+    /**
+     * This method create all the values for the request container
+     *
+     * @param container the request container
+     */
     private void createValuesToRequestContainer(HBox container){
         this.introduceCILabel = new Label("INTRODUCE THE CI OF THE CLIENT");
         this.introduceCILabel.setAlignment(Pos.CENTER);
@@ -194,6 +316,11 @@ public class BuyAFlight {
         this.searchButton.prefHeightProperty().bind(container.heightProperty().multiply(0.3));
     }
 
+    /**
+     * This method create the name container
+     *
+     * @param container info container
+     */
     public void createNameContainer(VBox container){
         this.userNameContainer = new HBox();
         this.userNameContainer.setAlignment(Pos.CENTER_LEFT);
@@ -216,6 +343,11 @@ public class BuyAFlight {
         this.userNameContainer.getChildren().addAll(auxLabel, userNameLabel);
     }
 
+    /**
+     * This method creates the country container
+     *
+     * @param container the info container
+     */
     public void createCountryContainer(VBox container){
         this.userCountryContainer = new HBox();
         this.userCountryContainer.setAlignment(Pos.CENTER_LEFT);
@@ -238,6 +370,11 @@ public class BuyAFlight {
         this.userCountryContainer.getChildren().addAll(auxLabel, countryLabel);
     }
 
+    /**
+     * This method created the category container
+     *
+     * @param container the info container
+     */
     public void createCategoryContainer(VBox container){
         this.userCategoryContainer = new HBox();
         this.userCategoryContainer.setAlignment(Pos.CENTER_LEFT);
@@ -273,6 +410,12 @@ public class BuyAFlight {
         });
     }
 
+    /**
+     * This method make a text label responsive
+     *
+     * @param button the button
+     * @param divisor the divisor
+     */
     private void setTextResponsiveLabel(Button button, int divisor){
         button.widthProperty().addListener((obs, oldVal, newVal) -> {
             double newFontSize = newVal.doubleValue() / divisor;
@@ -280,6 +423,11 @@ public class BuyAFlight {
         });
     }
 
+    /**
+     * This method set the inputs of the text field
+     *
+     * @param textField the text field
+     */
     private void setTextFieldValidations(TextField textField){
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
