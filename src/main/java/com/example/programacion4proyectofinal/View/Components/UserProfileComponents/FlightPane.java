@@ -1,17 +1,20 @@
 package com.example.programacion4proyectofinal.View.Components.UserProfileComponents;
 
+import com.example.programacion4proyectofinal.Controller.UserProfileController;
+import com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase.UserFlightInfoOperations;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ComponentsFX;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 
 public class FlightPane {
 
@@ -29,22 +32,28 @@ public class FlightPane {
     private Label passengerAmount;
     private boolean isExpanded;
     private boolean isMenuOpen;
+    private int idFlight;
+    private int idPassenger;
+    private UserProfileController userProfileController;
 
 
-    public FlightPane() {
+    public FlightPane(int idFlight, int idPassenger, UserProfileController userProfileController) {
         this.contentFlightHBox = new HBox(10);
         this.expandedBox = new VBox();
         this.isExpanded = false;
         this.isMenuOpen = false;
+        this.idFlight = idFlight;
+        this.idPassenger = idPassenger;
+        this.userProfileController = userProfileController;
     }
 
-    public Pane createContentInformationFlight(String enumeration, String city, String date, int minWidth, VBox mainContainer, String price) { // TODO: Insert into params the price and amount of passengers
+    public Pane createContentInformationFlight(String enumeration, String city, String date, int minWidth, VBox mainContainer, String price, String secondDataLabel) {
         pane = new Pane();
         pane.setMinWidth(minWidth);
         pane.setMinHeight(70);
 
         HBox contentPane = createFirstContentFlight(mainContainer);
-        createFirstLabel(enumeration, city, date, price, "2");
+        createFirstLabel(enumeration, city, date, price, "2", secondDataLabel);
 
         HBox.setHgrow(enumLabel, Priority.NEVER);
         HBox.setHgrow(cityLabel, Priority.ALWAYS);
@@ -61,14 +70,14 @@ public class FlightPane {
         return pane;
     }
 
-    private void createFirstLabel(String enumeration, String city, String date, String price, String amountPassengers) {
+    private void createFirstLabel(String enumeration, String city, String date, String price, String amountPassengers, String secondDataLabel) {
         enumLabel = createEnumartionLabel(enumeration, 20, 1, 0, 150);
         enumLabelExpanded = createEnumartionLabel(enumeration, 40, 20, 10, 220);
         cityLabel = createCityLabel(city);
         dateLabel = createDateLabel(date);
         semiColonLabel = createSemiColonLabel();
         priceLabel = createPriceLabel(price);
-        dateLabelExpanded = createDateLabel(date);
+        dateLabelExpanded = createDateLabel(secondDataLabel);
         cityLabelExpanded = createCityLabel(city);
         passengerAmount = createPassengerAmount(amountPassengers);
         createSecondInformation();
@@ -79,6 +88,11 @@ public class FlightPane {
         expandedBox.setPadding(new Insets(4, 0, 0, 0));
         expandedBox.setAlignment(Pos.CENTER_LEFT);
         expandedBox.getChildren().addAll(cityLabelExpanded, dateLabelExpanded, passengerAmount);
+    }
+
+    private void deleteActionButton() throws IOException {
+        UserFlightInfoOperations.delete(idPassenger, idFlight);
+        userProfileController.refreshFlightInformation();
     }
 
     private void clickActions() {
@@ -92,7 +106,11 @@ public class FlightPane {
         deleteItem.setStyle("-fx-background-color: #555; -fx-text-fill: white;");
 
         deleteItem.setOnAction(e -> {
-            System.out.println("Delete button clicked");
+            try {
+                deleteActionButton();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         contextMenu.getItems().addAll(deleteItem);
 

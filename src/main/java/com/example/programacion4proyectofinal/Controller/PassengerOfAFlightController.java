@@ -8,7 +8,6 @@ import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInf
 import com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase.FlightJsonOperations;
 import com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase.UserFlightInfoOperations;
 import com.example.programacion4proyectofinal.View.Components.ListComponents.ClientInfoButton;
-import com.example.programacion4proyectofinal.View.Components.UserProfileComponents.UserProfile;
 import com.example.programacion4proyectofinal.View.Pages.PassengerOfAFlight;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,11 +15,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -150,15 +147,15 @@ public class PassengerOfAFlightController {
                 try {
                     FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/example/programacion4proyectofinal/Views/user-profile.fxml")));
                     Parent root = loader.load();
-                    UserProfile userProfile = loader.getController();
-                    userProfile.setLabels(user);
-                    userProfile.loadInformationFlights(flights);
-                    Stage stage = new Stage();
+                    UserProfileController userProfileController = loader.getController();
+                    userProfileController.setLabels(user);
+                    userProfileController.loadInformationFlights(flights);
+                    userProfileController.setIdFlight(flightID);
+                    userProfileController.setStage(stage);
                     stage.setScene(new Scene(root));
                     stage.setMinWidth(1100);
                     stage.setMinHeight(900);
                     stage.setTitle("User Profile");
-                    stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

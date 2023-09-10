@@ -33,5 +33,6 @@ module com.example.programacion4proyectofinal {
     exports com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase to com.fasterxml.jackson.databind;
     exports com.example.programacion4proyectofinal.Model.Flight to com.fasterxml.jackson.databind;
     exports com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase to com.fasterxml.jackson.databind;
+    opens com.example.programacion4proyectofinal.Controller to javafx.fxml;
 
 }

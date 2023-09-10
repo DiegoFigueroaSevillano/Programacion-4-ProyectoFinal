@@ -107,4 +107,12 @@ public class Flight {
     public String getArrivalDataTime() {
         return arrivalDate.getDayOfMonth() + "/" + arrivalDate.getMonthValue() + "/" + arrivalDate.getYear();
     }
+
+    public String getDepartureTime() {
+        return departureDate.getHour() + ":" + departureDate.getMinute() + ":" + departureDate.getSecond();
+    }
+
+    public String getArrivalTime() {
+        return arrivalDate.getHour() + ":" + arrivalDate.getMinute() + ":" + arrivalDate.getSecond();
+    }
 }
