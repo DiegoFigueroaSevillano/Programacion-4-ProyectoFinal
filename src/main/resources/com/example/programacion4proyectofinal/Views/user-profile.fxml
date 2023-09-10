@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorPane" minHeight="600.0" minWidth="800.0" prefHeight="1000.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.programacion4proyectofinal.View.Components.UserProfileComponents.UserProfile">
+<AnchorPane fx:id="mainAnchorPane" minHeight="600.0" minWidth="800.0" prefHeight="1000.0" prefWidth="1250.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.programacion4proyectofinal.View.Components.UserProfileComponents.UserProfile">
     <children>
         <VBox alignment="TOP_CENTER" layoutX="277.0" layoutY="74.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -75,7 +75,7 @@
                                             <children>
                                                 <Label fx:id="fullnameLabel" prefHeight="58.0" prefWidth="488.0" styleClass="profile-label-answers" stylesheets="@Styles.css" text="name example" VBox.vgrow="ALWAYS">
                                                     <VBox.margin>
-                                                        <Insets top="15.0" />
+                                                        <Insets top="15.5" />
                                                     </VBox.margin>
                                                 </Label>
                                                 <Label fx:id="CILabel" prefHeight="58.0" prefWidth="497.0" styleClass="profile-label-answers" stylesheets="@Styles.css" text="ci example: " VBox.vgrow="ALWAYS" />

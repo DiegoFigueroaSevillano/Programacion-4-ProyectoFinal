@@ -37,8 +37,11 @@ public class UserProfile implements Initializable {
 
     @FXML
     private ScrollPane scrollPaneHistory;
-    private BackgroundGenerator backgroundGenerator = new BackgroundGenerator();
+    private final BackgroundGenerator backgroundGenerator;
 
+    public UserProfile() {
+        this.backgroundGenerator = new BackgroundGenerator();
+    }
 
     private void loadInformationFlights() {
         VBox mainContainer = new VBox();
@@ -50,7 +53,7 @@ public class UserProfile implements Initializable {
             String date = "10/10/2020 - 10:10 - 10:10";
 
             FlightPane flightPane = new FlightPane();
-            Pane pane = flightPane.createContentInformationFlight("20202020", city, date, 680, 650, mainContainer);
+            Pane pane = flightPane.createContentInformationFlight("20202020", city, date, 680, mainContainer);
 
             mainContainer.getChildren().add(pane);
         }
