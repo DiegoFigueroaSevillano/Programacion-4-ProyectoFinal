@@ -3,11 +3,17 @@ package com.example.programacion4proyectofinal.Controller;
 import com.example.programacion4proyectofinal.Model.Coin.Coin;
 import com.example.programacion4proyectofinal.Model.Coin.CoinStock;
 import com.example.programacion4proyectofinal.Model.CurrencyChange.ChangeDispenser;
+import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
+import com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase.FlightJsonOperations;
+import com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase.UserFlightInfoOperations;
 import com.example.programacion4proyectofinal.View.Pages.ChangeDispenserPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Controller class for the Change Dispenser view.
@@ -16,19 +22,36 @@ public class ChangeDispenserController {
     private ChangeDispenserPage changeDispenserView;
     private ChangeDispenser changeDispenserModel;
     private boolean isPressed;
+    private int userID;
+    private int flightID;
     private int cost;
+    private boolean isListOfPassenger;
+    private Group group;
+    private Stage stage;
 
     /**
      * Constructor for the change dispenser controller.
      *
      * @param group  The root Group node.
      * @param stage The primary Stage.
+     * @param userID the user id
+     * @param flightID the flight id
+     * @param isListOfPassenger true is the later view was the list of passengers
      */
-    public ChangeDispenserController(Group group, Stage stage, int cost){
+    public ChangeDispenserController(Group group, Stage stage, int userID, int flightID, boolean isListOfPassenger){
+        this.group = group;
+        this.stage = stage;
         this.changeDispenserView = new ChangeDispenserPage(group, stage);
         this.changeDispenserModel = new ChangeDispenser();
         this.isPressed = false;
-        this.cost = cost;
+        this.userID = userID;
+        this.flightID = flightID;
+        this.isListOfPassenger = isListOfPassenger;
+        try {
+            this.cost = FlightJsonOperations.get(flightID).getCostOfTheFlight();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         addActionToActionButton();
     }
 
@@ -119,15 +142,24 @@ public class ChangeDispenserController {
                     }else {
                         returnChange();
                         changeDispenserView.getActionTittle().setText("CURRENCY CHANGE");
-                        changeDispenserView.getActionButton().setText("RELOAD");
+                        changeDispenserView.getActionButton().setText("DONE");
                         changeDispenserView.getErrorMessage().setText(" ");
+                        try {
+                            UserFlightInfoOperations.changeStatus(userID, flightID, Status.BUY);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         isPressed = true;
                     }
                 }else {
-                    resetLabels();
-                    changeDispenserView.getActionTittle().setText("RECEIVED MONEY");
-                    changeDispenserView.getActionButton().setText("RECEIVE PAYMENT");
-                    isPressed = false;
+                    if (isListOfPassenger){
+                        group = new Group();
+                        PassengerOfAFlightController view = new PassengerOfAFlightController(group, stage, flightID);
+                        Scene scene = view.getView().getPassengerOfAFlightScene();
+                        stage.setScene(scene);
+                    }else{
+                        //QUE TE LLEVE A LA LISTA DE USUARIOS QUE FALTA IMPLEMENTAR
+                    }
                 }
             }
         });

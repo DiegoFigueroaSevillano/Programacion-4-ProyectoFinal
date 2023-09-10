@@ -16,7 +16,7 @@ public class ThirdPartLogicTest {
             flight[i] = i;
         }
 
-        UserFlightJsonGenerator.generateJson(40, flight, users);
+        UserFlightJsonGenerator.generateJson(flight, users);
 
         FlightPriorityQueue one = new FlightPriorityQueue(0);
         one.printPriorityQueue();

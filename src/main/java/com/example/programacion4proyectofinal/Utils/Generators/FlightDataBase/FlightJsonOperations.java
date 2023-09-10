@@ -17,8 +17,7 @@ import java.util.Iterator;
 
 public class FlightJsonOperations {
 
-    public final static String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/" +
-            "Flight/UserFlightInfo/Flight.json";
+    public final static String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/Flight/Flight.json";
 
     /**
      * This method obtain one flight to the database
@@ -39,7 +38,8 @@ public class FlightJsonOperations {
                 Airline airline = Airline.valueOf(node.get("airline").asText());
                 LocalDateTime departureDate = objectMapper.convertValue(node.get("departureDate"), LocalDateTime.class);
                 LocalDateTime arrivalDate = objectMapper.convertValue(node.get("arrivalDate"), LocalDateTime.class);
-                return new Flight(flightID, origin, destination, airline, departureDate, arrivalDate);
+                int cost = node.get("cost").asInt();
+                return new Flight(flightID, origin, destination, airline, departureDate, arrivalDate, cost);
             }
         }
         return null;
@@ -81,6 +81,7 @@ public class FlightJsonOperations {
         nodeObject.put("airline", flight.getAirline().toString());
         nodeObject.putPOJO("departureDate", flight.getDepartureDate());
         nodeObject.putPOJO("arrivalDate", flight.getArrivalDate());
+        nodeObject.put("cost", flight.getCostOfTheFlight());
         File file = new File(path);
         ArrayNode arrayNode;
         if (file.exists()) {

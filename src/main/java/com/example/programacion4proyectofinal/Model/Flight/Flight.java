@@ -15,6 +15,7 @@ public class Flight {
     Airline airline;
     LocalDateTime departureDate;
     LocalDateTime arrivalDate;
+    int costOfTheFlight;
 
     /**
      * Constructor method that initialize the flight class
@@ -26,13 +27,23 @@ public class Flight {
      * @param departureDate the departure date of the flight
      * @param arrivalDate the arrival date of the flight
      */
-    public Flight(int idFlight, City origin, City destination, Airline airline, LocalDateTime departureDate, LocalDateTime arrivalDate) {
+    public Flight(int idFlight, City origin, City destination, Airline airline, LocalDateTime departureDate, LocalDateTime arrivalDate, int costOfTheFlight) {
         this.idFlight = idFlight;
         this.origin = origin;
         this.destination = destination;
         this.airline = airline;
         this.departureDate = departureDate;
         this.arrivalDate = arrivalDate;
+        this.costOfTheFlight = costOfTheFlight;
+    }
+
+    /**
+     * This method return us the cost of a flight
+     *
+     * @return the cost of a flight
+     */
+    public int getCostOfTheFlight() {
+        return costOfTheFlight;
     }
 
     /**

@@ -27,6 +27,7 @@ public class ChangeDispenserViewTest extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+        /*
         Group root = new Group();
 
         ChangeDispenserController logIn = new ChangeDispenserController(root, stage, 300);
@@ -41,5 +42,6 @@ public class ChangeDispenserViewTest extends Application {
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);
         stage.show();
+        */
     }
 }

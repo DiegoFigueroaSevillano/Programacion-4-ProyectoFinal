@@ -27,6 +27,7 @@ public class FlightJsonGenerator {
         Airline airline;
         LocalDateTime departureDate;
         LocalDateTime arrivalDate;
+        int randomCost;
         for (int i = 0; i < quantity; i++){
             idFlight = FlightDataGenerator.createRandomFlightID();
             if (!ids.contains(idFlight)){
@@ -36,8 +37,8 @@ public class FlightJsonGenerator {
                 airline = FlightDataGenerator.getRandomAirline();
                 departureDate = FlightDataGenerator.getRandomDateTime();
                 arrivalDate = FlightDataGenerator.getRandomDateTime(departureDate);
-
-                Flight flight = new Flight(idFlight, origin, destination, airline, departureDate, arrivalDate);
+                randomCost = FlightDataGenerator.createRandomCost();
+                Flight flight = new Flight(idFlight, origin, destination, airline, departureDate, arrivalDate, randomCost);
                 try {
                     FlightJsonOperations.insert(flight);
                 } catch (IOException e) {

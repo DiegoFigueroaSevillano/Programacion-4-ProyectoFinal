@@ -37,13 +37,7 @@ public class UserGenerator {
                 hashMap.put(CI, passenger);
             }
         }
-
-        long start = System.nanoTime();
         FileHandlerBTree.createAndFillJson(bTree, hashMap);
-        long end = System.nanoTime();
-        long result = end - start;
-
-        System.out.println(result); //TODO: Delete the line finished the demonstration
     }
 
 }
