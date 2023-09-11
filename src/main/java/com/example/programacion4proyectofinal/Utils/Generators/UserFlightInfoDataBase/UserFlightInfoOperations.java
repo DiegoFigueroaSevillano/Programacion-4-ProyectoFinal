@@ -47,10 +47,13 @@ public class UserFlightInfoOperations {
         return result;
     }
 
-    public static void changeTheStatus(){
 
-    }
-
+  /**
+     * This method obtain all the user for one flight
+     *
+     * @param userID the flight id
+     * @return all the user for it id
+     */
     public static List<Flight> getAllFlightOfTheUser(int userID) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -67,6 +70,7 @@ public class UserFlightInfoOperations {
         }
         return result;
     }
+
 
     /**
      * This method insert new value into their respective json
@@ -167,6 +171,14 @@ public class UserFlightInfoOperations {
         }
         if (isChanged) {
             objectMapper.writeValue(file, arrayNode);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(getAllFlightOfTheUser(1189715));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
