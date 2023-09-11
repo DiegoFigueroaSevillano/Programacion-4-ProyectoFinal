@@ -1,8 +1,8 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
 
+import com.example.programacion4proyectofinal.Controller.HeaderController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -21,7 +21,7 @@ public class FlightView {
 
     private Pane changeDispenserSection;
     private VBox changeDispenserPanel;
-    private Header header;
+    private HeaderController header;
     private BackgroundGenerator backgroundGenerator;
     private Stage stage;
     private ScrollPane scrollPane;
@@ -32,14 +32,18 @@ public class FlightView {
     private Label airlineLabel;
     private final Scene passengerOfAFlightScene;
 
-
-
+    /**
+     * Constructor method for the FlightView class.
+     *
+     * @param root  The root Group where the FlightView will be added.
+     * @param stage The Stage associated with the FlightView.
+     */
     public FlightView(Group root, Stage stage){
         this.backgroundGenerator = new BackgroundGenerator();
         this.stage = stage;
         this.stage.setTitle("FLIGHTS-AEROLAB");
         this.passengerOfAFlightScene = new Scene(root);
-        this.header = new Header(root, stage, "flight");
+        this.header = new HeaderController(root, stage, "flight");
         createChangeDispenser(this.passengerOfAFlightScene);
         root.getChildren().add(changeDispenserPanel);
     }
@@ -87,7 +91,7 @@ public class FlightView {
 
         createChangeDispenserSection(scene);
 
-        this.changeDispenserPanel.getChildren().addAll(header.getHeader(), changeDispenserSection);
+        this.changeDispenserPanel.getChildren().addAll(header.getHeader().getHeader(), changeDispenserSection);
     }
 
 

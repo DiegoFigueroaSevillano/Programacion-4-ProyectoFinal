@@ -4,6 +4,7 @@ import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Model.Search;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /*
 * Is only for test the Search Logic
@@ -13,7 +14,7 @@ public class SearchTestMain {
     public static void main(String[] args) {
         Search search = new Search();
         long startById = System.currentTimeMillis();
-        Passenger passenger = search.searchById(9996564);
+        Passenger passenger = search.searchById(2155554);
         long endById = System.currentTimeMillis();
         System.out.println("===============================================");
         if (passenger == null) {
@@ -24,9 +25,10 @@ public class SearchTestMain {
         System.out.println("===============================================");
 
         long startByName = System.currentTimeMillis();
-        ArrayList<Passenger> result = search.searchByName("PACHECO");
+        ArrayList<Passenger> result = search.searchByName("DIEGO");
         long endByName = System.currentTimeMillis();
 
+        System.out.println("===============================================");
         System.out.println("===============================================");
         if (!result.isEmpty()) {
             for (int index = 0; index < result.size(); index++) {
@@ -37,10 +39,13 @@ public class SearchTestMain {
             System.out.println("USER NOT FOUND!!!\n===============================================");
         }
 
-        System.out.println("===============================================");
-
         long startAll = System.currentTimeMillis();
-        ArrayList<Passenger> allPassengers = search.obtainAllPassengers();
+        ArrayList<Passenger> allPassengers = null;
+        try {
+            allPassengers = search.obtainAllPassengers();
+        } catch (InterruptedException | ExecutionException exception) {
+            throw new RuntimeException(exception);
+        }
         long endAll = System.currentTimeMillis();
 
         System.out.println(allPassengers.size() + " PASSENGERS");

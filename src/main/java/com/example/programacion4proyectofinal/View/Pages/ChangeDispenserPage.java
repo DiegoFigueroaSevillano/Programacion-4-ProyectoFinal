@@ -3,8 +3,8 @@ package com.example.programacion4proyectofinal.View.Pages;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
+import com.example.programacion4proyectofinal.Controller.HeaderController;
 import com.example.programacion4proyectofinal.View.Components.ChangeDispenserComponents.BillSection;
-import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -24,7 +24,7 @@ public class ChangeDispenserPage {
     private HBox changeDispenserForm;
     private Pane changeDispenserSection;
     private VBox changeDispenserPanel;
-    private Header header;
+    private HeaderController header;
     private BackgroundGenerator backgroundGenerator;
     private ChangePropertiesStage changePropertiesStage;
     private Button actionButton;
@@ -48,7 +48,7 @@ public class ChangeDispenserPage {
         this.stage = stage;
         this.stage.setTitle("CHANGE DISPENSER - AEROLAB");
         this.changeDispenserScene = new Scene(root);
-        this.header = new Header(root, stage, "changeDispenser");
+        this.header = new HeaderController(root, stage, "changeDispenser");
         this.stage.setMinWidth(1800);
         this.stage.setMinWidth(1000);
         createChangeDispenser(this.changeDispenserScene);
@@ -111,7 +111,7 @@ public class ChangeDispenserPage {
 
         createChangeDispenserSection(scene);
 
-        this.changeDispenserPanel.getChildren().addAll(header.getHeader(), changeDispenserSection);
+        this.changeDispenserPanel.getChildren().addAll(header.getHeader().getHeader(), changeDispenserSection);
     }
 
     /**

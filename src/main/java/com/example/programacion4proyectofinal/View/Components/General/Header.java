@@ -1,9 +1,7 @@
-package com.example.programacion4proyectofinal.View.Components.GeneralComponents;
+package com.example.programacion4proyectofinal.View.Components.General;
+
 import com.example.programacion4proyectofinal.Controller.FlightController;
-import com.example.programacion4proyectofinal.Controller.HomeController;
-import com.example.programacion4proyectofinal.Controller.RegisterController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,7 +25,7 @@ import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton;
+    private Button homeButton, passengersButton, changeDispenserButton;
     private Button passengerRegisterButton,flightButton;
     private Stage stage;
     private String currentOption;
@@ -38,10 +36,11 @@ public class Header {
     /**
      * Constructs a Header menu.
      *
+     * @param root          The root Group node of the scene.
      * @param stage         The primary stage of the application.
      * @param currentOption The currently selected option (e.g., "home", "passengers").
      */
-    public Header(Group root , Stage stage, String currentOption) {
+    public Header(Group root, Stage stage, String currentOption) {
         this.stage = stage;
         this.root = root;
         this.currentOption = currentOption;
@@ -73,12 +72,12 @@ public class Header {
         createPassengersRegisterButton();
         createFlightsButton();
 
+        createChangeDispenserButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton ,flightButton);
-
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton, flightButton);
     }
 
     /**
@@ -86,18 +85,7 @@ public class Header {
      */
     private void createHomeButton() {
         homeButton = new Button("HOME");
-        generatorMenuOptions(homeButton, "home");
-        homeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("home")) {
-                    root = new Group();
-                    HomeController home = new HomeController(root, stage);
-                    Scene homeScene = home.getHomeView().getHomeScene();
-                    stage.setScene(homeScene);
-                }
-            }
-        });
+        generateMenuOptions(homeButton, "home");
     }
 
     /**
@@ -105,26 +93,14 @@ public class Header {
      */
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
-        generatorMenuOptions(passengersButton, "passengers");
+        generateMenuOptions(passengersButton, "passengers");
     }
     /**
      * Creates the "FLIGHT" button.
      */
     private void createFlightsButton() {
         flightButton = new Button("FLIGHT");
-        generatorMenuOptions(flightButton, "fight");
-        flightButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("flight")) {
-                    root = new Group();
-                    FlightController flightController = new FlightController(root, stage);
-                    Scene flightScene = flightController.getFlightView().getPassengerOfAFlightScene();
-                    stage.setScene(flightScene);
-                }
-            }
-        });
-
+        generateMenuOptions(flightButton, "flight");
     }
 
     /**
@@ -132,25 +108,17 @@ public class Header {
      */
     private void createPassengersRegisterButton() {
         passengerRegisterButton = new Button("REGISTER");
-        generatorMenuOptions(passengerRegisterButton, "register");
-        passengerRegisterButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("register")) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            root = new Group();
-                            RegisterController register = new RegisterController(root, stage);
-                            Scene registerScene = register.getRegisterView().getRegisterScene();
-                            stage.setScene(registerScene);
-                        }
-                    });
-                }
-            }
-        });
+        generateMenuOptions(passengerRegisterButton, "register");
     }
 
+    /**
+     * Creates the "CHANGE DISPENSER" button.
+     */
+    private void createChangeDispenserButton() {
+        changeDispenserButton = new Button("CHANGE DISPENSER");
+        generateMenuOptions(changeDispenserButton, "changeDispenser");
+        changeDispenserButton.setPrefWidth(200);
+    }
 
     /**
      * Generates the menu options for buttons.
@@ -158,7 +126,7 @@ public class Header {
      * @param button     The button to style.
      * @param optionName The name of the option associated with the button.
      */
-    private void generatorMenuOptions(Button button, String optionName) {
+    private void generateMenuOptions(Button button, String optionName) {
         button.setPrefHeight(HEIGHT);
         button.setPrefWidth(150);
         button.setCursor(Cursor.HAND);
@@ -182,4 +150,48 @@ public class Header {
         return header;
     }
 
+    /**
+     * Gets the "HOME" button.
+     *
+     * @return The "HOME" button.
+     */
+    public Button getHomeButton() {
+        return homeButton;
+    }
+
+    /**
+     * Gets the "PASSENGERS" button.
+     *
+     * @return The "PASSENGERS" button.
+     */
+    public Button getPassengersButton() {
+        return passengersButton;
+    }
+
+    /**
+     * Gets the "REGISTER" button.
+     *
+     * @return The "REGISTER" button.
+     */
+    public Button getPassengerRegisterButton() {
+        return passengerRegisterButton;
+    }
+
+    /**
+     * Gets the "CHANGE DISPENSER" button.
+     *
+     * @return The "CHANGE DISPENSER" button.
+     */
+    public Button getChangeDispenserButton() {
+        return changeDispenserButton;
+    }
+
+    /**
+     * Gets the "FLIGHT" button.
+     *
+     * @return The "FLIGHT" button.
+     */
+    public Button getFlightButton() {
+        return flightButton;
+    }
 }

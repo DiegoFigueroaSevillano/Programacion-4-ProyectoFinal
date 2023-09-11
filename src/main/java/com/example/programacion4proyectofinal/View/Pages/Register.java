@@ -1,10 +1,12 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
+import com.example.programacion4proyectofinal.Controller.HeaderController;
+import com.example.programacion4proyectofinal.View.Components.HomeComponents.PassengerInformation;
+import com.example.programacion4proyectofinal.View.Components.HomeComponents.PlacesList;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.PassengerType;
-import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +32,7 @@ public class Register {
     private VBox register, ticketForm;
     private HBox passengerType , sectionNames , sectionCountryCi;
     private Stage stage;
-    private Header header;
+    private HeaderController header;
     private StackPane ticketSection;
     private ChangePropertiesStage changePropertiesStage;
     private BackgroundGenerator backgroundGenerator;
@@ -53,7 +55,7 @@ public class Register {
         this.stage.setTitle("REGISTER - AEROLAB");
 
         this.registerScene = new Scene(root);
-        this.header = new Header(root,stage, "register");
+        this.header = new HeaderController(root, stage, "register");
 
         creationRegister(registerScene);
         root.getChildren().add(register);
@@ -72,7 +74,7 @@ public class Register {
         register.setAlignment(Pos.CENTER);
         register.layoutXProperty().bind(scene.widthProperty().subtract(register.widthProperty()).divide(2));
         register.layoutYProperty().bind(scene.heightProperty().subtract(register.heightProperty()).divide(2));
-        register.getChildren().addAll(header.getHeader(), ticketSection);
+        register.getChildren().addAll(header.getHeader().getHeader(), ticketSection);
     }
 
     /**

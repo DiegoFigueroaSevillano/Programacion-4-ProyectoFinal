@@ -38,4 +38,17 @@ public class BackgroundGenerator {
         return new Background(background);
     }
 
+    /**
+     * Creates a background with rounded corners of a specified radius and color.
+     *
+     * @param radius The radius of the rounded corners.
+     * @param color  The color of the background.
+     * @return A Background object with the specified rounded corners and color.
+     */
+    public Background createBackgroundRadius(int radius, String color) {
+        CornerRadii cornerRadii = new CornerRadii(radius);
+        BackgroundFill backgroundFill = new BackgroundFill(Color.valueOf(color), cornerRadii, null);
+        return new Background(backgroundFill);
+    }
+
 }
