@@ -156,12 +156,10 @@ public class PassengerOfAFlightController {
                     userProfileController.setStage(stage);
                     Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
                     Stage newStage = new Stage();
-                    newStage.setScene(new Scene(root));
+                    newStage.setScene(new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight()));
                     newStage.getIcons().add(iconApp);
                     newStage.setMinWidth(1100);
                     newStage.setMinHeight(800);
-                    newStage.setWidth(stage.getScene().getWidth());
-                    newStage.setHeight(stage.getScene().getHeight());
                     newStage.setTitle("User Profile");
                     newStage.show();
                     stage.close();
