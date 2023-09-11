@@ -27,7 +27,6 @@ public class FlightInfoButton {
     private LocalDateTime arrivalDate ,departureDate;
     private ScrollPane pane;
     private Button addButton;
-    private BackgroundGenerator backgroundGenerator;
     private Flight flight;
 
 
@@ -40,7 +39,6 @@ public class FlightInfoButton {
         this.arrivalDate = flight.getDepartureDate();
         this.departureDate = flight.getArrivalDate();
         this.cost = flight.getCostOfTheFlight();
-        this.backgroundGenerator = new BackgroundGenerator();
         this.pane = pane;
         createButtonContainer(this.pane);
     }

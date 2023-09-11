@@ -193,7 +193,7 @@ public class UserProfileController implements Initializable {
         Scene currentScene = passenger.getView().getPassengerOfAFlightScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
-        changePropertiesStage.changeSizeStage(1100, 800, stage);
+        changePropertiesStage.changeToMaximizeSizeStage(stage);
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);

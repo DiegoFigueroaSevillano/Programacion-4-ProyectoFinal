@@ -27,28 +27,6 @@ public class UserFlightDataGenerator {
     }
 
     /**
-     * This method take a random flight id
-     *
-     * @param flight the id of all flight into data base
-     * @return a random id
-     */
-    public static int getRandomFlightID(int[] flight){
-        int randomIndex = ThreadLocalRandom.current().nextInt(flight.length);
-        return flight[randomIndex];
-    }
-
-    /**
-     * This method take a random flight id
-     *
-     * @param passengers the id of all flight into data base
-     * @return a random id
-     */
-    public static int getRandomPassengerID(int[] passengers){
-        int randomIndex = ThreadLocalRandom.current().nextInt(passengers.length);
-        return passengers[randomIndex];
-    }
-
-    /**
      * This method generate a random status of the buy
      *
      * @return a random status of the buy

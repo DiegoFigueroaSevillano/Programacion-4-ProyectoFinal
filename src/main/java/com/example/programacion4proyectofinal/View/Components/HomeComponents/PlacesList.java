@@ -36,8 +36,8 @@ public class PlacesList {
         this.backgroundGenerator = new BackgroundGenerator();
         this.title = title;
         this.places = places;
-        this.height=height;
-        this.width=width;
+        this.height = height;
+        this.width = width;
         this.generateFont = new GenerateFont();
         createContainer();
     }
@@ -87,7 +87,13 @@ public class PlacesList {
         return container;
     }
 
+    /**
+     * Retrieves a ComboBox containing a list of places, typically used for selecting a city.
+     *
+     * @return The ComboBox element representing the list of places.
+     */
     public ComboBox<String> getPlacesList() {
         return placesList;
     }
+
 }

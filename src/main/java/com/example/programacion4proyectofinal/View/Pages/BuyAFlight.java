@@ -32,10 +32,8 @@ public class BuyAFlight {
     private Button searchButton;
     private Button payButton;
     private Button reserveButton;
-    private Group group;
     private Stage stage;
     private HeaderController header;
-    private BackgroundGenerator backgroundGenerator;
     private Label errorLabel;
     private VBox infoContainer;
     private HBox requestInfoContainer;
@@ -50,9 +48,7 @@ public class BuyAFlight {
      * @param stage the stage
      */
     public BuyAFlight(Group group, Stage stage){
-        this.backgroundGenerator = new BackgroundGenerator();
         this.stage = stage;
-        this.group = group;
         this.stage.setTitle("BUY A TICKET");
         this.scene = new Scene(group);
         this.header = new HeaderController(group, stage, "butATicket");
@@ -441,10 +437,4 @@ public class BuyAFlight {
             }
         });
     }
-
-
-
-
-
-
 }

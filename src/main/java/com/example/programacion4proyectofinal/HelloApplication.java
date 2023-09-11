@@ -40,7 +40,7 @@ public class HelloApplication extends Application {
             obtainPassengers.join();
             mainThread.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -65,6 +65,7 @@ public class HelloApplication extends Application {
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);
+        stage.setResizable(false);
         stage.show();
     }
 }

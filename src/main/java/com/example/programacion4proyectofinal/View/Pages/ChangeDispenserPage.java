@@ -1,7 +1,6 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
 import com.example.programacion4proyectofinal.Controller.HeaderController;
 import com.example.programacion4proyectofinal.View.Components.ChangeDispenserComponents.BillSection;
@@ -26,7 +25,6 @@ public class ChangeDispenserPage {
     private VBox changeDispenserPanel;
     private HeaderController header;
     private BackgroundGenerator backgroundGenerator;
-    private ChangePropertiesStage changePropertiesStage;
     private Button actionButton;
     private Stage stage;
     private Pane fill;
@@ -44,7 +42,6 @@ public class ChangeDispenserPage {
      */
     public ChangeDispenserPage(Group root, Stage stage){
         this.backgroundGenerator = new BackgroundGenerator();
-        this.changePropertiesStage = new ChangePropertiesStage();
         this.stage = stage;
         this.stage.setTitle("CHANGE DISPENSER - AEROLAB");
         this.changeDispenserScene = new Scene(root);

@@ -1,9 +1,9 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
+import com.example.programacion4proyectofinal.Model.Flight.Data.City;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
-import com.example.programacion4proyectofinal.Utils.ViewUtils.PlacesListDB;
 import com.example.programacion4proyectofinal.Controller.HeaderController;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
@@ -14,7 +14,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -29,17 +28,18 @@ import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 public class Home {
 
     private final Scene homeScene;
-    private VBox home, ticketForm, passenger;
-    private HBox places, options, dates, quantityPassengers;
+    private VBox home, ticketForm, airline;
+    private HBox places, dates;
     private Stage stage;
     private HeaderController headerController;
     private StackPane ticketSection;
     private ChangePropertiesStage changePropertiesStage;
     private BackgroundGenerator backgroundGenerator;
     private Button createButton;
-    private RadioButtonGenerator oneWayOnly, roundTrip;
     private DateSection depurateDate, returnDate;
     private GenerateFont generateFont;
+    private PlacesList fromList, toList;
+    private AirlinesList airlinesList;
 
     /**
      * Constructs the home page.
@@ -51,7 +51,7 @@ public class Home {
         this.backgroundGenerator = new BackgroundGenerator();
         this.changePropertiesStage = new ChangePropertiesStage();
         this.stage = stage;
-        this.changePropertiesStage.changeToMaximizeSizeStage(950, 900, this.stage);
+        this.changePropertiesStage.changeToMaximizeSizeStage(this.stage);
         this.stage.setTitle("HOME - AEROLAB");
         this.homeScene = new Scene(root);
         this.headerController = new HeaderController(root, stage, "home");
@@ -96,9 +96,7 @@ public class Home {
      */
     private void createTicketForm() {
         createPlacesSection();
-        createOptionsSection();
         createDatesSection();
-        createQuantityPassengers();
         createNameSection();
         createCreateButton();
 
@@ -109,17 +107,26 @@ public class Home {
         ticketForm.setMaxHeight(850);
         ticketForm.setPadding(new Insets(10));
         ticketForm.setBackground(backgroundGenerator.createBackground(SKY_BLUE_75));
-        ticketForm.getChildren().addAll(places, options, dates, quantityPassengers, passenger, createButton);
+        ticketForm.getChildren().addAll(places, dates, airline, createButton);
     }
 
     /**
      * Creates and configures the places section UI.
      */
     private void createPlacesSection() {
-        ObservableList<String> placesList = FXCollections.observableArrayList(PlacesListDB.PLACES_LIST);
+        ObservableList<String> placesList = FXCollections.observableArrayList();
+        placesList.add(String.valueOf(City.PANDO));
+        placesList.add(String.valueOf(City.BENI));
+        placesList.add(String.valueOf(City.LA_PAZ));
+        placesList.add(String.valueOf(City.COCHABAMBA));
+        placesList.add(String.valueOf(City.SANTA_CRUZ));
+        placesList.add(String.valueOf(City.ORURO));
+        placesList.add(String.valueOf(City.POTOSI));
+        placesList.add(String.valueOf(City.CHUQUISACA));
+        placesList.add(String.valueOf(City.TARIJA));
 
-        PlacesList fromList = new PlacesList(placesList, "FROM:",350,120);
-        PlacesList toList = new PlacesList(placesList, "TO:",350,120);
+        fromList = new PlacesList(placesList, "ORIGIN:",350,120);
+        toList = new PlacesList(placesList, "DESTINATION:",350,120);
 
         places = new HBox(40);
         places.setPrefWidth(900);
@@ -129,29 +136,11 @@ public class Home {
     }
 
     /**
-     * Creates and configures the options section UI.
-     */
-    private void createOptionsSection() {
-        oneWayOnly = new RadioButtonGenerator("ONE-WAY ONLY");
-        roundTrip = new RadioButtonGenerator("ROUND TRIP");
-
-        ToggleGroup optionsGroup = new ToggleGroup();
-        oneWayOnly.getRadioButton().setToggleGroup(optionsGroup);
-        roundTrip.getRadioButton().setToggleGroup(optionsGroup);
-
-        options = new HBox(40);
-        options.setPrefWidth(900);
-        options.setPrefHeight(40);
-        options.getChildren().addAll(oneWayOnly.getRadioButtonSection(), roundTrip.getRadioButtonSection());
-        options.setAlignment(Pos.CENTER);
-    }
-
-    /**
      * Creates and configures the dates section UI.
      */
     private void createDatesSection() {
         depurateDate = new DateSection("DEPARTURE DATE");
-        returnDate = new DateSection("RETURN DATE");
+        returnDate = new DateSection("ARRIVAL DATE");
         dates = new HBox(40);
         dates.setPrefWidth(900);
         dates.setPrefHeight(120);
@@ -160,18 +149,11 @@ public class Home {
     }
 
     /**
-     * Creates and configures the quantity passengers UI.
-     */
-    private void createQuantityPassengers() {
-        quantityPassengers = new QuantityPassengers().getContainer();
-    }
-
-    /**
      * Creates and configures the passenger name section UI.
      */
     private void createNameSection() {
-        PassengerName passengerName = new PassengerName();
-        passenger = passengerName.getContainer();
+        airlinesList = new AirlinesList();
+        airline = airlinesList.getContainer();
     }
 
     /**
@@ -198,24 +180,6 @@ public class Home {
     }
 
     /**
-     * Gets the one-way only radio button generator.
-     *
-     * @return The one-way only radio button generator.
-     */
-    public RadioButtonGenerator getOneWayOnly() {
-        return oneWayOnly;
-    }
-
-    /**
-     * Gets the round trip radio button generator.
-     *
-     * @return The round trip radio button generator.
-     */
-    public RadioButtonGenerator getRoundTrip() {
-        return roundTrip;
-    }
-
-    /**
      * Gets the depurate date section.
      *
      * @return The depurate date section.
@@ -232,4 +196,41 @@ public class Home {
     public DateSection getReturnDate() {
         return returnDate;
     }
+
+    /**
+     * Retrieves the "Create" button from the view.
+     *
+     * @return The "Create" button element.
+     */
+    public Button getCreateButton() {
+        return createButton;
+    }
+
+    /**
+     * Retrieves the list of places for selecting the origin city from the view.
+     *
+     * @return The PlacesList element representing the list of origin places.
+     */
+    public PlacesList getFromList() {
+        return fromList;
+    }
+
+    /**
+     * Retrieves the list of places for selecting the destination city from the view.
+     *
+     * @return The PlacesList element representing the list of destination places.
+     */
+    public PlacesList getToList() {
+        return toList;
+    }
+
+    /**
+     * Retrieves the list of airlines for selecting the airline from the view.
+     *
+     * @return The AirlinesList element representing the list of airlines.
+     */
+    public AirlinesList getAirlinesList() {
+        return airlinesList;
+    }
+
 }

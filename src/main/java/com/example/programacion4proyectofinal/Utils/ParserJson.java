@@ -9,8 +9,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Utility class for parsing JSON data and converting it into Java objects.
+ */
 public class ParserJson {
 
+    /**
+     * Converts a JSON file into a Node object.
+     *
+     * @param filename The name of the JSON file to be converted.
+     * @return A Node object representing the parsed JSON data, or null if the filename is null or invalid.
+     */
     public Node convertJsonToNode(String filename) {
         Node node = null;
 
@@ -33,6 +42,12 @@ public class ParserJson {
         return node;
     }
 
+    /**
+     * Converts a JSON array of passengers into an ArrayList of Passenger objects.
+     *
+     * @param node The JSON node containing an array of passengers.
+     * @return An ArrayList of Passenger objects parsed from the JSON data.
+     */
     private ArrayList<Passenger> convertJsonArrayToListOfPassengers(JsonNode node) {
         ArrayList<Passenger> keys = new ArrayList<>();
         for (JsonNode currentPassenger : node) {
@@ -46,6 +61,12 @@ public class ParserJson {
         return keys;
     }
 
+    /**
+     * Converts a JSON array of strings into an ArrayList of strings.
+     *
+     * @param node The JSON node containing an array of strings.
+     * @return An ArrayList of strings parsed from the JSON data.
+     */
     private ArrayList<String> convertJsonArrayToListOfString(JsonNode node) {
         ArrayList<String> list = new ArrayList<>();
         for (int index = 0; index < node.size(); index++) {
