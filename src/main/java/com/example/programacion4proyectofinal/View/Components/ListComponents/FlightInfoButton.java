@@ -113,7 +113,7 @@ public class FlightInfoButton {
     private void createAirlineNameLabel(HBox container) {
         this.airlineLabel = new Label();
         this.airlineLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.airlineLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
+        this.airlineLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.airlineLabel.setAlignment(Pos.CENTER);
         this.airlineLabel.setText(String.valueOf(airline));
         setTextResponsiveLabel(this.airlineLabel, 13);
@@ -127,10 +127,10 @@ public class FlightInfoButton {
     private void createOriginCityLabel(HBox container) {
         this.originLabel = new Label();
         this.originLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.originLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
+        this.originLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.originLabel.setAlignment(Pos.CENTER);
         this.originLabel.setText(String.valueOf(origin));
-        setTextResponsiveLabel(this.originLabel, 13);
+        setTextResponsiveLabel(this.originLabel, 12);
     }
 
     /**
@@ -141,10 +141,10 @@ public class FlightInfoButton {
     private void createDepartureDateLabel(HBox container) {
         this.departureLabel = new Label();
         this.departureLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.departureLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
+        this.departureLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.departureLabel.setAlignment(Pos.CENTER);
         this.departureLabel.setText(String.valueOf(arrivalDate.toLocalDate()));
-        setTextResponsiveLabel(this.departureLabel, 13);
+        setTextResponsiveLabel(this.departureLabel, 12);
     }
 
     /**
@@ -155,10 +155,10 @@ public class FlightInfoButton {
     private void createArrivalDateLabel(HBox container) {
         this.arrivalDateLAbel = new Label();
         this.arrivalDateLAbel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.arrivalDateLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
+        this.arrivalDateLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.arrivalDateLAbel.setAlignment(Pos.CENTER);
         this.arrivalDateLAbel.setText(String.valueOf(departureDate.toLocalDate()));
-        setTextResponsiveLabel(this.arrivalDateLAbel, 13);
+        setTextResponsiveLabel(this.arrivalDateLAbel, 12);
     }
 
     /**
@@ -172,7 +172,7 @@ public class FlightInfoButton {
         this.detinationLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.detinationLabel.setAlignment(Pos.CENTER);
         this.detinationLabel.setText(String.valueOf(destination));
-        setTextResponsiveLabel(this.arrivalDateLAbel, 13);
+        setTextResponsiveLabel(this.detinationLabel, 12);
     }
 
 
@@ -184,10 +184,10 @@ public class FlightInfoButton {
     private void createCostLabel(HBox container) {
         this.cotsLabel = new Label();
         this.cotsLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.cotsLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
+        this.cotsLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.cotsLabel.setAlignment(Pos.CENTER);
         this.cotsLabel.setText(String.valueOf(cost));
-        setTextResponsiveLabel(this.cotsLabel, 13);
+        setTextResponsiveLabel(this.cotsLabel, 12);
     }
 
 
@@ -239,7 +239,4 @@ public class FlightInfoButton {
             button.setStyle(button.getStyle() + String.format("-fx-font-size: %.2fpx;", newFontSize));
         });
     }
-
-
-
 }

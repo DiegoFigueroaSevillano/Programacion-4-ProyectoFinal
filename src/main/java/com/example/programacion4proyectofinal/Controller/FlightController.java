@@ -93,7 +93,7 @@ public class FlightController {
                 @Override
                 public void handle(ActionEvent event) {
                         group = new Group();
-                         PassengerOfAFlightController passengerOfAFlightController = new PassengerOfAFlightController(group, stage, button.getFlight().getIdFlight());
+                        PassengerOfAFlightController passengerOfAFlightController = new PassengerOfAFlightController(group, stage, button.getFlight().getIdFlight());
                         Scene scene = passengerOfAFlightController.getView().getPassengerOfAFlightScene();
                         stage.setScene(scene);
                         chargeInfoFlight();

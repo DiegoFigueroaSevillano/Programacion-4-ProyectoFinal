@@ -185,10 +185,10 @@ public class FlightView {
         this.airlineLabel = new Label();
         this.airlineLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         this.airlineLabel.setAlignment(Pos.CENTER);
-        this.airlineLabel.setText("Airline");
+        this.airlineLabel.setText("AIRLINE");
         this.airlineLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.airlineLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.18));
-        setTextResponsiveLabel(this.airlineLabel, 10);
+        this.airlineLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.28));
+        setTextResponsiveLabel(this.airlineLabel, 13);
     }
 
     /**
@@ -200,10 +200,10 @@ public class FlightView {
         this.departureDateLabel = new Label();
         this.departureDateLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         this.departureDateLabel.setAlignment(Pos.CENTER);
-        this.departureDateLabel.setText("Departure Date");
+        this.departureDateLabel.setText("DEPARTURE DATE");
         this.departureDateLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.departureDateLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.18));
-        setTextResponsiveLabel(this.departureDateLabel, 10);
+        this.departureDateLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.27));
+        setTextResponsiveLabel(this.departureDateLabel, 12);
     }
 
     /**
@@ -217,8 +217,8 @@ public class FlightView {
         this.addLAbel.setAlignment(Pos.CENTER);
         this.addLAbel.setText("        ");
         this.addLAbel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.addLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.18));
-        setTextResponsiveLabel(this.addLAbel, 10);
+        this.addLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
+        setTextResponsiveLabel(this.addLAbel, 11);
     }
 
     /**
@@ -230,10 +230,10 @@ public class FlightView {
         this.destinyLabel = new Label();
         this.destinyLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         this.destinyLabel.setAlignment(Pos.CENTER);
-        this.destinyLabel.setText("Destination City");
+        this.destinyLabel.setText("DESTINATION CITY");
         this.destinyLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.destinyLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.18));
-        setTextResponsiveLabel(this.destinyLabel, 10);
+        this.destinyLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.27));
+        setTextResponsiveLabel(this.destinyLabel, 12);
     }
 
     /**
@@ -245,10 +245,10 @@ public class FlightView {
         this.arrivalDAteLabel = new Label();
         this.arrivalDAteLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         this.arrivalDAteLabel.setAlignment(Pos.CENTER);
-        this.arrivalDAteLabel.setText("Arrival Date");
+        this.arrivalDAteLabel.setText("ARRIVAL DATE");
         this.arrivalDAteLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.arrivalDAteLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.18));
-        setTextResponsiveLabel(this.arrivalDAteLabel, 10);
+        this.arrivalDAteLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.27));
+        setTextResponsiveLabel(this.arrivalDAteLabel, 12);
     }
 
     /**
@@ -260,10 +260,10 @@ public class FlightView {
         this.costLAbel = new Label();
         this.costLAbel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         this.costLAbel.setAlignment(Pos.CENTER);
-        this.costLAbel.setText("Cost");
+        this.costLAbel.setText("COST");
         this.costLAbel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.costLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.18));
-        setTextResponsiveLabel(this.costLAbel, 10);
+        this.costLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.24));
+        setTextResponsiveLabel(this.costLAbel, 9);
     }
 
     /**
@@ -275,10 +275,10 @@ public class FlightView {
         this.originLabel = new Label();
         this.originLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
         this.originLabel.setAlignment(Pos.CENTER);
-        this.originLabel.setText("Origin City");
+        this.originLabel.setText("ORIGIN CITY");
         this.originLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.originLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.18));
-        setTextResponsiveLabel(this.originLabel, 10);
+        this.originLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.27));
+        setTextResponsiveLabel(this.originLabel, 12);
     }
 
     /**
