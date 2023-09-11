@@ -47,6 +47,31 @@ public class UserFlightInfoOperations {
         return result;
     }
 
+
+  /**
+     * This method obtain all the user for one flight
+     *
+     * @param userID the flight id
+     * @return all the user for it id
+     */
+    public static List<Flight> getAllFlightOfTheUser(int userID) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
+                "Flight/UserFlightInfo/UserFlightInfo.json");
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+
+        List<Flight> result = new ArrayList<>();
+        for (JsonNode node : arrayNode) {
+            if (node.get("userCI").asInt() == userID) {
+                Flight flight = FlightJsonOperations.get(node.get("flightID").asInt());
+                result.add(flight);
+            }
+        }
+        return result;
+    }
+
+
     /**
      * This method insert new value into their respective json
      *
@@ -147,29 +172,6 @@ public class UserFlightInfoOperations {
         if (isChanged) {
             objectMapper.writeValue(file, arrayNode);
         }
-    }
-
-    /**
-     * This method obtain all the user for one flight
-     *
-     * @param userID the flight id
-     * @return all the user for it id
-     */
-    public static List<Flight> getAllFlightOfTheUser(int userID) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
-                "Flight/UserFlightInfo/UserFlightInfo.json");
-        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
-
-        List<Flight> result = new ArrayList<>();
-        for (JsonNode node : arrayNode) {
-            if (node.get("userCI").asInt() == userID) {
-                Flight flight = FlightJsonOperations.get(node.get("flightID").asInt());
-                result.add(flight);
-            }
-        }
-        return result;
     }
 
     public static void main(String[] args) {

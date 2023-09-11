@@ -70,7 +70,7 @@ public class FlightController {
     public void buyFlightAction(FlightInfoButton flightInfoButton) {
         try {
             int[] allFlightId = FlightJsonOperations.getAllIDs();
-            flightInfoButton.getButtonContainer().setOnAction(new EventHandler<ActionEvent>() {
+            flightInfoButton.getPayButton().setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     for (int j : allFlightId) {
@@ -78,7 +78,9 @@ public class FlightController {
                         BuyAFlightController buyAFlightController = new BuyAFlightController(group, stage, j);
                         Scene scene = buyAFlightController.getView().getScene();
                         stage.setScene(scene);
+                        chargeInfoFlight();
                     }
+                    event.consume();
                 }
             });
         } catch (IOException e) {
@@ -102,11 +104,15 @@ public class FlightController {
                         PassengerOfAFlightController passengerOfAFlightController = new PassengerOfAFlightController(group, stage, j);
                         Scene scene = passengerOfAFlightController.getView().getPassengerOfAFlightScene();
                         stage.setScene(scene);
+                        chargeInfoFlight();
                     }
                 }
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
+
     }
 }

@@ -24,7 +24,7 @@ public class FlightInfoButton {
     private int cost;
     private Airline airline;
     private City destination , origin;
-    private LocalDateTime departureDate ,arrivalDate;
+    private LocalDateTime arrivalDate ,departureDate;
     private ScrollPane pane;
     private Button addButton;
     private BackgroundGenerator backgroundGenerator;
@@ -37,8 +37,8 @@ public class FlightInfoButton {
         this.airline = flight.getAirline();
         this.origin = flight.getOrigin();
         this.destination = flight.getDestination();
-        this.departureDate = flight.getDepartureDate();
-        this.arrivalDate = flight.getArrivalDate();
+        this.arrivalDate = flight.getDepartureDate();
+        this.departureDate = flight.getArrivalDate();
         this.cost = flight.getCostOfTheFlight();
         this.backgroundGenerator = new BackgroundGenerator();
         this.pane = pane;
@@ -89,6 +89,7 @@ public class FlightInfoButton {
 
         createValueContainer();
         this.buttonContainer.setGraphic(this.valueContainer);
+
     }
 
     /**
@@ -148,7 +149,7 @@ public class FlightInfoButton {
         this.departureLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
         this.departureLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.departureLabel.setAlignment(Pos.CENTER);
-        this.departureLabel.setText(String.valueOf(departureDate.toLocalDate()));
+        this.departureLabel.setText(String.valueOf(arrivalDate.toLocalDate()));
         setTextResponsiveLabel(this.departureLabel, 15);
     }
 
@@ -162,7 +163,7 @@ public class FlightInfoButton {
         this.arrivalDateLAbel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
         this.arrivalDateLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.arrivalDateLAbel.setAlignment(Pos.CENTER);
-        this.arrivalDateLAbel.setText(String.valueOf(arrivalDate.toLocalDate()));
+        this.arrivalDateLAbel.setText(String.valueOf(departureDate.toLocalDate()));
         setTextResponsiveLabel(this.arrivalDateLAbel, 15);
     }
 
@@ -180,6 +181,7 @@ public class FlightInfoButton {
         setTextResponsiveLabel(this.departureLabel, 15);
     }
 
+
     /**
      * Creates and configures the cost Label for displaying the flight's cost.
      *
@@ -193,8 +195,6 @@ public class FlightInfoButton {
         this.cotsLabel.setText(String.valueOf(cost));
         setTextResponsiveLabel(this.cotsLabel, 15);
     }
-
-
 
 
     /**

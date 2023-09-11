@@ -44,7 +44,7 @@ public class Passenger extends Person implements Comparable<Passenger> {
      */
     @Override
     public String toString() {
-        return getFullName() + " | id: " + getId();
+        return getFullName() + " id: " + getId();
     }
 
     /**
@@ -55,11 +55,11 @@ public class Passenger extends Person implements Comparable<Passenger> {
      */
     @Override
     public int compareTo(Passenger o) {
-        int categoryComparison = this.category.compare(o.category);
-        if (categoryComparison == 0) {
-            return o.getId() - this.getId();
-        } else {
-            return categoryComparison;
+        if (this.getId() < o.getId()) {
+            return -1;
+        } else if (this.getId() > o.getId()) {
+            return 1;
         }
+        return this.getFullName().compareTo(o.getFullName());
     }
 }
