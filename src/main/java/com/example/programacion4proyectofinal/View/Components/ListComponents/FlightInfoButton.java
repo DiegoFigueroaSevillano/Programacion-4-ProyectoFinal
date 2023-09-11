@@ -175,7 +175,7 @@ public class FlightInfoButton {
     private void createDestinationCityLabel(HBox container) {
         this.detinationLabel = new Label();
         this.detinationLabel.prefHeightProperty().bind(container.heightProperty().multiply(0.8));
-        this.detinationLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
+        this.detinationLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.detinationLabel.setAlignment(Pos.CENTER);
         this.detinationLabel.setText(String.valueOf(destination));
         setTextResponsiveLabel(this.departureLabel, 15);
