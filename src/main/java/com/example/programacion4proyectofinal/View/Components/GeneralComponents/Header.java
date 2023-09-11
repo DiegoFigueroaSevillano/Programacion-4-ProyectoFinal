@@ -1,4 +1,5 @@
 package com.example.programacion4proyectofinal.View.Components.GeneralComponents;
+import com.example.programacion4proyectofinal.Controller.FlightController;
 import com.example.programacion4proyectofinal.Controller.HomeController;
 import com.example.programacion4proyectofinal.Controller.RegisterController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
@@ -76,7 +77,7 @@ public class Header {
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton ,flightButton);
 
     }
 
@@ -112,6 +113,18 @@ public class Header {
     private void createFlightsButton() {
         flightButton = new Button("FLIGHT");
         generatorMenuOptions(flightButton, "fight");
+        flightButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (!currentOption.equals("flight")) {
+                    root = new Group();
+                    FlightController flightController = new FlightController(root, stage);
+                    Scene flightScene = flightController.getFlightView().getPassengerOfAFlightScene();
+                    stage.setScene(flightScene);
+                }
+            }
+        });
+
     }
 
     /**

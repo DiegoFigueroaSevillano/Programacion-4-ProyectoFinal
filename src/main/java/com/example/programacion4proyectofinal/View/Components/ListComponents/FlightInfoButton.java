@@ -26,8 +26,7 @@ public class FlightInfoButton {
     private City destination , origin;
     private LocalDateTime departureDate ,arrivalDate;
     private ScrollPane pane;
-    private Button payButton;
-    private Button deleteButton;
+    private Button addButton;
     private BackgroundGenerator backgroundGenerator;
     private Flight user;
 
@@ -52,7 +51,7 @@ public class FlightInfoButton {
      * @return pay button
      */
     public Button getPayButton() {
-        return payButton;
+        return addButton ;
     }
 
     /**
@@ -108,7 +107,7 @@ public class FlightInfoButton {
         createCostLabel(valueContainer);
         createAddButton(valueContainer);
 
-        this.valueContainer.getChildren().addAll(airlineLabel,originLabel, arrivalDateLAbel,departureLabel,detinationLabel, cotsLabel, payButton);
+        this.valueContainer.getChildren().addAll(airlineLabel,originLabel, arrivalDateLAbel,departureLabel,detinationLabel, cotsLabel, addButton);
     }
 
     /**
@@ -204,15 +203,10 @@ public class FlightInfoButton {
      * @param container the container
      */
     private void createAddButton(HBox container){
-        this.payButton = new Button();
-        this.payButton.prefHeightProperty().bind(container.heightProperty().multiply(0.5));
-        this.payButton.prefWidthProperty().bind(container.widthProperty().multiply(0.10));
-        String buttonStyle =
-                "-fx-font-weight: bold;" +
-                        "-fx-background-color: transparent," +
-                        "transparent;";
-
-        this.payButton.setStyle("-fx-font-weight: bold; -fx-background-color: " +
+        this.addButton = new Button();
+        this.addButton.prefHeightProperty().bind(container.heightProperty().multiply(0.5));
+        this.addButton.prefWidthProperty().bind(container.widthProperty().multiply(0.10));
+        this.addButton.setStyle("-fx-font-weight: bold; -fx-background-color: " +
                 "radial-gradient(center 50% 50%, radius 100%, transparent,oldlace); -fx-text-fill: white;");
 
 
@@ -223,8 +217,8 @@ public class FlightInfoButton {
         imageView.setFitWidth(32);
         imageView.setFitHeight(32);
 
-        this.payButton.setGraphic(imageView);
-        setTextResponsiveLabel(this.payButton);
+        this.addButton.setGraphic(imageView);
+        setTextResponsiveLabel(this.addButton);
     }
 
     /**
