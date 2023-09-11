@@ -1,6 +1,8 @@
 package com.example.programacion4proyectofinal;
 
+import com.example.programacion4proyectofinal.Controller.FlightController;
 
+import com.example.programacion4proyectofinal.Controller.LogInController;
 import com.example.programacion4proyectofinal.Controller.PassengerOfAFlightController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.View.Pages.PassengerOfAFlight;
@@ -34,11 +36,12 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws Exception {
         Group root = new Group();
 
-        PassengerOfAFlightController passenger = new PassengerOfAFlightController(root, stage, 786);
+        FlightController logIn = new FlightController(root , stage );
+
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
 
-        Scene currentScene = passenger.getView().getPassengerOfAFlightScene();
+        Scene currentScene = logIn.getFlightView().getPassengerOfAFlightScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
         changePropertiesStage.changeSizeStage(1100, 800, stage);

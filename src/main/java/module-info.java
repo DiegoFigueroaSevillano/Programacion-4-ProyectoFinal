@@ -8,6 +8,7 @@ module com.example.programacion4proyectofinal {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.datatype.jsr310;
+    requires org.json;
 
     opens com.example.programacion4proyectofinal.View.Components.UserProfileComponents to javafx.fxml;
 
