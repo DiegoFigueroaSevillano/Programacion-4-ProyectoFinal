@@ -32,27 +32,7 @@ public class HeaderController {
         addActionToHomeButton();
         addActionToPassengersButton();
         addActionToRegistrationButton();
-        addActionToChangeDispenserButton();
         addActionToFlightButton();
-    }
-
-    /**
-     * Adds an action event to the "Change Dispenser" button in the header.
-     * When the button is clicked and the current option is not "changeDispenser",
-     * it switches to the change dispenser view.
-     */
-    private void addActionToChangeDispenserButton() {
-        header.getChangeDispenserButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (!currentOption.equals("changeDispenser")) {
-                    Group root = new Group();
-                    ChangeDispenserController changeDispenserController = new ChangeDispenserController(root, stage, 0, 0, false);
-                    Scene passengersScene = changeDispenserController.getChangeDispenserView().getChangeDispenserScene();
-                    stage.setScene(passengersScene);
-                }
-            }
-        });
     }
 
     /**

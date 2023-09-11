@@ -35,6 +35,13 @@ public class HelloApplication extends Application {
 
         obtainPassengers.start();
         mainThread.start();
+
+        try {
+            obtainPassengers.join();
+            mainThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -58,6 +65,7 @@ public class HelloApplication extends Application {
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);
+        stage.setResizable(false);
         stage.show();
     }
 }

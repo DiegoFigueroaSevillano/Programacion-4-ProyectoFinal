@@ -39,7 +39,7 @@ public class BuyAFlightViewTest extends Application {
         Scene currentScene = buyAFlightController.getView().getScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
-        changePropertiesStage.changeSizeStage(1800, 1000, stage);
+        changePropertiesStage.changeToMaximizeSizeStage(stage);
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);

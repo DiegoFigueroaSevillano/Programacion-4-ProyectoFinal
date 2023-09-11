@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Styles.FONT_SIZE_24PX;
 
@@ -36,8 +37,8 @@ public class PlacesList {
         this.backgroundGenerator = new BackgroundGenerator();
         this.title = title;
         this.places = places;
-        this.height=height;
-        this.width=width;
+        this.height = height;
+        this.width = width;
         this.generateFont = new GenerateFont();
         createContainer();
     }
@@ -85,5 +86,9 @@ public class PlacesList {
      */
     public VBox getContainer() {
         return container;
+    }
+
+    public ComboBox<String> getPlacesList() {
+        return placesList;
     }
 }

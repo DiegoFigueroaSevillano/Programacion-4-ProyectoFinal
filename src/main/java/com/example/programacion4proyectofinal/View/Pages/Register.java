@@ -51,7 +51,7 @@ public class Register {
         this.changePropertiesStage=new ChangePropertiesStage();
         this.generateFont = new GenerateFont();
         this.stage = stage;
-        this.changePropertiesStage.changeToMaximizeSizeStage(950, 900, this.stage);
+        this.changePropertiesStage.changeToMaximizeSizeStage(this.stage);
         this.stage.setTitle("REGISTER - AEROLAB");
 
         this.registerScene = new Scene(root);

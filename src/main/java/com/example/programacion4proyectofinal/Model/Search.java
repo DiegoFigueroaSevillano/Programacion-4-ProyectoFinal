@@ -192,4 +192,25 @@ public class Search {
 
         return result;
     }
+
+    public Passenger searchByFullName(String fullName) {
+        String fullNameUpperCase = fullName.toUpperCase();
+        Passenger passenger = null;
+        ArrayList<Passenger> passengers = null;
+        try {
+            passengers = obtainAllPassengers();
+        } catch (InterruptedException | ExecutionException exception) {
+            throw new RuntimeException(exception);
+        }
+        if (!passengers.isEmpty()) {
+            for (int index = 0; index < passengers.size(); index++) {
+                String auxiliarFullName = passengers.get(index).getFullName().toUpperCase();
+                if (auxiliarFullName.equals(fullNameUpperCase)) {
+                    passenger = passengers.get(index);
+                    break;
+                }
+            }
+        }
+        return passenger;
+    }
 }

@@ -1,14 +1,10 @@
 package com.example.programacion4proyectofinal.View.Components.General;
 
-import com.example.programacion4proyectofinal.Controller.FlightController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -25,7 +21,7 @@ import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 public class Header {
 
     private HBox header, menu;
-    private Button homeButton, passengersButton, changeDispenserButton;
+    private Button homeButton, passengersButton;
     private Button passengerRegisterButton,flightButton;
     private Stage stage;
     private String currentOption;
@@ -71,13 +67,11 @@ public class Header {
         createPassengersButton();
         createPassengersRegisterButton();
         createFlightsButton();
-
-        createChangeDispenserButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton, flightButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, flightButton);
     }
 
     /**
@@ -109,15 +103,6 @@ public class Header {
     private void createPassengersRegisterButton() {
         passengerRegisterButton = new Button("REGISTER");
         generateMenuOptions(passengerRegisterButton, "register");
-    }
-
-    /**
-     * Creates the "CHANGE DISPENSER" button.
-     */
-    private void createChangeDispenserButton() {
-        changeDispenserButton = new Button("CHANGE DISPENSER");
-        generateMenuOptions(changeDispenserButton, "changeDispenser");
-        changeDispenserButton.setPrefWidth(200);
     }
 
     /**
@@ -175,15 +160,6 @@ public class Header {
      */
     public Button getPassengerRegisterButton() {
         return passengerRegisterButton;
-    }
-
-    /**
-     * Gets the "CHANGE DISPENSER" button.
-     *
-     * @return The "CHANGE DISPENSER" button.
-     */
-    public Button getChangeDispenserButton() {
-        return changeDispenserButton;
     }
 
     /**

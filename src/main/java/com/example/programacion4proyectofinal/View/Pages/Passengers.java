@@ -61,7 +61,7 @@ public class Passengers {
         this.root = root;
         this.stage = stage;
         this.changePropertiesStage = new ChangePropertiesStage();
-        this.changePropertiesStage.changeToMaximizeSizeStage(950, 900, this.stage);
+        this.changePropertiesStage.changeToMaximizeSizeStage(this.stage);
         this.stage.setTitle("PASSENGERS - AEROLAB");
         this.passengersScene = new Scene(root);
         this.headerController = new HeaderController(root, stage, "passengers");
