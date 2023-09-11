@@ -41,7 +41,9 @@ public class UserFlightInfoOperations {
                 Status status = Status.valueOf(node.get("status").asText());
                 LocalDateTime localDateTime = objectMapper.convertValue(node.get("localDateTime"), LocalDateTime.class);
                 UserFlightInfo userFlightInfo = new UserFlightInfo(userCI, flightID, status, localDateTime);
-                result.add(userFlightInfo);
+                if (userFlightInfo.getPassenger() != null) {
+                    result.add(userFlightInfo);
+                }
             }
         }
         return result;
