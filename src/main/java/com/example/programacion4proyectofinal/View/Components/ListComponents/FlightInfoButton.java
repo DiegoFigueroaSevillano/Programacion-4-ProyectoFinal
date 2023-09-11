@@ -28,12 +28,12 @@ public class FlightInfoButton {
     private ScrollPane pane;
     private Button addButton;
     private BackgroundGenerator backgroundGenerator;
-    private Flight user;
+    private Flight flight;
 
 
 
     public FlightInfoButton(Flight flight, ScrollPane pane) {
-        this.user = flight;
+        this.flight = flight;
         this.airline = flight.getAirline();
         this.origin = flight.getOrigin();
         this.destination = flight.getDestination();
@@ -59,8 +59,8 @@ public class FlightInfoButton {
      *
      * @return the user
      */
-    public Flight getUser() {
-        return user;
+    public Flight getFlight() {
+        return flight;
     }
 
     /**

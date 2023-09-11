@@ -2,51 +2,17 @@ package com.example.programacion4proyectofinal.View.Pages;
 
 
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
-import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
-
-
-/**
- * The FlightView class represents the view for flight information and components.
- */
-
-
-import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
-import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
-import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
-
 
 /**
  * The FlightView class represents the view for flight information and components.
