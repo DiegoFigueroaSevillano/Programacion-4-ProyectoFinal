@@ -15,26 +15,35 @@ public class UserFlightJsonGenerator {
     /**
      * This method was created for generate the Json with all data
      *
-     * @param quantity the quantity of data
+     * @param users the quantity of users
      * @param flights the list of flight
      */
-    public static void generateJson(int quantity, int[] flights, int[] users){
+    public static void generateJson(int[] flights, int[] users){
         int userCI;
         int flightID;
         Status status;
+        int start = 0;
+        int end = users.length / flights.length;
+        int divisor = end;
 
-        for (int i = 0; i < quantity; i++){
-            userCI = UserFlightDataGenerator.getRandomPassengerID(users);
-            flightID = UserFlightDataGenerator.getRandomFlightID(flights);
-            status = UserFlightDataGenerator.getRandomStatus();
-            LocalDateTime localDateTime = UserFlightDataGenerator.getRandomDateTime();
+        for (int i = 0; i < flights.length; i++){
+            flightID = flights[i];
+            System.out.println("index avion: " + i);
+            for (int j = start; j < end; j++) {
+                System.out.println("index: " + j);
+                userCI = users[j];
+                status = UserFlightDataGenerator.getRandomStatus();
+                LocalDateTime localDateTime = UserFlightDataGenerator.getRandomDateTime();
 
-            UserFlightInfo userFlightInfo = new UserFlightInfo(userCI, flightID, status, localDateTime);
-            try {
-                UserFlightInfoOperations.insert(userFlightInfo);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                UserFlightInfo userFlightInfo = new UserFlightInfo(userCI, flightID, status, localDateTime);
+                try {
+                    UserFlightInfoOperations.insert(userFlightInfo);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
+            start = end;
+            end = end + divisor;
         }
     }
 }

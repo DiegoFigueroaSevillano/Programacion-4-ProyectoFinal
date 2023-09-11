@@ -70,13 +70,12 @@ public class Header {
     private void createMenu() {
         createHomeButton();
         createPassengersButton();
-        createChangeDispenserButton();
         createPassengersRegisterButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton);
     }
 
     /**
@@ -93,14 +92,6 @@ public class Header {
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
         generatorMenuOptions(passengersButton, "passengers");
-    }
-
-    /**
-     * Creates the "PASSENGERS" button.
-     */
-    private void createChangeDispenserButton() {
-        changeDispenserButton = new Button("CHANGE DISPENSER");
-        generatorMenuOptions(changeDispenserButton, "changeDispenser");
     }
 
     /**

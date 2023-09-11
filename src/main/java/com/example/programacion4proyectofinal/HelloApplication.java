@@ -2,7 +2,9 @@ package com.example.programacion4proyectofinal;
 
 import com.example.programacion4proyectofinal.Controller.LogInController;
 import com.example.programacion4proyectofinal.Controller.PassengersController;
+import com.example.programacion4proyectofinal.Controller.PassengerOfAFlightController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.View.Pages.PassengerOfAFlight;
 import com.example.programacion4proyectofinal.Model.Search;
 import javafx.application.Application;
 import javafx.scene.Group;

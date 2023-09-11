@@ -1,14 +1,16 @@
 package com.example.programacion4proyectofinal.StagesAndLogicTest;
 
+import com.example.programacion4proyectofinal.Controller.BuyAFlightController;
 import com.example.programacion4proyectofinal.Controller.ChangeDispenserController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
+import com.example.programacion4proyectofinal.View.Pages.BuyAFlight;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class ChangeDispenserViewTest extends Application {
+public class BuyAFlightViewTest extends Application {
 
     /**
      * The main method that launches the JavaFX application.
@@ -27,14 +29,14 @@ public class ChangeDispenserViewTest extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        /*
+
         Group root = new Group();
 
-        ChangeDispenserController logIn = new ChangeDispenserController(root, stage, 300);
+        BuyAFlightController buyAFlightController = new BuyAFlightController(root, stage, 786);
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
 
-        Scene currentScene = logIn.getChangeDispenserView().getChangeDispenserScene();
+        Scene currentScene = buyAFlightController.getView().getScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
         changePropertiesStage.changeSizeStage(1800, 1000, stage);
@@ -42,6 +44,6 @@ public class ChangeDispenserViewTest extends Application {
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);
         stage.show();
-        */
+
     }
 }
