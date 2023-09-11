@@ -207,7 +207,7 @@ public class Register {
      */
     private void setButtonRegisterAction() {
         createButton.setOnAction(event -> {
-            BTree<Passenger> passengerBTree = new BTree<>(10, new FileHandlerBTree());
+            BTree<Passenger> passengerBTree = new BTree<>(100, new FileHandlerBTree());
             Passenger passenger = new Passenger(Integer.parseInt(passengerCi.getTextField().getText()), passengerName.getTextField().getText(),
                     passengerLastName.getTextField().getText(), passengerCountry.getTextField().getText(), getCategory());
             if (passengerBTree.insertKey(passenger)) {
