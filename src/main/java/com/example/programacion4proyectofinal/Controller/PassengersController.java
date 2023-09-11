@@ -143,23 +143,22 @@ public class PassengersController {
         passengerComponent.setAlignment(Pos.CENTER);
         passengerComponent.setPadding(new Insets(20));
         passengerComponent.getChildren().addAll(nameContainer);
-        addActionForContainer(nameContainer, id);
+        addActionForContainer(nameContainer, passenger);
         return passengerComponent;
     }
 
     /**
      * Adds an action handler to a passenger component.
      * @param nameContainer The container of the passenger component.
-     * @param id The unique ID of the passenger component.
+     * @param passenger The passenger object.
      */
-    private void addActionForContainer(HBox nameContainer, int id) {
+    private void addActionForContainer(HBox nameContainer, Passenger passenger) {
         nameContainer.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent event) {
-                Passenger user = passengersList.get(id);
                 List<Flight> flights;
                 try {
-                    flights = UserFlightInfoOperations.getAllFlightOfTheUser(user.getId());
+                    flights = UserFlightInfoOperations.getAllFlightOfTheUser(passenger.getId());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -168,7 +167,7 @@ public class PassengersController {
                     Parent root = loader.load();
                     UserProfileController userProfileController = loader.getController();
                     userProfileController.setPassengerView(true);
-                    userProfileController.setLabels(user);
+                    userProfileController.setLabels(passenger);
                     userProfileController.loadInformationFlights(flights);
                     userProfileController.setStage(stage);
                     Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
