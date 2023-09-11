@@ -1,10 +1,14 @@
 package com.example.programacion4proyectofinal.View.Components.General;
 
+import com.example.programacion4proyectofinal.Controller.FlightController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -73,9 +77,7 @@ public class Header {
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton ,flightButton);
-
-        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton, flightButton);
     }
 
     /**
@@ -98,19 +100,7 @@ public class Header {
      */
     private void createFlightsButton() {
         flightButton = new Button("FLIGHT");
-        generatorMenuOptions(flightButton, "fight");
-        flightButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (!currentOption.equals("flight")) {
-                    root = new Group();
-                    FlightController flightController = new FlightController(root, stage);
-                    Scene flightScene = flightController.getFlightView().getPassengerOfAFlightScene();
-                    stage.setScene(flightScene);
-                }
-            }
-        });
-
+        generateMenuOptions(flightButton, "flight");
     }
 
     /**
@@ -127,6 +117,7 @@ public class Header {
     private void createChangeDispenserButton() {
         changeDispenserButton = new Button("CHANGE DISPENSER");
         generateMenuOptions(changeDispenserButton, "changeDispenser");
+        changeDispenserButton.setPrefWidth(200);
     }
 
     /**
@@ -193,5 +184,14 @@ public class Header {
      */
     public Button getChangeDispenserButton() {
         return changeDispenserButton;
+    }
+
+    /**
+     * Gets the "FLIGHT" button.
+     *
+     * @return The "FLIGHT" button.
+     */
+    public Button getFlightButton() {
+        return flightButton;
     }
 }

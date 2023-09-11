@@ -1,7 +1,6 @@
 package com.example.programacion4proyectofinal.Controller;
 
 import com.example.programacion4proyectofinal.View.Components.General.Header;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -34,6 +33,7 @@ public class HeaderController {
         addActionToPassengersButton();
         addActionToRegistrationButton();
         addActionToChangeDispenserButton();
+        addActionToFlightButton();
     }
 
     /**
@@ -108,6 +108,27 @@ public class HeaderController {
                     RegisterController register = new RegisterController(root, stage);
                     Scene registerScene = register.getRegisterView().getRegisterScene();
                     stage.setScene(registerScene);
+                }
+            }
+        });
+    }
+
+    /**
+     * Adds an action handler to the "Flight" button in the header.
+     * When the button is clicked, it checks if the current option is not "flight,"
+     * and if so, it creates a new FlightController instance and sets the scene
+     * to the PassengerOfAFlight view, effectively switching to the flight-related
+     * functionality.
+     */
+    private void addActionToFlightButton() {
+        header.getFlightButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (!currentOption.equals("flight")) {
+                    root = new Group();
+                    FlightController flightController = new FlightController(root, stage);
+                    Scene flightScene = flightController.getFlightView().getPassengerOfAFlightScene();
+                    stage.setScene(flightScene);
                 }
             }
         });
