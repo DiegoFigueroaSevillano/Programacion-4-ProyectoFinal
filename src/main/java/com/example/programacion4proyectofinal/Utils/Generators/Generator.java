@@ -42,7 +42,7 @@ public class Generator {
         System.out.println("CREACION DE VUELOS: " + result);
 
         start = System.nanoTime();
-        int[] users = UserFlightDataGenerator.getRandomKeys(hashMap, quantityOfFlights*50);
+        int[] users = UserFlightDataGenerator.getRandomKeys(hashMap, quantityOfFlights*20);
         int[] flight;
         try {
             flight = FlightJsonOperations.getAllIDs();
@@ -55,6 +55,6 @@ public class Generator {
     }
 
     public static void main(String[] args) {
-        generateAll(100, 1000000, 20);
+        generateAll(10, 500, 5);
     }
 }

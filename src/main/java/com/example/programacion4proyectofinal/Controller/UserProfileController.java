@@ -246,7 +246,7 @@ public class UserProfileController implements Initializable {
      * @param passenger the passenger
      */
     private void deleteUserFiles(Passenger passenger) {
-        BTree<Passenger> passengerBTree = new BTree<>(100, new FileHandlerBTree());
+        BTree<Passenger> passengerBTree = new BTree<>(10, new FileHandlerBTree());
         passengerBTree.remove(passenger);
     }
 
