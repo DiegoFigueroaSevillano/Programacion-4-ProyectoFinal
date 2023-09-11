@@ -14,7 +14,7 @@ public class SearchTestMain {
     public static void main(String[] args) {
         Search search = new Search();
         long startById = System.currentTimeMillis();
-        Passenger passenger = search.searchById(9999396);
+        Passenger passenger = search.searchById(2155554);
         long endById = System.currentTimeMillis();
         System.out.println("===============================================");
         if (passenger == null) {

@@ -94,9 +94,7 @@ public class Search {
      * @return An ArrayList of Passenger objects matching the name.
      */
     public ArrayList<Passenger> searchByName(String name) {
-        ArrayList<Passenger> result = new ArrayList<>();
-        searchByName(PATH_ROOT, name, result);
-        return result;
+        return searchByName(PATH_ROOT, name);
     }
 
     /**
@@ -104,9 +102,9 @@ public class Search {
      *
      * @param path   The path within the hierarchical data structure to search.
      * @param name   The name to search for.
-     * @param result An ArrayList to store the matching Passenger objects.
      */
-    private void searchByName(String path, String name, ArrayList<Passenger> result) {
+    private ArrayList<Passenger> searchByName(String path, String name) {
+        ArrayList<Passenger> result = new ArrayList<>();
         Node node = parserJson.convertJsonToNode(path);
         if (node != null) {
             ArrayList<Passenger> passengers = node.getKeys();
@@ -114,12 +112,13 @@ public class Search {
 
             searchNameInNode(name, result, passengers);
 
-            if (!passengers.isEmpty()) {
-                for (int index = 0; index <= passengers.size(); index++) {
-                    searchByName(children.get(index), name, result);
+            if (!children.isEmpty()) {
+                for (int index = 0; index < children.size(); index++) {
+                    result.addAll(searchByName(children.get(index), name));
                 }
             }
         }
+        return result;
     }
 
     /**

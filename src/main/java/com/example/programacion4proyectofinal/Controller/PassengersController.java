@@ -78,7 +78,9 @@ public class PassengersController {
      */
     private void createPassengers() throws ExecutionException, InterruptedException {
         paginationMap = createPagination();
+        System.out.println("PAGINATION: " + paginationMap.size());
         passengersComponents = createPassengersComponents();
+        System.out.println("PASSENGERS: " + passengersComponents.size());
     }
 
     /**
@@ -90,8 +92,13 @@ public class PassengersController {
         ObservableList<HBox> passengersComponent = FXCollections.observableArrayList();
         if (!paginationMap.isEmpty()) {
             if (paginationMap.get(pagination) != null) {
-                for (int index = 0; index < paginationMap.get(pagination).size(); index++) {
-                    passengersComponent.add(generatePassenger(paginationMap.get(pagination).get(index), index));
+                if (paginationMap.containsKey(pagination)) {
+                    ArrayList<Passenger> currentPagePassengers = paginationMap.get(pagination);
+                    if (currentPagePassengers != null) {
+                        for (int index = 0; index < currentPagePassengers.size(); index++) {
+                            passengersComponent.add(generatePassenger(currentPagePassengers.get(index), index));
+                        }
+                    }
                 }
             }
         }
@@ -144,17 +151,20 @@ public class PassengersController {
         final int[] counter = {0};
         int totalPassengers = passengersList.size();
         int totalPages = (int) Math.ceil((double) totalPassengers / pageSize);
+        if (totalPages == 0 && !passengersList.isEmpty()) {
+            totalPages = 1;
+        }
         HashMap<Integer, ArrayList<Passenger>> pagination = new HashMap<>();
         ArrayList<Callable<Void>> tasks = new ArrayList<>();
-        for (int page = 1; page <= totalPages; page++) {
+        for (int page = 0; page < totalPages; page++) {
             final int currentPage = page;
             Callable<Void> task = () -> {
                 ArrayList<Passenger> pageList = new ArrayList<>();
-                while (pageList.size() < pageSize) {
+                while (counter[0] < passengersList.size() && pageList.size() < pageSize) {
                     pageList.add(passengersList.get(counter[0]));
                     counter[0]++;
                 }
-                pagination.put(currentPage, pageList);
+                pagination.put(currentPage + 1, pageList);
                 return null;
             };
             tasks.add(task);
@@ -325,6 +335,7 @@ public class PassengersController {
             }
             pagination = 1;
             passengers.getPaginationField().setText("1");
+
             try {
                 createPassengers();
             } catch (ExecutionException | InterruptedException exception) {
