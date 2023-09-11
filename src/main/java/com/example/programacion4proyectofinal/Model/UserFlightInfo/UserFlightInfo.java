@@ -83,11 +83,16 @@ public class UserFlightInfo implements Comparable<UserFlightInfo> {
     public int compareTo(UserFlightInfo o) {
         int statusComparison = this.status.compare(o.status);
         if (statusComparison == 0) {
-            int passengerComparison = this.passenger.compareTo(o.passenger);
-            if (passengerComparison == 0) {
-                return this.localDateTime.compareTo(o.localDateTime);
-            } else {
-                return passengerComparison;
+            int categoryComparison = this.passenger.getCategory().compare(o.passenger.getCategory());
+            if (categoryComparison == 0) {
+                int passengerComparison = this.passenger.compareTo(o.passenger);
+                if (passengerComparison == 0) {
+                    return this.localDateTime.compareTo(o.localDateTime);
+                } else {
+                    return passengerComparison;
+                }
+            }else{
+                return categoryComparison;
             }
         } else {
             return statusComparison;

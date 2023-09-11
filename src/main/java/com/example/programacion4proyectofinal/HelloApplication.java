@@ -48,7 +48,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Group root = new Group();
-
+      
         LogInController logIn = new LogInController(root, stage);
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
