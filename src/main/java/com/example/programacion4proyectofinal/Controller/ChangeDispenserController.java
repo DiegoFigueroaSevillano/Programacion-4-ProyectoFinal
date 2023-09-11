@@ -54,6 +54,11 @@ public class ChangeDispenserController {
                 throw new RuntimeException(e);
             }
         }
+        try {
+            changeDispenserView.getActionTittle().setText("RECEIVE PAYMENT: " + FlightJsonOperations.get(flightID).getCostOfTheFlight() + "Bs");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         addActionToActionButton();
     }
 

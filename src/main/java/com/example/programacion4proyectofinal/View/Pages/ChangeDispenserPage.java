@@ -87,6 +87,8 @@ public class ChangeDispenserPage {
         return rightSection;
     }
 
+
+
     /**
      * Method that return us the scene of the view
      *
