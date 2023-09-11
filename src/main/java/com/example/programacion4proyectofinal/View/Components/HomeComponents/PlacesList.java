@@ -86,4 +86,8 @@ public class PlacesList {
     public VBox getContainer() {
         return container;
     }
+
+    public ComboBox<String> getPlacesList() {
+        return placesList;
+    }
 }

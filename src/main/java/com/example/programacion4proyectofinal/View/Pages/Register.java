@@ -1,6 +1,11 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
 import com.example.programacion4proyectofinal.Controller.HeaderController;
+import com.example.programacion4proyectofinal.Controller.HomeController;
+import com.example.programacion4proyectofinal.Model.DataStructure.BTree;
+import com.example.programacion4proyectofinal.Model.FileHandler.FileHandlerBTree;
+import com.example.programacion4proyectofinal.Model.Person.Category;
+import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.PassengerInformation;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.PlacesList;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
@@ -10,12 +15,16 @@ import com.example.programacion4proyectofinal.Utils.ViewUtils.PassengerType;
 import com.example.programacion4proyectofinal.View.Components.HomeComponents.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -59,6 +68,7 @@ public class Register {
 
         creationRegister(registerScene);
         root.getChildren().add(register);
+        setButtonRegisterAction();
     }
 
     /**
@@ -110,14 +120,14 @@ public class Register {
         ticketForm.setBackground(backgroundGenerator.createBackground(SKY_BLUE));
         ticketForm.getChildren().addAll(sectionNames, sectionCountryCi,passengerType,createButton);
     }
+    private PlacesList fromList;
 
     /**
      * Creates and configures the places section UI.
      */
     private void createPlacesSection() {
         ObservableList<String> placesList = FXCollections.observableArrayList(PassengerType.PASSENGER_TYPE);
-
-        PlacesList fromList = new PlacesList(placesList, "TYPE PASSENGER:" , 740 ,740);
+        fromList = new PlacesList(placesList, "TYPE PASSENGER:" , 740 ,740);
         passengerType = new HBox(40);
         passengerType.setPrefWidth(900);
         passengerType.setPrefHeight(120);
@@ -125,6 +135,26 @@ public class Register {
         passengerType.setAlignment(Pos.CENTER);
 
 
+    }
+
+    /**
+     * Gets the category of the passenger.
+     * @return The category of the passenger.
+     */
+    private Category getCategory() {
+        Category category = null;
+        switch (fromList.getPlacesList().getValue()) {
+            case "VIP":
+                category = Category.VIP;
+                break;
+            case "FREQUENT_PASSENGER":
+                category = Category.FREQUENT_PASSENGER;
+                break;
+            case "REGULAR_PASSENGER":
+                category = Category.REGULAR_PASSENGER;
+                break;
+        }
+        return category;
     }
 
     /**
@@ -175,4 +205,35 @@ public class Register {
         return registerScene;
     }
 
+    /**
+     * Sets the action for the create button.
+     */
+    private void setButtonRegisterAction() {
+        createButton.setOnAction(event -> {
+            BTree<Passenger> passengerBTree = new BTree<>(10, new FileHandlerBTree());
+            Passenger passenger = new Passenger(Integer.parseInt(passengerCi.getTextField().getText()), passengerName.getTextField().getText(),
+                    passengerLastName.getTextField().getText(), passengerCountry.getTextField().getText(), getCategory());
+            if (passengerBTree.insertKey(passenger)) {
+                passengersView();
+            } else {
+                if (ticketForm.getChildren().size() == 5)
+                    ticketForm.getChildren().remove(4);
+                ticketForm.getChildren().add(new Label("The passenger already exists"));
+            }
+        });
+    }
+
+    /**
+     * This method change the view to the passengers view
+     */
+    private void passengersView() {
+        Group root = new Group();
+        HomeController home = new HomeController(root, stage);
+        Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
+
+        Scene homeScene = home.getHomeView().getHomeScene();
+        stage.setScene(homeScene);
+        stage.getIcons().add(iconApp);
+        stage.show();
+    }
 }

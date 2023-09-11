@@ -1,9 +1,7 @@
 package com.example.programacion4proyectofinal.Controller;
 
-import com.example.programacion4proyectofinal.View.Pages.Home;
+
 import com.example.programacion4proyectofinal.View.Pages.Register;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.stage.Stage;
 
