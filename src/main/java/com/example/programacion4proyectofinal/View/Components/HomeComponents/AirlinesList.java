@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -83,7 +82,7 @@ public class AirlinesList {
     }
 
     /**
-     * Gets the container of the PassengerName section.
+     * Gets the container of the Airlines section.
      *
      * @return The VBox container.
      */
@@ -91,6 +90,11 @@ public class AirlinesList {
         return container;
     }
 
+    /**
+     * Gets the container of the Airlines section.
+     *
+     * @return The ComboBox container.
+     */
     public ComboBox<String> getComboBox() {
         return comboBox;
     }

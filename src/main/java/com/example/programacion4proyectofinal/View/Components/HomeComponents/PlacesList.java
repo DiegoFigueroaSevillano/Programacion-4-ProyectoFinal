@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Styles.FONT_SIZE_24PX;
 
@@ -88,7 +87,13 @@ public class PlacesList {
         return container;
     }
 
+    /**
+     * Retrieves a ComboBox containing a list of places, typically used for selecting a city.
+     *
+     * @return The ComboBox element representing the list of places.
+     */
     public ComboBox<String> getPlacesList() {
         return placesList;
     }
+
 }

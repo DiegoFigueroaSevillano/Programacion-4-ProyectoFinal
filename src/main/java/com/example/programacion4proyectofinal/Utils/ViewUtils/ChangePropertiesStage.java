@@ -1,6 +1,5 @@
 package com.example.programacion4proyectofinal.Utils.ViewUtils;
 
-import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 

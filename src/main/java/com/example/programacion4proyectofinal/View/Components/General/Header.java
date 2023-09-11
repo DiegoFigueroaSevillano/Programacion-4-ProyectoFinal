@@ -27,7 +27,6 @@ public class Header {
     private String currentOption;
     private final int HEIGHT = 60;
     private GenerateFont generateFont;
-    private Group root;
 
     /**
      * Constructs a Header menu.
@@ -38,7 +37,6 @@ public class Header {
      */
     public Header(Group root, Stage stage, String currentOption) {
         this.stage = stage;
-        this.root = root;
         this.currentOption = currentOption;
         this.generateFont = new GenerateFont();
         createHeader();

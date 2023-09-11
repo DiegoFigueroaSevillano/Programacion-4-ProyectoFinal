@@ -14,7 +14,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -198,19 +197,40 @@ public class Home {
         return returnDate;
     }
 
+    /**
+     * Retrieves the "Create" button from the view.
+     *
+     * @return The "Create" button element.
+     */
     public Button getCreateButton() {
         return createButton;
     }
 
+    /**
+     * Retrieves the list of places for selecting the origin city from the view.
+     *
+     * @return The PlacesList element representing the list of origin places.
+     */
     public PlacesList getFromList() {
         return fromList;
     }
 
+    /**
+     * Retrieves the list of places for selecting the destination city from the view.
+     *
+     * @return The PlacesList element representing the list of destination places.
+     */
     public PlacesList getToList() {
         return toList;
     }
 
+    /**
+     * Retrieves the list of airlines for selecting the airline from the view.
+     *
+     * @return The AirlinesList element representing the list of airlines.
+     */
     public AirlinesList getAirlinesList() {
         return airlinesList;
     }
+
 }

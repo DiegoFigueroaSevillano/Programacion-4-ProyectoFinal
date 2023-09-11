@@ -33,6 +33,13 @@ public class HomeController {
         addActionToCreate();
     }
 
+    /**
+     * Adds an action to the "Create" button in the home view.
+     * When the "Create" button is clicked, this method generates random flight information,
+     * creates a new Flight object, and inserts it into a JSON file using FlightJsonOperations.
+     *
+     * @throws RuntimeException if an IOException occurs while inserting the flight data into the JSON file.
+     */
     private void addActionToCreate() {
         homeView.getCreateButton().setOnAction(event -> {
             int id = createRandomFlightID();

@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-
 public class FlightJsonOperations {
 
     public final static String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/Flight/Flight.json";

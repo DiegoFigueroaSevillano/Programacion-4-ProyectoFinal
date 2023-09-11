@@ -22,33 +22,23 @@ public class Generator {
      * @param quantityOfUsersInTheBtree the quantity of users into the btree
      */
     public static void generateAll(int degree, int quantityOfUsersInTheBtree,int quantityOfFlights){
-
-        //GENERADOR DE USUARIOS
         BTree<Integer> bTree = new BTree<>(degree);
         HashMap<Integer, Passenger> hashMap = new HashMap<>();
         UserGenerator.generateUsers(bTree, quantityOfUsersInTheBtree, hashMap);
-
-        //GENERAR VUELOS
         FlightJsonGenerator.generateJson(quantityOfFlights);
-
-        //GENERAR USUARIOS DENTRO DE VUELOS
         int[] users = UserFlightDataGenerator.getRandomKeys(hashMap, quantityOfFlights*30);
-        System.out.println("USUARIOS TOTALES: " +  users.length);
-
-        //OBTENER LA LISTA DE VUELOS
+        System.out.println("TOTAL USERS: " +  users.length);
         int[] flight;
         try {
             flight = FlightJsonOperations.getAllIDs();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("VUELOS TOTALES: " + flight.length);
+        System.out.println("TOTAL FLIGHTS: " + flight.length);
         UserFlightJsonGenerator.generateJson(flight, users);
     }
 
     public static void main(String[] args) {
-
-        //SI SE CAMBIA EL DEGREE DE IGUAL FORMA SE DEBE CAMBIAR EN LA CLASE UserFlightInfo
         generateAll(10, 500, 5);
     }
 }

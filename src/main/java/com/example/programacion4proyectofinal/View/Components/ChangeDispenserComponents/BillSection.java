@@ -1,23 +1,13 @@
 package com.example.programacion4proyectofinal.View.Components.ChangeDispenserComponents;
 
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
-import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-
-import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 
 /**
  *  * This class represents a section with money values and images

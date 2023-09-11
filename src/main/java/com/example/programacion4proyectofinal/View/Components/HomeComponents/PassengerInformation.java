@@ -178,7 +178,13 @@ public class PassengerInformation {
         return container;
     }
 
+    /**
+     * Retrieves a TextField element from the view.
+     *
+     * @return The TextField element, typically used for input or displaying text.
+     */
     public TextField getTextField() {
         return textField;
     }
+
 }

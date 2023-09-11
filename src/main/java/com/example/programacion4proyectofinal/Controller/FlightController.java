@@ -69,18 +69,18 @@ public class FlightController {
      */
     public void buyFlightAction(FlightInfoButton flightInfoButton) {
 
-            flightInfoButton.getPayButton().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                        group = new Group();
-                         BuyAFlightController buyAFlightController = new BuyAFlightController(group, stage, flightInfoButton.getFlight().getIdFlight());
-                        Scene scene = buyAFlightController.getView().getScene();
-                        stage.setScene(scene);
-                        chargeInfoFlight();
-                    event.consume();
-                }
-            });
-        }
+        flightInfoButton.getPayButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                group = new Group();
+                BuyAFlightController buyAFlightController = new BuyAFlightController(group, stage, flightInfoButton.getFlight().getIdFlight());
+                Scene scene = buyAFlightController.getView().getScene();
+                stage.setScene(scene);
+                chargeInfoFlight();
+                event.consume();
+            }
+        });
+    }
 
 
     /**
@@ -89,19 +89,16 @@ public class FlightController {
      * @param button The FlightInfoButton associated with the action.
      */
     public void principalButtonAction(FlightInfoButton button) {
-            button.getButtonContainer().setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                        group = new Group();
-                        PassengerOfAFlightController passengerOfAFlightController = new PassengerOfAFlightController(group, stage, button.getFlight().getIdFlight());
-                        Scene scene = passengerOfAFlightController.getView().getPassengerOfAFlightScene();
-                        stage.setScene(scene);
-                        chargeInfoFlight();
-                }
-            });
-        }
-
-
-
+        button.getButtonContainer().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                group = new Group();
+                PassengerOfAFlightController passengerOfAFlightController = new PassengerOfAFlightController(group, stage, button.getFlight().getIdFlight());
+                Scene scene = passengerOfAFlightController.getView().getPassengerOfAFlightScene();
+                stage.setScene(scene);
+                chargeInfoFlight();
+            }
+        });
     }
+}
 

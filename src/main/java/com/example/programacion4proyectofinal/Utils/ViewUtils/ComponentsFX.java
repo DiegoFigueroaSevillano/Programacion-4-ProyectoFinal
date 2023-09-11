@@ -3,10 +3,7 @@ package com.example.programacion4proyectofinal.Utils.ViewUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
 
 /**
  * This utility class provides methods for generating JavaFX components.
@@ -55,19 +52,5 @@ public class ComponentsFX {
         label.setLayoutX(positionX);
         label.setLayoutY(positionY);
         return label;
-    }
-
-    /**
-     * Follows the size of a FlowPane to the size of a ScrollPane.
-     * @param scrollPane The ScrollPane to follow.
-     */
-    public void followSizeFlowPane(ScrollPane scrollPane) {
-        FlowPane flowPane = (FlowPane) scrollPane.getContent();
-        scrollPane.viewportBoundsProperty().addListener((ov, oldBounds, bounds) -> {
-            Stage window = (Stage) (scrollPane.getContent().getScene().getWindow());
-            flowPane.setPrefWidth(bounds.getWidth());
-            flowPane.setPrefHeight(bounds.getHeight());
-            scrollPane.setPrefHeight(window.getHeight());
-        });
     }
 }

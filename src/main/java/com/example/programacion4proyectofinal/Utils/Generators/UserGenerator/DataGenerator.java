@@ -1,7 +1,6 @@
 package com.example.programacion4proyectofinal.Utils.Generators.UserGenerator;
 
 import com.example.programacion4proyectofinal.Model.Person.Category;
-import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 import com.example.programacion4proyectofinal.Utils.UserData.Country;
 import com.example.programacion4proyectofinal.Utils.UserData.LastName;
 import com.example.programacion4proyectofinal.Utils.UserData.Name;

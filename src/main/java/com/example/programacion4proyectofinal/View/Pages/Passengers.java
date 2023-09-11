@@ -12,7 +12,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -24,7 +23,6 @@ import javafx.stage.Stage;
 
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
-
 
 /**
  * The Passengers class represents the passengers page of the application's user interface.

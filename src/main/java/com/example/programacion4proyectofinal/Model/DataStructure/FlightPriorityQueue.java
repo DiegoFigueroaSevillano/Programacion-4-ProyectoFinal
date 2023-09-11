@@ -40,20 +40,6 @@ public class FlightPriorityQueue {
     }
 
     /**
-     * This method delete an Item to the priorityQueue
-     *
-     * @param userCI the user to be eliminated
-     * @param flightID the flight id
-     */
-    public void deleteItem(int userCI, int flightID){
-        try {
-            UserFlightInfoOperations.delete(userCI, flightID);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * This method return us the priority queue
      *
      * @return priority queue

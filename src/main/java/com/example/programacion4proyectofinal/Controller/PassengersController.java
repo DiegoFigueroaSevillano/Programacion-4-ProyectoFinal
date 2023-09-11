@@ -9,7 +9,6 @@ import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.Passengers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
