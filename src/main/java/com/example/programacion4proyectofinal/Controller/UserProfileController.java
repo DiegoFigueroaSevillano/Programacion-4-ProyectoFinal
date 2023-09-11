@@ -202,10 +202,11 @@ public class UserProfileController implements Initializable {
 
     private void passengersView() {
         Group root = new Group();
-        HomeController home = new HomeController(root, stage);
+        PassengersController home = new PassengersController();
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
 
-        Scene homeScene = home.getHomeView().getHomeScene();
+        home.start(root, stage);
+        Scene homeScene = home.getPassengers().getPassengersScene();
         stage.setScene(homeScene);
         stage.getIcons().add(iconApp);
         stage.show();
