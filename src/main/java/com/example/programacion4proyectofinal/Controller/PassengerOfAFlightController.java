@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -148,12 +149,15 @@ public class PassengerOfAFlightController {
                     FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/example/programacion4proyectofinal/Views/user-profile.fxml")));
                     Parent root = loader.load();
                     UserProfileController userProfileController = loader.getController();
+                    userProfileController.setPassengerView(false);
                     userProfileController.setLabels(user);
                     userProfileController.loadInformationFlights(flights);
                     userProfileController.setIdFlight(flightID);
                     userProfileController.setStage(stage);
+                    Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
                     Stage newStage = new Stage();
-                    newStage.setScene(new Scene(root));
+                    newStage.setScene(new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight()));
+                    newStage.getIcons().add(iconApp);
                     newStage.setMinWidth(1100);
                     newStage.setMinHeight(800);
                     newStage.setTitle("User Profile");

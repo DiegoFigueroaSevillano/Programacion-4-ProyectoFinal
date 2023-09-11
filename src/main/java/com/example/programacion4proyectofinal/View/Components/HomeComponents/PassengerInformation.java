@@ -177,4 +177,8 @@ public class PassengerInformation {
     public VBox getContainer() {
         return container;
     }
+
+    public TextField getTextField() {
+        return textField;
+    }
 }

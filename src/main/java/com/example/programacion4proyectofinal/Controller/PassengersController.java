@@ -1,7 +1,9 @@
 package com.example.programacion4proyectofinal.Controller;
 
+import com.example.programacion4proyectofinal.Model.Flight.Flight;
 import com.example.programacion4proyectofinal.Model.Person.Passenger;
 import com.example.programacion4proyectofinal.Model.Search;
+import com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase.UserFlightInfoOperations;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
 import com.example.programacion4proyectofinal.View.Pages.Passengers;
@@ -9,15 +11,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -135,8 +143,47 @@ public class PassengersController {
         passengerComponent.setAlignment(Pos.CENTER);
         passengerComponent.setPadding(new Insets(20));
         passengerComponent.getChildren().addAll(nameContainer);
-
+        addActionForContainer(nameContainer, passenger);
         return passengerComponent;
+    }
+
+    /**
+     * Adds an action handler to a passenger component.
+     * @param nameContainer The container of the passenger component.
+     * @param passenger The passenger object.
+     */
+    private void addActionForContainer(HBox nameContainer, Passenger passenger) {
+        nameContainer.setOnMouseClicked(new EventHandler<>() {
+            @Override
+            public void handle(MouseEvent event) {
+                List<Flight> flights;
+                try {
+                    flights = UserFlightInfoOperations.getAllFlightOfTheUser(passenger.getId());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/example/programacion4proyectofinal/Views/user-profile.fxml")));
+                    Parent root = loader.load();
+                    UserProfileController userProfileController = loader.getController();
+                    userProfileController.setPassengerView(true);
+                    userProfileController.setLabels(passenger);
+                    userProfileController.loadInformationFlights(flights);
+                    userProfileController.setStage(stage);
+                    Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
+                    Stage newStage = new Stage();
+                    newStage.setScene(new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight()));
+                    newStage.getIcons().add(iconApp);
+                    newStage.setMinWidth(1100);
+                    newStage.setMinHeight(800);
+                    newStage.setTitle("User Profile");
+                    newStage.show();
+                    stage.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
