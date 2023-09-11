@@ -1,0 +1,127 @@
+[
+  {
+    "idFlight": 568,
+    "origin": "POTOSI",
+    "destination": "CHUQUISACA",
+    "airline": "TRANSPORTES_AEREOS_BOLIVIANOS",
+    "departureDate": [
+      2023,
+      9,
+      24,
+      6,
+      36,
+      20,
+      539019224
+    ],
+    "arrivalDate": [
+      2023,
+      9,
+      24,
+      8,
+      49,
+      22,
+      539019224
+    ],
+    "cost": 810
+  },
+  {
+    "idFlight": 299,
+    "origin": "SANTA_CRUZ",
+    "destination": "COCHABAMBA",
+    "airline": "SKY_TEAM_AVIATOR",
+    "departureDate": [
+      2023,
+      10,
+      20,
+      14,
+      1,
+      16,
+      599112374
+    ],
+    "arrivalDate": [
+      2023,
+      10,
+      20,
+      19,
+      0,
+      20,
+      599112374
+    ],
+    "cost": 593
+  },
+  {
+    "idFlight": 725,
+    "origin": "PANDO",
+    "destination": "TARIJA",
+    "airline": "LINEAS_AEREAS_CANEDO",
+    "departureDate": [
+      2023,
+      11,
+      27,
+      21,
+      56,
+      36,
+      610219581
+    ],
+    "arrivalDate": [
+      2023,
+      11,
+      28,
+      0,
+      29,
+      13,
+      610219581
+    ],
+    "cost": 718
+  },
+  {
+    "idFlight": 738,
+    "origin": "ORURO",
+    "destination": "POTOSI",
+    "airline": "TRANSPORTES_AEREOS_BOLIVIANOS",
+    "departureDate": [
+      2023,
+      12,
+      30,
+      16,
+      12,
+      27,
+      611605415
+    ],
+    "arrivalDate": [
+      2023,
+      12,
+      30,
+      20,
+      39,
+      12,
+      611605415
+    ],
+    "cost": 906
+  },
+  {
+    "idFlight": 634,
+    "origin": "POTOSI",
+    "destination": "BENI",
+    "airline": "TRANSPORTES_AEREOS_BOLIVIANOS",
+    "departureDate": [
+      2023,
+      12,
+      24,
+      13,
+      9,
+      29,
+      613007834
+    ],
+    "arrivalDate": [
+      2023,
+      12,
+      24,
+      17,
+      6,
+      21,
+      613007834
+    ],
+    "cost": 579
+  }
+]

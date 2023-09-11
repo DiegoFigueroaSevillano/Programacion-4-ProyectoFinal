@@ -1,7 +1,9 @@
 package com.example.programacion4proyectofinal.Utils.Generators.UserFlightInfoDataBase;
 
+import com.example.programacion4proyectofinal.Model.Flight.Flight;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.Status;
 import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInfo;
+import com.example.programacion4proyectofinal.Utils.Generators.FlightDataBase.FlightJsonOperations;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -97,5 +99,84 @@ public class UserFlightInfoOperations {
         }
     }
 
+    /**
+     * This method delete all users whit a CI in the data base
+     *
+     * @param userCI the user to be eliminated
+     */
+    public static void deleteAll(int userCI) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
+                "Flight/UserFlightInfo/UserFlightInfo.json");
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+        boolean isRemoved = false;
+        Iterator<JsonNode> iterator = arrayNode.elements();
+        while (iterator.hasNext()) {
+            JsonNode node = iterator.next();
+            if (node.get("userCI").asInt() == userCI) {
+                iterator.remove();
+                isRemoved = true;
+            }
+        }
+        if (isRemoved) {
+            objectMapper.writeValue(file, arrayNode);
+        }
+    }
 
+    /**
+     * This method change the status of a passenger in their respective flight
+     *
+     * @param userCI the user CI
+     * @param flightID the flight ID
+     * @param newStatus the new status
+     */
+    public static void changeStatus(int userCI, int flightID, Status newStatus) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
+                "Flight/UserFlightInfo/UserFlightInfo.json");
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+        boolean isChanged = false;
+        for (JsonNode node : arrayNode) {
+            if (node.get("userCI").asInt() == userCI && node.get("flightID").asInt() == flightID) {
+                ((ObjectNode) node).put("status", newStatus.toString());
+                isChanged = true;
+            }
+        }
+        if (isChanged) {
+            objectMapper.writeValue(file, arrayNode);
+        }
+    }
+
+    /**
+     * This method obtain all the user for one flight
+     *
+     * @param userID the flight id
+     * @return all the user for it id
+     */
+    public static List<Flight> getAllFlightOfTheUser(int userID) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File("src/main/resources/com/example/programacion4proyectofinal/JSON/" +
+                "Flight/UserFlightInfo/UserFlightInfo.json");
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+
+        List<Flight> result = new ArrayList<>();
+        for (JsonNode node : arrayNode) {
+            if (node.get("userCI").asInt() == userID) {
+                Flight flight = FlightJsonOperations.get(node.get("flightID").asInt());
+                result.add(flight);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println(getAllFlightOfTheUser(1189715));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

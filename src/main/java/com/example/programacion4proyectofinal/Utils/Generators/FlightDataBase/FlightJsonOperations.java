@@ -11,15 +11,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 
 
 public class FlightJsonOperations {
 
-    public final static String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/" +
-            "Flight/UserFlightInfo/Flight.json";
+    public final static String path = "src/main/resources/com/example/programacion4proyectofinal/JSON/Flight/Flight.json";
 
+    public static ArrayList<Flight> flights;
     /**
      * This method obtain one flight to the database
      *
@@ -39,12 +40,42 @@ public class FlightJsonOperations {
                 Airline airline = Airline.valueOf(node.get("airline").asText());
                 LocalDateTime departureDate = objectMapper.convertValue(node.get("departureDate"), LocalDateTime.class);
                 LocalDateTime arrivalDate = objectMapper.convertValue(node.get("arrivalDate"), LocalDateTime.class);
-                return new Flight(flightID, origin, destination, airline, departureDate, arrivalDate);
+                int cost = node.get("cost").asInt();
+                return new Flight(flightID, origin, destination, airline, departureDate, arrivalDate, cost);
             }
         }
         return null;
     }
 
+    /**
+     * Retrieves a list of Flight objects from a JSON file.
+     *
+     * @return An ArrayList containing Flight objects.
+     * @throws IOException If an I/O error occurs while reading the JSON file.
+     */
+
+    public static ArrayList<Flight> getFlight() throws IOException {
+        flights = new ArrayList<>();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        File file = new File(path);
+        ArrayNode arrayNode = (ArrayNode) objectMapper.readTree(file);
+
+        for (JsonNode node : arrayNode) {
+            int flightId = node.get("idFlight").asInt();
+
+            City origin = City.valueOf(node.get("origin").asText());
+            City destination = City.valueOf(node.get("destination").asText());
+            Airline airline = Airline.valueOf(node.get("airline").asText());
+            LocalDateTime departureDate = objectMapper.convertValue(node.get("departureDate"), LocalDateTime.class);
+            LocalDateTime arrivalDate = objectMapper.convertValue(node.get("arrivalDate"), LocalDateTime.class);
+            int cost = node.get("cost").asInt();
+            flights.add(new Flight(flightId, origin, destination, airline, departureDate, arrivalDate, cost));
+
+        }
+        return flights;
+    }
     /**
      * This method obtain all the id of the flight into their database
      *
@@ -81,6 +112,7 @@ public class FlightJsonOperations {
         nodeObject.put("airline", flight.getAirline().toString());
         nodeObject.putPOJO("departureDate", flight.getDepartureDate());
         nodeObject.putPOJO("arrivalDate", flight.getArrivalDate());
+        nodeObject.put("cost", flight.getCostOfTheFlight());
         File file = new File(path);
         ArrayNode arrayNode;
         if (file.exists()) {
