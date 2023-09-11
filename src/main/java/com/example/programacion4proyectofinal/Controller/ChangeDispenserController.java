@@ -47,10 +47,12 @@ public class ChangeDispenserController {
         this.userID = userID;
         this.flightID = flightID;
         this.isListOfPassenger = isListOfPassenger;
-        try {
-            this.cost = FlightJsonOperations.get(flightID).getCostOfTheFlight();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (flightID != 0) {
+            try {
+                this.cost = FlightJsonOperations.get(flightID).getCostOfTheFlight();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         addActionToActionButton();
     }

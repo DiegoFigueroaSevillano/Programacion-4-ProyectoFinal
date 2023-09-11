@@ -47,7 +47,7 @@ public class HeaderController {
             public void handle(ActionEvent event) {
                 if (!currentOption.equals("changeDispenser")) {
                     Group root = new Group();
-                    ChangeDispenserController changeDispenserController = new ChangeDispenserController(root, stage, 300, 1, true);
+                    ChangeDispenserController changeDispenserController = new ChangeDispenserController(root, stage, 0, 0, false);
                     Scene passengersScene = changeDispenserController.getChangeDispenserView().getChangeDispenserScene();
                     stage.setScene(passengersScene);
                 }
