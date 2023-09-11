@@ -11,6 +11,7 @@ import com.example.programacion4proyectofinal.View.Components.UserProfileCompone
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -60,6 +62,7 @@ public class UserProfileController implements Initializable {
     private Passenger passenger;
     private int idFlight;
     private Stage stage;
+    private boolean isPassengerView;
 
 
     /**
@@ -67,6 +70,10 @@ public class UserProfileController implements Initializable {
      */
     public UserProfileController() {
         this.backgroundGenerator = new BackgroundGenerator();
+    }
+
+    public void setPassengerView(boolean isPassengerView) {
+        this.isPassengerView = isPassengerView;
     }
 
     /**
@@ -106,24 +113,32 @@ public class UserProfileController implements Initializable {
         mainContainer.setSpacing(5);
         mainContainer.setPadding(new Insets(2, 0, 0, 0));
 
-        for (Flight flight : flights) {
-            String city = flight.getOrigin() + " - " + flight.getDestination();
-            String date = flight.getDepartureDataTime() + " - " + flight.getArrivalDataTime();
-            String secondDate = flight.getDepartureTime() + " - " + flight.getArrivalTime();
+        if (flights.isEmpty()) {
+            mainContainer.setAlignment(Pos.CENTER);
+            Label emptyMessage = new Label("No history flights");
+            emptyMessage.setFont(new Font("Arial", 90));
+            emptyMessage.setStyle("-fx-font-weight: bold;");
+            mainContainer.getChildren().add(emptyMessage);
+        } else {
+            for (Flight flight : flights) {
+                String city = flight.getOrigin() + " - " + flight.getDestination();
+                String date = flight.getDepartureDataTime() + " - " + flight.getArrivalDataTime();
+                String secondDate = flight.getDepartureTime() + " - " + flight.getArrivalTime();
 
-            FlightPane flightPane = new FlightPane(flight.getIdFlight(), passenger.getId(), this);
-            Pane pane = flightPane.createContentInformationFlight(flight.getIdFlight() + "", city, date,
-                    680, mainContainer, flight.getCostOfTheFlight() + "", secondDate, flight.getAirline() + "");
+                FlightPane flightPane = new FlightPane(flight.getIdFlight(), passenger.getId(), this);
+                Pane pane = flightPane.createContentInformationFlight(flight.getIdFlight() + "", city, date,
+                        680, mainContainer, flight.getCostOfTheFlight() + "", secondDate, flight.getAirline() + "");
 
-            mainContainer.getChildren().add(pane);
+                mainContainer.getChildren().add(pane);
+            }
         }
 
         scrollPaneHistory.setStyle("-fx-background-color: transparent;");
-
         scrollPaneHistory.setContent(mainContainer);
         scrollPaneHistory.setFitToWidth(true);
         scrollPaneHistory.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
+
 
     /**
      * This method refresh the information of the flights
@@ -155,7 +170,11 @@ public class UserProfileController implements Initializable {
      */
     private void setGoBackButton() {
         goBackButton.setOnAction(event -> {
-            passengerFlightControllerView();
+            if (isPassengerView) {
+                passengersView();
+            } else {
+                passengerFlightControllerView();
+            }
             Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
             stage.close();
         });
@@ -181,6 +200,17 @@ public class UserProfileController implements Initializable {
         stage.show();
     }
 
+    private void passengersView() {
+        Group root = new Group();
+        HomeController home = new HomeController(root, stage);
+        Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
+
+        Scene homeScene = home.getHomeView().getHomeScene();
+        stage.setScene(homeScene);
+        stage.getIcons().add(iconApp);
+        stage.show();
+    }
+
     /**
      * This method set the delete user button
      */
@@ -195,7 +225,11 @@ public class UserProfileController implements Initializable {
                     try {
                         UserFlightInfoOperations.deleteAll(passenger.getId());
                         deleteUserFiles(passenger);
-                        passengerFlightControllerView();
+                        if (isPassengerView) {
+                            passengersView();
+                        } else {
+                            passengerFlightControllerView();
+                        }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
