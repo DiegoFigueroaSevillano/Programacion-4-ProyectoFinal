@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Search {
 
-    private final String PATH_ROOT = "root";
+    private static final String PATH_ROOT = "root";
     private ParserJson parserJson;
 
     /**

@@ -23,7 +23,6 @@ public class HelloApplication extends Application {
      * @param args The command-line arguments.
      */
     public static void main(String[] args) {
-        Search search = new Search();
         Thread obtainPassengers = new Thread(() -> {
             System.out.println("SEARCHING PASSENGERS...");
             PassengersController passengersController = getPassengersControllerInstance();

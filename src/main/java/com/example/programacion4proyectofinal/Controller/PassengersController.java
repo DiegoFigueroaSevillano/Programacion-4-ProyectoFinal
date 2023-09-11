@@ -11,13 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
@@ -29,7 +24,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.*;
 
-import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
+import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 
 /**
  * The PassengersController class manages passenger data and interactions for the application.
@@ -41,7 +37,7 @@ public class PassengersController {
     private ArrayList<Passenger> passengersList;
     private ObservableList<HBox> passengersComponents;
     private HashMap<Integer, ArrayList<Passenger>> paginationMap;
-    private int pagination = 1;
+    private int pagination;
     private Search search;
     private static PassengersController passengersControllerInstance;
     private Stage stage;
@@ -51,10 +47,10 @@ public class PassengersController {
      * It retrieves passenger data and creates passenger components for display.
      */
     public PassengersController() {
+        pagination = 1;
         search = new Search();
         try {
             passengersList = search.obtainAllPassengers();
-            System.out.println(passengersList.size());
             createPassengers();
         } catch (ExecutionException | InterruptedException exception) {
             throw new RuntimeException(exception);
@@ -95,7 +91,7 @@ public class PassengersController {
         if (!paginationMap.isEmpty()) {
             if (paginationMap.get(pagination) != null) {
                 for (int index = 0; index < paginationMap.get(pagination).size(); index++) {
-                    passengersComponent.add(generatePassenger(paginationMap.get(pagination).get(index), passengersComponent, index));
+                    passengersComponent.add(generatePassenger(paginationMap.get(pagination).get(index), index));
                 }
             }
         }
@@ -106,11 +102,10 @@ public class PassengersController {
      * Generates an HBox component for a passenger with specified details.
      *
      * @param passenger           The passenger object.
-     * @param passengersComponents The list of passenger components.
      * @param id                   The unique ID of the passenger component.
      * @return The generated HBox passenger component.
      */
-    private HBox generatePassenger(Passenger passenger, ObservableList<HBox> passengersComponents, int id) {
+    private HBox generatePassenger(Passenger passenger, int id) {
         int idPassenger = passenger.getId();
         GenerateFont generateFont = new GenerateFont();
         BackgroundGenerator backgroundGenerator = new BackgroundGenerator();
@@ -134,35 +129,7 @@ public class PassengersController {
         passengerComponent.setPadding(new Insets(20));
         passengerComponent.getChildren().addAll(nameContainer);
 
-        nameContainer.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println(nameContainer.getId() + " | " + passengersList.get(id).getFullName());
-            }
-        });
-
         return passengerComponent;
-    }
-
-    /**
-     * Generates a button with an icon and specified background color.
-     *
-     * @param pathImage The path to the icon image.
-     * @param color     The background color of the button.
-     * @return The generated button.
-     */
-    private Button generateButton(String pathImage, String color) {
-        BackgroundGenerator backgroundGenerator = new BackgroundGenerator();
-        Image iconImage = new Image(getClass().getResourceAsStream(pathImage));
-        ImageView icon = new ImageView(iconImage);
-        Button button = new Button();
-        button.setGraphic(icon);
-        button.setPrefSize(60, 60);
-        button.setMinSize(60, 60);
-        button.setMaxSize(60, 60);
-        button.setBackground(backgroundGenerator.createBackgroundRadius(10, color));
-        button.setCursor(Cursor.HAND);
-        return button;
     }
 
     /**
@@ -292,74 +259,90 @@ public class PassengersController {
      * Adds action handlers to various buttons and controls in the GUI.
      */
     private void addActionToButtons() {
-
         passengers.getLeftPaginationButton().setDisable(true);
         passengers.getLeftTenPaginationButton().setDisable(true);
-        passengers.getRightPaginationButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeToNextPagination();
-                updatePage();
-            }
-        });
+        addNextPaginationAction();
+        addNextTenPaginationAction();
+        addPreviousPaginationAction();
+        addPreviousTenPaginationAction();
+        addSearchButtonAction();
+    }
 
-        passengers.getRightTenPaginationButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeTenPositionToNextPagination();
-                updatePage();
-            }
-        });
-
-        passengers.getLeftPaginationButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeToPreviousPagination();
-                updatePage();
-            }
-        });
-
-        passengers.getLeftTenPaginationButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                changeTenPositionToPreviousPagination();
-                updatePage();
-            }
-        });
-
-        passengers.getSearchButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String searchResult = passengers.getSearchField().getText();
-                if (Objects.equals(searchResult, "")) {
-                    try {
-                        passengersList = search.obtainAllPassengers();
-                    } catch (InterruptedException | ExecutionException exception) {
-                        throw new RuntimeException(exception);
-                    }
-                } else {
-                    passengersList = search.searchByName(searchResult);
-                }
-                pagination = 1;
-                passengers.getPaginationField().setText("1");
-                try {
-                    createPassengers();
-                } catch (ExecutionException | InterruptedException exception) {
-                    throw new RuntimeException(exception);
-                }
-                passengers.getLeftTenPaginationButton().setDisable(true);
-                passengers.getLeftPaginationButton().setDisable(true);
-                if (paginationMap.size() > 1) {
-                    passengers.getRightPaginationButton().setDisable(false);
-                    passengers.getRightTenPaginationButton().setDisable(false);
-                } else {
-                    passengers.getRightPaginationButton().setDisable(true);
-                    passengers.getRightTenPaginationButton().setDisable(true);
-                }
-                updatePage();
-            }
+    /**
+     * Adds action handler for the "Next Pagination" button.
+     */
+    private void addNextPaginationAction() {
+        passengers.getRightPaginationButton().setOnAction(event -> {
+            changeToNextPagination();
+            updatePage();
         });
     }
+
+    /**
+     * Adds action handler for the "Next Ten Pagination" button.
+     */
+    private void addNextTenPaginationAction() {
+        passengers.getRightTenPaginationButton().setOnAction(event -> {
+            changeTenPositionToNextPagination();
+            updatePage();
+        });
+    }
+
+    /**
+     * Adds action handler for the "Previous Pagination" button.
+     */
+    private void addPreviousPaginationAction() {
+        passengers.getLeftPaginationButton().setOnAction(event -> {
+            changeToPreviousPagination();
+            updatePage();
+        });
+    }
+
+    /**
+     * Adds action handler for the "Previous Ten Pagination" button.
+     */
+    private void addPreviousTenPaginationAction() {
+        passengers.getLeftTenPaginationButton().setOnAction(event -> {
+            changeTenPositionToPreviousPagination();
+            updatePage();
+        });
+    }
+
+    /**
+     * Adds action handler for the "Search" button.
+     */
+    private void addSearchButtonAction() {
+        passengers.getSearchButton().setOnAction(event -> {
+            String searchResult = passengers.getSearchField().getText();
+            if (Objects.equals(searchResult, "")) {
+                try {
+                    passengersList = search.obtainAllPassengers();
+                } catch (InterruptedException | ExecutionException exception) {
+                    throw new RuntimeException(exception);
+                }
+            } else {
+                passengersList = search.searchByName(searchResult);
+            }
+            pagination = 1;
+            passengers.getPaginationField().setText("1");
+            try {
+                createPassengers();
+            } catch (ExecutionException | InterruptedException exception) {
+                throw new RuntimeException(exception);
+            }
+            passengers.getLeftTenPaginationButton().setDisable(true);
+            passengers.getLeftPaginationButton().setDisable(true);
+            if (paginationMap.size() > 1) {
+                passengers.getRightPaginationButton().setDisable(false);
+                passengers.getRightTenPaginationButton().setDisable(false);
+            } else {
+                passengers.getRightPaginationButton().setDisable(true);
+                passengers.getRightTenPaginationButton().setDisable(true);
+            }
+            updatePage();
+        });
+    }
+
 
     /**
      * Updates the displayed passenger list on the GUI.

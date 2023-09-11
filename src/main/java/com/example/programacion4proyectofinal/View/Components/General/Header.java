@@ -32,10 +32,11 @@ public class Header {
     /**
      * Constructs a Header menu.
      *
+     * @param root          The root Group node of the scene.
      * @param stage         The primary stage of the application.
      * @param currentOption The currently selected option (e.g., "home", "passengers").
      */
-    public Header(Group root , Stage stage, String currentOption) {
+    public Header(Group root, Stage stage, String currentOption) {
         this.stage = stage;
         this.root = root;
         this.currentOption = currentOption;
@@ -78,7 +79,7 @@ public class Header {
      */
     private void createHomeButton() {
         homeButton = new Button("HOME");
-        generatorMenuOptions(homeButton, "home");
+        generateMenuOptions(homeButton, "home");
     }
 
     /**
@@ -86,7 +87,7 @@ public class Header {
      */
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
-        generatorMenuOptions(passengersButton, "passengers");
+        generateMenuOptions(passengersButton, "passengers");
     }
 
     /**
@@ -94,12 +95,15 @@ public class Header {
      */
     private void createPassengersRegisterButton() {
         passengerRegisterButton = new Button("REGISTER");
-        generatorMenuOptions(passengerRegisterButton, "register");
+        generateMenuOptions(passengerRegisterButton, "register");
     }
 
+    /**
+     * Creates the "CHANGE DISPENSER" button.
+     */
     private void createChangeDispenserButton() {
         changeDispenserButton = new Button("CHANGE DISPENSER");
-        generatorMenuOptions(changeDispenserButton, "changeDispenser");
+        generateMenuOptions(changeDispenserButton, "changeDispenser");
     }
 
     /**
@@ -108,7 +112,7 @@ public class Header {
      * @param button     The button to style.
      * @param optionName The name of the option associated with the button.
      */
-    private void generatorMenuOptions(Button button, String optionName) {
+    private void generateMenuOptions(Button button, String optionName) {
         button.setPrefHeight(HEIGHT);
         button.setPrefWidth(150);
         button.setCursor(Cursor.HAND);
@@ -132,18 +136,38 @@ public class Header {
         return header;
     }
 
+    /**
+     * Gets the "HOME" button.
+     *
+     * @return The "HOME" button.
+     */
     public Button getHomeButton() {
         return homeButton;
     }
 
+    /**
+     * Gets the "PASSENGERS" button.
+     *
+     * @return The "PASSENGERS" button.
+     */
     public Button getPassengersButton() {
         return passengersButton;
     }
 
+    /**
+     * Gets the "REGISTER" button.
+     *
+     * @return The "REGISTER" button.
+     */
     public Button getPassengerRegisterButton() {
         return passengerRegisterButton;
     }
 
+    /**
+     * Gets the "CHANGE DISPENSER" button.
+     *
+     * @return The "CHANGE DISPENSER" button.
+     */
     public Button getChangeDispenserButton() {
         return changeDispenserButton;
     }

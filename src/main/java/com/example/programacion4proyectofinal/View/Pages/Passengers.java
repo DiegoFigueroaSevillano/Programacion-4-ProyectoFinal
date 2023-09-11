@@ -132,14 +132,7 @@ public class Passengers {
         containerPassengers.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         containerPassengers.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         containerPassengers.setPannable(true);
-
-        ScrollBar vScrollBar = (ScrollBar) containerPassengers.lookup(".scroll-bar:vertical");
-        if (vScrollBar != null) {
-            vScrollBar.setStyle("-fx-control-inner-background: #" + SKY_BLUE + ";");
-        }
-
         createPassengersList();
-
         containerPassengers.setContent(passengersList);
     }
 
@@ -212,11 +205,6 @@ public class Passengers {
         return paginationButton;
     }
 
-    /**
-     * Gets the Passengers Scene.
-     *
-     * @return The Passengers Scene.
-     */
     /**
      * Gets the list container for passengers.
      *
