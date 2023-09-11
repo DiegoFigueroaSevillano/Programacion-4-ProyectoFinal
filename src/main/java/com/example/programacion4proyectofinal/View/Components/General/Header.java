@@ -1,16 +1,10 @@
 package com.example.programacion4proyectofinal.View.Components.General;
 
-import com.example.programacion4proyectofinal.Controller.HomeController;
-import com.example.programacion4proyectofinal.Controller.RegisterController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.GenerateFont;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -71,11 +65,12 @@ public class Header {
         createHomeButton();
         createPassengersButton();
         createPassengersRegisterButton();
+        createChangeDispenserButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
-        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton);
     }
 
     /**
@@ -102,6 +97,10 @@ public class Header {
         generatorMenuOptions(passengerRegisterButton, "register");
     }
 
+    private void createChangeDispenserButton() {
+        changeDispenserButton = new Button("CHANGE DISPENSER");
+        generatorMenuOptions(changeDispenserButton, "changeDispenser");
+    }
 
     /**
      * Generates the menu options for buttons.

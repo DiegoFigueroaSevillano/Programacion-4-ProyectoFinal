@@ -2,19 +2,15 @@ package com.example.programacion4proyectofinal;
 
 import com.example.programacion4proyectofinal.Controller.LogInController;
 import com.example.programacion4proyectofinal.Controller.PassengersController;
-import com.example.programacion4proyectofinal.Controller.PassengerOfAFlightController;
-import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
-import com.example.programacion4proyectofinal.View.Pages.PassengerOfAFlight;
 import com.example.programacion4proyectofinal.Model.Search;
+import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.util.concurrent.ExecutionException;
-
-import static com.example.programacion4proyectofinal.Controller.PassengersController.*;
+import static com.example.programacion4proyectofinal.Controller.PassengersController.getPassengersControllerInstance;
 
 /**
  * This is the main class that launches the application.

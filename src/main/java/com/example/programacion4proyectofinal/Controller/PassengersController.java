@@ -26,10 +26,15 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.*;
 
+/**
+ * The PassengersController class manages passenger data and interactions for the application.
+ * It handles pagination, searching, and displaying passenger information.
+ */
 public class PassengersController {
 
     private Passengers passengers;
@@ -39,7 +44,12 @@ public class PassengersController {
     private int pagination = 1;
     private Search search;
     private static PassengersController passengersControllerInstance;
+    private Stage stage;
 
+    /**
+     * Initializes a new instance of the PassengersController class.
+     * It retrieves passenger data and creates passenger components for display.
+     */
     public PassengersController() {
         search = new Search();
         try {
@@ -51,29 +61,55 @@ public class PassengersController {
         }
     }
 
+    /**
+     * Starts the PassengersController by initializing the GUI and adding action handlers.
+     *
+     * @param root  The root Group for the GUI.
+     * @param stage The primary Stage for the application.
+     */
     public void start(Group root, Stage stage) {
-        this.passengers = new Passengers(root, stage, passengersComponents);
+        this.stage = stage;
+        this.passengers = new Passengers(root, this.stage, passengersComponents);
         addActionToButtons();
-        if (this.passengers.getPaginationField().getText().equals("1")) {
-            pagination = 1;
-        }
+        pagination = 1;
     }
 
+    /**
+     * Creates passenger components based on the current pagination.
+     *
+     * @throws ExecutionException   If an execution exception occurs.
+     * @throws InterruptedException If the operation is interrupted.
+     */
     private void createPassengers() throws ExecutionException, InterruptedException {
         paginationMap = createPagination();
         passengersComponents = createPassengersComponents();
     }
 
+    /**
+     * Creates HBox components for passengers based on the current pagination.
+     *
+     * @return The list of HBox passenger components.
+     */
     private ObservableList<HBox> createPassengersComponents() {
         ObservableList<HBox> passengersComponent = FXCollections.observableArrayList();
         if (!paginationMap.isEmpty()) {
-            for (int index = 0; index < paginationMap.get(pagination).size(); index++) {
-                passengersComponent.add(generatePassenger(paginationMap.get(pagination).get(index), passengersComponent, index));
+            if (paginationMap.get(pagination) != null) {
+                for (int index = 0; index < paginationMap.get(pagination).size(); index++) {
+                    passengersComponent.add(generatePassenger(paginationMap.get(pagination).get(index), passengersComponent, index));
+                }
             }
         }
         return passengersComponent;
     }
 
+    /**
+     * Generates an HBox component for a passenger with specified details.
+     *
+     * @param passenger           The passenger object.
+     * @param passengersComponents The list of passenger components.
+     * @param id                   The unique ID of the passenger component.
+     * @return The generated HBox passenger component.
+     */
     private HBox generatePassenger(Passenger passenger, ObservableList<HBox> passengersComponents, int id) {
         int idPassenger = passenger.getId();
         GenerateFont generateFont = new GenerateFont();
@@ -83,35 +119,20 @@ public class PassengersController {
         passengerName.setFont(generateFont.latoLight(32));
         passengerName.setTextFill(Color.valueOf(WHITE));
 
-        Button deleteButton = generateButton("/com/example/programacion4proyectofinal/Icons/delete-icon.png", RED);
-
         HBox nameContainer = new HBox();
         nameContainer.getChildren().add(passengerName);
         nameContainer.setAlignment(Pos.CENTER_LEFT);
         nameContainer.setId(idPassenger + "");
+
         HBox.setHgrow(nameContainer, Priority.ALWAYS);
 
-        HBox buttonsContainer = new HBox(10);
-        buttonsContainer.setAlignment(Pos.CENTER);
-        buttonsContainer.getChildren().addAll(deleteButton);
-
         HBox passengerComponent = new HBox(10);
-
-        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                passengersComponents.remove(passengerComponent);
-                passengers.setPassengersComponents(passengersComponents);
-                passengers.deleteAComponent();
-            }
-        });
-
         passengerComponent.setPrefHeight(100);
         passengerComponent.setBackground(backgroundGenerator.createBackgroundRadius(10, SKY_BLUE));
         passengerComponent.setId(id + "");
         passengerComponent.setAlignment(Pos.CENTER);
         passengerComponent.setPadding(new Insets(20));
-        passengerComponent.getChildren().addAll(nameContainer, buttonsContainer);
+        passengerComponent.getChildren().addAll(nameContainer);
 
         nameContainer.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -123,11 +144,17 @@ public class PassengersController {
         return passengerComponent;
     }
 
+    /**
+     * Generates a button with an icon and specified background color.
+     *
+     * @param pathImage The path to the icon image.
+     * @param color     The background color of the button.
+     * @return The generated button.
+     */
     private Button generateButton(String pathImage, String color) {
         BackgroundGenerator backgroundGenerator = new BackgroundGenerator();
         Image iconImage = new Image(getClass().getResourceAsStream(pathImage));
         ImageView icon = new ImageView(iconImage);
-
         Button button = new Button();
         button.setGraphic(icon);
         button.setPrefSize(60, 60);
@@ -138,29 +165,33 @@ public class PassengersController {
         return button;
     }
 
+    /**
+     * Creates pagination for the list of passengers.
+     *
+     * @return A HashMap containing pagination information.
+     */
     public HashMap<Integer, ArrayList<Passenger>> createPagination() {
         int totalThreads = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(totalThreads);
-
         int pageSize = 20;
+        final int[] counter = {0};
         int totalPassengers = passengersList.size();
         int totalPages = (int) Math.ceil((double) totalPassengers / pageSize);
         HashMap<Integer, ArrayList<Passenger>> pagination = new HashMap<>();
-
         ArrayList<Callable<Void>> tasks = new ArrayList<>();
-
         for (int page = 1; page <= totalPages; page++) {
             final int currentPage = page;
             Callable<Void> task = () -> {
-                int startIndex = (currentPage - 1) * pageSize;
-                int endIndex = Math.min(currentPage * pageSize, totalPassengers);
-                ArrayList<Passenger> pageList = new ArrayList<>(passengersList.subList(startIndex, endIndex));
+                ArrayList<Passenger> pageList = new ArrayList<>();
+                while (pageList.size() < pageSize) {
+                    pageList.add(passengersList.get(counter[0]));
+                    counter[0]++;
+                }
                 pagination.put(currentPage, pageList);
                 return null;
             };
             tasks.add(task);
         }
-
         try {
             List<Future<Void>> futures = executorService.invokeAll(tasks);
             for (Future<Void> future : futures) {
@@ -171,10 +202,12 @@ public class PassengersController {
         } finally {
             executorService.shutdown();
         }
-
         return pagination;
     }
 
+    /**
+     * Increments the pagination and updates GUI elements accordingly.
+     */
     private void changeToNextPagination() {
         pagination++;
         if (pagination > 1) {
@@ -191,6 +224,9 @@ public class PassengersController {
         passengers.getPaginationField().setText("" + pagination);
     }
 
+    /**
+     * Increments the pagination by ten and updates GUI elements accordingly.
+     */
     private void changeTenPositionToNextPagination() {
         pagination+=10;
         if (pagination > 1) {
@@ -211,6 +247,9 @@ public class PassengersController {
         passengers.getPaginationField().setText("" + pagination);
     }
 
+    /**
+     * Decrements the pagination and updates GUI elements accordingly.
+     */
     private void changeToPreviousPagination() {
         pagination--;
         if (pagination == (paginationMap.size() - 2)) {
@@ -226,6 +265,9 @@ public class PassengersController {
         passengers.getPaginationField().setText("" + pagination);
     }
 
+    /**
+     * Decrements the pagination by ten and updates GUI elements accordingly.
+     */
     private void changeTenPositionToPreviousPagination() {
         pagination-=10;
         if (pagination <= (paginationMap.size() - 2)) {
@@ -246,6 +288,9 @@ public class PassengersController {
         passengers.getPaginationField().setText("" + pagination);
     }
 
+    /**
+     * Adds action handlers to various buttons and controls in the GUI.
+     */
     private void addActionToButtons() {
 
         passengers.getLeftPaginationButton().setDisable(true);
@@ -285,7 +330,16 @@ public class PassengersController {
         passengers.getSearchButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                passengersList = search.searchByName(passengers.getSearchField().getText());
+                String searchResult = passengers.getSearchField().getText();
+                if (Objects.equals(searchResult, "")) {
+                    try {
+                        passengersList = search.obtainAllPassengers();
+                    } catch (InterruptedException | ExecutionException exception) {
+                        throw new RuntimeException(exception);
+                    }
+                } else {
+                    passengersList = search.searchByName(searchResult);
+                }
                 pagination = 1;
                 passengers.getPaginationField().setText("1");
                 try {
@@ -307,15 +361,28 @@ public class PassengersController {
         });
     }
 
+    /**
+     * Updates the displayed passenger list on the GUI.
+     */
     private void updatePage() {
         passengers.getPassengersList().getChildren().clear();
         passengers.getPassengersList().getChildren().addAll(createPassengersComponents());
     }
 
+    /**
+     * Gets the Passengers view.
+     *
+     * @return The Passengers view.
+     */
     public Passengers getPassengers() {
         return passengers;
     }
 
+    /**
+     * Gets the instance of the PassengersController class.
+     *
+     * @return The PassengersController instance.
+     */
     public static PassengersController getPassengersControllerInstance() {
         if (passengersControllerInstance == null) {
             passengersControllerInstance = new PassengersController();

@@ -1,11 +1,8 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
-import com.example.programacion4proyectofinal.Model.DataStructure.FlightPriorityQueue;
-import com.example.programacion4proyectofinal.Model.UserFlightInfo.UserFlightInfo;
+import com.example.programacion4proyectofinal.Controller.HeaderController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.Colors;
-import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
-import com.example.programacion4proyectofinal.View.Components.ListComponents.ClientInfoButton;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -22,7 +19,7 @@ import javafx.stage.Stage;
 public class PassengerOfAFlight {
     private Pane changeDispenserSection;
     private VBox changeDispenserPanel;
-    private Header header;
+    private HeaderController header;
     private BackgroundGenerator backgroundGenerator;
     private Stage stage;
     private ScrollPane scrollPane;
@@ -45,7 +42,7 @@ public class PassengerOfAFlight {
         this.stage = stage;
         this.stage.setTitle("PASSENGERS OF A FLIGHT");
         this.passengerOfAFlightScene = new Scene(root);
-        this.header = new Header(root, stage, "flight");
+        this.header = new HeaderController(root, stage, "flight");
         createChangeDispenser(this.passengerOfAFlightScene);
         root.getChildren().add(changeDispenserPanel);
     }
@@ -116,7 +113,7 @@ public class PassengerOfAFlight {
 
         createChangeDispenserSection(scene);
 
-        this.changeDispenserPanel.getChildren().addAll(header.getHeader(), changeDispenserSection);
+        this.changeDispenserPanel.getChildren().addAll(header.getHeader().getHeader(), changeDispenserSection);
     }
 
     /**

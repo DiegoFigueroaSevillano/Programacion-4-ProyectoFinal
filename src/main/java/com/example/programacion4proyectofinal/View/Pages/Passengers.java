@@ -25,6 +25,10 @@ import javafx.stage.Stage;
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.SKY_BLUE;
 import static com.example.programacion4proyectofinal.Utils.ViewUtils.Colors.WHITE;
 
+
+/**
+ * The Passengers class represents the passengers page of the application's user interface.
+ */
 public class Passengers {
 
     private Scene passengersScene;
@@ -43,6 +47,13 @@ public class Passengers {
     private VBox passengersList;
     private ObservableList<HBox> passengersComponents;
 
+    /**
+     * Initializes a new instance of the Passengers class.
+     *
+     * @param root       The root Group where the Passengers UI will be added.
+     * @param stage      The Stage for displaying the Passengers page.
+     * @param passengers The list of passenger components to display.
+     */
     public Passengers(Group root, Stage stage, ObservableList<HBox> passengers) {
         this.backgroundGenerator = new BackgroundGenerator();
         this.generateFont = new GenerateFont();
@@ -59,6 +70,11 @@ public class Passengers {
         this.root.getChildren().add(generalContainer);
     }
 
+    /**
+     * Creates the main container for the Passengers page, including header, search, passenger list, and pagination.
+     *
+     * @param scene The Scene associated with the Passengers page.
+     */
     private void createGeneralContainer(Scene scene) {
         createSearchContainer();
         createPagination();
@@ -73,6 +89,10 @@ public class Passengers {
         generalContainer.getChildren().addAll(headerController.getHeader().getHeader(), searchContainer, containerPassengers, paginationContainer);
     }
 
+
+    /**
+     * Creates the search container with a search field and search button.
+     */
     private void createSearchContainer() {
         searchField = new TextField();
         searchField.setPrefHeight(60);
@@ -99,6 +119,9 @@ public class Passengers {
         searchContainer.getChildren().addAll(searchField, searchButton);
     }
 
+    /**
+     * Creates the container for displaying the list of passengers.
+     */
     private void createPassengersContainer() {
         containerPassengers = new ScrollPane();
         containerPassengers.prefWidthProperty().bind(generalContainer.widthProperty());
@@ -120,6 +143,9 @@ public class Passengers {
         containerPassengers.setContent(passengersList);
     }
 
+    /**
+     * Creates the list of passengers by adding passenger components to the container.
+     */
     private void createPassengersList() {
         passengersList = new VBox(10);
         passengersList.prefWidthProperty().bind(containerPassengers.widthProperty().subtract(200));
@@ -130,6 +156,9 @@ public class Passengers {
         passengersList.setFillWidth(true);
     }
 
+    /**
+     * Clears the passenger list container and adds new passenger components.
+     */
     public void deleteAComponent() {
         passengersList.getChildren().clear();
         for (HBox passenger : passengersComponents) {
@@ -138,6 +167,9 @@ public class Passengers {
         }
     }
 
+    /**
+     * Creates the pagination controls, including buttons and pagination field.
+     */
     private void createPagination() {
 
         leftTenPaginationButton = generatePaginationButton("/com/example/programacion4proyectofinal/Icons/back.png");
@@ -162,6 +194,12 @@ public class Passengers {
         paginationContainer.getChildren().addAll(leftTenPaginationButton, leftPaginationButton, paginationField, rightPaginationButton, rightTenPaginationButton);
     }
 
+    /**
+     * Generates a pagination button with the specified image.
+     *
+     * @param image The image path for the button.
+     * @return The generated pagination button.
+     */
     private Button generatePaginationButton(String image) {
         Image paginationIconImage = new Image(getClass().getResourceAsStream(image));
         ImageView paginationIcon = new ImageView(paginationIconImage);
@@ -174,43 +212,98 @@ public class Passengers {
         return paginationButton;
     }
 
-    public Scene getPassengersScene() {
-        return passengersScene;
-    }
-
+    /**
+     * Gets the Passengers Scene.
+     *
+     * @return The Passengers Scene.
+     */
+    /**
+     * Gets the list container for passengers.
+     *
+     * @return The VBox containing passenger components.
+     */
     public VBox getPassengersList() {
         return passengersList;
     }
 
+    /**
+     * Sets the list of passenger components to be displayed.
+     *
+     * @param passengersComponents The list of passenger components.
+     */
     public void setPassengersComponents(ObservableList<HBox> passengersComponents) {
         this.passengersComponents = passengersComponents;
     }
 
+    /**
+     * Gets the left pagination button.
+     *
+     * @return The left pagination button.
+     */
     public Button getLeftPaginationButton() {
         return leftPaginationButton;
     }
 
+    /**
+     * Gets the left ten pagination button.
+     *
+     * @return The left ten pagination button.
+     */
     public Button getLeftTenPaginationButton() {
         return leftTenPaginationButton;
     }
 
+    /**
+     * Gets the right ten pagination button.
+     *
+     * @return The right ten pagination button.
+     */
     public Button getRightTenPaginationButton() {
         return rightTenPaginationButton;
     }
 
+    /**
+     * Gets the right pagination button.
+     *
+     * @return The right pagination button.
+     */
     public Button getRightPaginationButton() {
         return rightPaginationButton;
     }
 
+    /**
+     * Gets the pagination field.
+     *
+     * @return The pagination field.
+     */
     public TextField getPaginationField() {
         return paginationField;
     }
 
+    /**
+     * Gets the search field.
+     *
+     * @return The search field.
+     */
     public TextField getSearchField() {
         return searchField;
     }
 
+    /**
+     * Gets the search button.
+     *
+     * @return The search button.
+     */
     public Button getSearchButton() {
         return searchButton;
+    }
+
+    /**
+     * Gets the passengers scene.
+     *
+     * @return The passengers scene.
+     */
+    public Scene getPassengersScene() {
+        return passengersScene;
     }
 }

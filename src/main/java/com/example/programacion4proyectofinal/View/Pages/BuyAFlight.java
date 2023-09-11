@@ -1,7 +1,7 @@
 package com.example.programacion4proyectofinal.View.Pages;
 
+import com.example.programacion4proyectofinal.Controller.HeaderController;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.BackgroundGenerator;
-import com.example.programacion4proyectofinal.View.Components.GeneralComponents.Header;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -34,7 +34,7 @@ public class BuyAFlight {
     private Button reserveButton;
     private Group group;
     private Stage stage;
-    private Header header;
+    private HeaderController header;
     private BackgroundGenerator backgroundGenerator;
     private Label errorLabel;
     private VBox infoContainer;
@@ -55,7 +55,7 @@ public class BuyAFlight {
         this.group = group;
         this.stage.setTitle("BUY A TICKET");
         this.scene = new Scene(group);
-        this.header = new Header(group, stage, "butATicket");
+        this.header = new HeaderController(group, stage, "butATicket");
 
         createBuyFlight();
         group.getChildren().add(panel);
@@ -151,7 +151,7 @@ public class BuyAFlight {
         this.panel.prefWidthProperty().bind(stage.widthProperty());
         this.panel.prefHeightProperty().bind(stage.heightProperty());
         createBuyAFlightSection(panel);
-        this.panel.getChildren().addAll(header.getHeader(), this.section);
+        this.panel.getChildren().addAll(header.getHeader().getHeader(), this.section);
     }
 
     /**

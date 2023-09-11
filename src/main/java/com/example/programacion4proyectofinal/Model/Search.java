@@ -8,19 +8,38 @@ import com.example.programacion4proyectofinal.Utils.ParserJson;
 import java.util.concurrent.*;
 import java.util.ArrayList;
 
+/**
+ * The Search class is responsible for searching and retrieving passenger information from a hierarchical data structure.
+ */
 public class Search {
 
     private final String PATH_ROOT = "root";
     private ParserJson parserJson;
 
+    /**
+     * Initializes a new instance of the Search class.
+     */
     public Search() {
         this.parserJson = new ParserJson();
     }
 
+    /**
+     * Searches for a passenger by their unique ID.
+     *
+     * @param id The ID of the passenger to search for.
+     * @return The Passenger object if found, or null if not found.
+     */
     public Passenger searchById(int id) {
         return searchById(PATH_ROOT, id);
     }
 
+    /**
+     * Searches for a passenger by their unique ID within a specified path.
+     *
+     * @param path The path within the hierarchical data structure to search.
+     * @param id   The ID of the passenger to search for.
+     * @return The Passenger object if found, or null if not found.
+     */
     private Passenger searchById(String path, int id) {
         Passenger passenger = null;
         Node node = parserJson.convertJsonToNode(path);
@@ -47,6 +66,13 @@ public class Search {
         return passenger;
     }
 
+    /**
+     * Searches for a passenger within a list of passengers.
+     *
+     * @param nodes The list of passengers to search within.
+     * @param id    The ID of the passenger to search for.
+     * @return The Passenger object if found, or null if not found.
+     */
     private Passenger searchInTheNode(ArrayList<Passenger> nodes, int id) {
         Passenger passenger = null;
         for (int index = 0; index < nodes.size(); index++) {
@@ -61,12 +87,25 @@ public class Search {
         return passenger;
     }
 
+    /**
+     * Searches for passengers with the given name.
+     *
+     * @param name The name to search for.
+     * @return An ArrayList of Passenger objects matching the name.
+     */
     public ArrayList<Passenger> searchByName(String name) {
         ArrayList<Passenger> result = new ArrayList<>();
         searchByName(PATH_ROOT, name, result);
         return result;
     }
 
+    /**
+     * Searches for passengers with the given name within a specified path.
+     *
+     * @param path   The path within the hierarchical data structure to search.
+     * @param name   The name to search for.
+     * @param result An ArrayList to store the matching Passenger objects.
+     */
     private void searchByName(String path, String name, ArrayList<Passenger> result) {
         Node node = parserJson.convertJsonToNode(path);
         if (node != null) {
@@ -83,6 +122,13 @@ public class Search {
         }
     }
 
+    /**
+     * Searches for passenger names within a node and adds matching passengers to the result list.
+     *
+     * @param name       The name to search for.
+     * @param result     An ArrayList to store the matching Passenger objects.
+     * @param passengers The list of passengers within the node.
+     */
     private void searchNameInNode(String name, ArrayList<Passenger> result, ArrayList<Passenger> passengers) {
         String nameInLowerCase = name.toUpperCase();
         for (int index = 0; index < passengers.size(); index++) {
@@ -94,6 +140,13 @@ public class Search {
         }
     }
 
+    /**
+     * Obtains a list of all passengers from the hierarchical data structure.
+     *
+     * @return An ArrayList containing all Passenger objects.
+     * @throws InterruptedException When the thread is interrupted during execution.
+     * @throws ExecutionException   When an execution exception occurs.
+     */
     public ArrayList<Passenger> obtainAllPassengers() throws InterruptedException, ExecutionException {
         ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         ArrayList<Callable<ArrayList<Passenger>>> tasks = new ArrayList<>();
@@ -121,6 +174,12 @@ public class Search {
         return result;
     }
 
+    /**
+     * Obtains a list of all passengers from a specific path within the hierarchical data structure.
+     *
+     * @param path The path within the hierarchical data structure to start the search.
+     * @return An ArrayList containing all Passenger objects within the specified path.
+     */
     private ArrayList<Passenger> obtainAllPassengers(String path) {
         ArrayList<Passenger> result = new ArrayList<>();
         Node node = parserJson.convertJsonToNode(path);

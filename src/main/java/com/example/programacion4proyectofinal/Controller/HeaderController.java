@@ -8,6 +8,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * The HeaderController class manages the header of the application, providing navigation options.
+ */
 public class HeaderController {
 
     private Header header;
@@ -15,6 +18,13 @@ public class HeaderController {
     private Stage stage;
     private Group root;
 
+    /**
+     * Initializes a new instance of the HeaderController class.
+     *
+     * @param root      The root Group of the application's UI.
+     * @param stage     The primary Stage of the application.
+     * @param pageName  The current page name for initializing the header.
+     */
     public HeaderController(Group root, Stage stage, String pageName) {
         this.stage = stage;
         this.currentOption = pageName;
@@ -23,6 +33,9 @@ public class HeaderController {
         addActionToOptionsMenu();
     }
 
+    /**
+     * Adds action handlers to the navigation options in the header.
+     */
     private void addActionToOptionsMenu() {
         header.getHomeButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -70,7 +83,7 @@ public class HeaderController {
             public void handle(ActionEvent event) {
                 if (!currentOption.equals("changeDispenser")) {
                     Group root = new Group();
-                    ChangeDispenserController changeDispenserController = new ChangeDispenserController(root, stage, 300);
+                    ChangeDispenserController changeDispenserController = new ChangeDispenserController(root, stage, 300, 1, true);
                     Scene passengersScene = changeDispenserController.getChangeDispenserView().getChangeDispenserScene();
                     stage.setScene(passengersScene);
                 }
@@ -78,6 +91,11 @@ public class HeaderController {
         });
     }
 
+    /**
+     * Gets the Header view.
+     *
+     * @return The Header view.
+     */
     public Header getHeader() {
         return header;
     }
