@@ -2,7 +2,6 @@ package com.example.programacion4proyectofinal;
 
 import com.example.programacion4proyectofinal.Controller.LogInController;
 import com.example.programacion4proyectofinal.Controller.PassengersController;
-import com.example.programacion4proyectofinal.Model.Search;
 import com.example.programacion4proyectofinal.Utils.ViewUtils.ChangePropertiesStage;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -47,7 +46,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Group root = new Group();
-      
+
         LogInController logIn = new LogInController(root, stage);
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");

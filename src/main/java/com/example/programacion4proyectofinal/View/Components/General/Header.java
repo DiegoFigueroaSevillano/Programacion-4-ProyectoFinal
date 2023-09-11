@@ -22,7 +22,7 @@ public class Header {
 
     private HBox header, menu;
     private Button homeButton, passengersButton, changeDispenserButton;
-    private Button passengerRegisterButton;
+    private Button passengerRegisterButton,flightButton;
     private Stage stage;
     private String currentOption;
     private final int HEIGHT = 60;
@@ -66,11 +66,15 @@ public class Header {
         createHomeButton();
         createPassengersButton();
         createPassengersRegisterButton();
+        createFlightsButton();
+
         createChangeDispenserButton();
         menu = new HBox(0);
         menu.setAlignment(Pos.CENTER_LEFT);
         menu.prefWidthProperty().bind(stage.widthProperty().subtract(HEIGHT));
         menu.setPrefHeight(HEIGHT);
+        menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton ,flightButton);
+
         menu.getChildren().addAll(homeButton, passengersButton, passengerRegisterButton, changeDispenserButton);
     }
 
@@ -88,6 +92,25 @@ public class Header {
     private void createPassengersButton() {
         passengersButton = new Button("PASSENGERS");
         generateMenuOptions(passengersButton, "passengers");
+    }
+    /**
+     * Creates the "FLIGHT" button.
+     */
+    private void createFlightsButton() {
+        flightButton = new Button("FLIGHT");
+        generatorMenuOptions(flightButton, "fight");
+        flightButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (!currentOption.equals("flight")) {
+                    root = new Group();
+                    FlightController flightController = new FlightController(root, stage);
+                    Scene flightScene = flightController.getFlightView().getPassengerOfAFlightScene();
+                    stage.setScene(flightScene);
+                }
+            }
+        });
+
     }
 
     /**
