@@ -64,12 +64,6 @@ public class FlightInfoButton {
     }
 
     /**
-     * This method return us the delete button
-     *
-     * @return delete button
-     */
-
-    /**
      * This method return us de button container
      *
      * @return button container
@@ -122,7 +116,7 @@ public class FlightInfoButton {
         this.airlineLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.airlineLabel.setAlignment(Pos.CENTER);
         this.airlineLabel.setText(String.valueOf(airline));
-        setTextResponsiveLabel(this.airlineLabel, 15);
+        setTextResponsiveLabel(this.airlineLabel, 13);
     }
 
     /**
@@ -136,7 +130,7 @@ public class FlightInfoButton {
         this.originLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.originLabel.setAlignment(Pos.CENTER);
         this.originLabel.setText(String.valueOf(origin));
-        setTextResponsiveLabel(this.originLabel, 15);
+        setTextResponsiveLabel(this.originLabel, 13);
     }
 
     /**
@@ -150,7 +144,7 @@ public class FlightInfoButton {
         this.departureLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.departureLabel.setAlignment(Pos.CENTER);
         this.departureLabel.setText(String.valueOf(arrivalDate.toLocalDate()));
-        setTextResponsiveLabel(this.departureLabel, 15);
+        setTextResponsiveLabel(this.departureLabel, 13);
     }
 
     /**
@@ -164,7 +158,7 @@ public class FlightInfoButton {
         this.arrivalDateLAbel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.arrivalDateLAbel.setAlignment(Pos.CENTER);
         this.arrivalDateLAbel.setText(String.valueOf(departureDate.toLocalDate()));
-        setTextResponsiveLabel(this.arrivalDateLAbel, 15);
+        setTextResponsiveLabel(this.arrivalDateLAbel, 13);
     }
 
     /**
@@ -178,7 +172,7 @@ public class FlightInfoButton {
         this.detinationLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.20));
         this.detinationLabel.setAlignment(Pos.CENTER);
         this.detinationLabel.setText(String.valueOf(destination));
-        setTextResponsiveLabel(this.departureLabel, 15);
+        setTextResponsiveLabel(this.arrivalDateLAbel, 13);
     }
 
 
@@ -193,7 +187,7 @@ public class FlightInfoButton {
         this.cotsLabel.prefWidthProperty().bind(container.widthProperty().multiply(0.15));
         this.cotsLabel.setAlignment(Pos.CENTER);
         this.cotsLabel.setText(String.valueOf(cost));
-        setTextResponsiveLabel(this.cotsLabel, 15);
+        setTextResponsiveLabel(this.cotsLabel, 13);
     }
 
 
@@ -210,7 +204,7 @@ public class FlightInfoButton {
                 "radial-gradient(center 50% 50%, radius 100%, transparent,oldlace); -fx-text-fill: white;");
 
 
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/programacion4proyectofinal/Logo/addButton.png")));
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/programacion4proyectofinal/Icons/add-button.png")));
 
         ImageView imageView = new ImageView(image);
 
