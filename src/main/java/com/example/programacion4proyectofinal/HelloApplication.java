@@ -34,14 +34,14 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws Exception {
         Group root = new Group();
 
-        PassengerOfAFlightController passenger = new PassengerOfAFlightController(root, stage, 37);
+        PassengerOfAFlightController passenger = new PassengerOfAFlightController(root, stage, 657);
 
         Image iconApp = new Image("/com/example/programacion4proyectofinal/Logo/logo-areolab.png");
 
         Scene currentScene = passenger.getView().getPassengerOfAFlightScene();
 
         ChangePropertiesStage changePropertiesStage = new ChangePropertiesStage();
-        changePropertiesStage.changeSizeStage(800, 700, stage);
+        changePropertiesStage.changeSizeStage(1100, 800, stage);
         stage.setResizable(true);
         stage.setScene(currentScene);
         stage.getIcons().add(iconApp);
