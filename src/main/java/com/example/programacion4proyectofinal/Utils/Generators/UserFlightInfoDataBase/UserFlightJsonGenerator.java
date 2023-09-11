@@ -28,9 +28,7 @@ public class UserFlightJsonGenerator {
 
         for (int i = 0; i < flights.length; i++){
             flightID = flights[i];
-            System.out.println("index avion: " + i);
             for (int j = start; j < end; j++) {
-                System.out.println("index: " + j);
                 userCI = users[j];
                 status = UserFlightDataGenerator.getRandomStatus();
                 LocalDateTime localDateTime = UserFlightDataGenerator.getRandomDateTime();

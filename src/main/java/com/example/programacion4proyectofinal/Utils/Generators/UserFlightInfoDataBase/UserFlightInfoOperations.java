@@ -175,12 +175,4 @@ public class UserFlightInfoOperations {
             objectMapper.writeValue(file, arrayNode);
         }
     }
-
-    public static void main(String[] args) {
-        try {
-            System.out.println(getAllFlightOfTheUser(1189715));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

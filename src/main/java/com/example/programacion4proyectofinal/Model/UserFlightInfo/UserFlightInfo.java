@@ -26,7 +26,7 @@ public class UserFlightInfo implements Comparable<UserFlightInfo> {
      * @param localDateTime the time were the passenger buy the ticket
      */
     public UserFlightInfo(int userCI, int flightID, Status status, LocalDateTime localDateTime) {
-        BTree<Passenger> bTree = new BTree<>(10, new FileHandlerBTree());
+        BTree<Passenger> bTree = new BTree<>(100, new FileHandlerBTree());
         Search search = new Search();
         DataGenerator dataGenerator = new DataGenerator();
         this.passenger = search.searchById(userCI);
